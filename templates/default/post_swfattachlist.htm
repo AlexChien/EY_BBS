@@ -1,0 +1,28 @@
+<table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%">
+<!--{loop $swfattachs $swfattach}-->
+	<tbody id="swfattach_$swfattach[aid]">
+		<tr>
+			<td class="attachnum"><img src="images/attachicons/common_new.gif" /></td>
+			<td class="attachctrl">
+				<!--{if $swfattach['isimage']}-->
+					<a href="javascript:;" onclick="insertAttachimgTag('$swfattach[aid]')" title="{lang post_attachment_insert}">{lang post_attachment_insertlink}</a>
+				<!--{else}-->
+					<a href="javascript:;" onclick="insertAttachTag('$swfattach[aid]')" title="{lang post_attachment_insert}">{lang post_attachment_insertlink}</a>
+				<!--{/if}-->
+			</td>
+			<td class="attachname_swf" title="{lang upload_msg}">
+				<p>
+					<a href="javascript:;" onclick='parentNode.innerHTML="<input type=text name=\"swfattachnew[{$swfattach[aid]}][description]\" size=\"25\" class=\"txt\" />"'>{lang description}</a>
+					<span{if $swfattach['isimage']} onmouseover="showpreview(this, 'swfimgpreview_$swfattach[aid]')"{/if}>$swfattach[filetype] $swfattach[filename]</span>
+				</p>
+				<!--{if $swfattach['isimage']}-->
+					<div id="swfimgpreview_$swfattach[aid]" style="display:none"><img id="preview_$swfattach[aid]"{if !$swfattach['width'] || $swfattach['width'] > 180} width="180"{else} width="$swfattach[width]"{/if}{if $swfattach['thumb']} src="$attachurl/$swfattach[attachment].thumb.jpg"{else} src="$attachurl/$swfattach[attachment]"{/if} /></div>
+				<!--{/if}-->
+			</td>
+			<!--{if $allowsetattachperm}--><td class="attachview"><input type="text" name="swfattachnew[{$swfattach[aid]}][readperm]" value="0" size="1" class="txt" /></td><!--{/if}-->
+			<!--{if $maxprice}--><td class="attachpr"><input type="text" name="swfattachnew[{$swfattach[aid]}][price]" value="0" size="1" class="txt" /></td><!--{/if}-->
+			<td class="attachdel"><input type="checkbox" name="swfattachdel[]" id="delswfattach_$swfattach[aid]" value="$swfattach[aid]" style="display:none" /><a href="javascript:;" class="deloption" onclick="delSWFAttach($swfattach[aid])">{lang post_attachment_deletelink}</a></td>
+		</tr>
+	</tbody>
+<!--{/loop}-->
+</table>

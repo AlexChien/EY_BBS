@@ -1,0 +1,31 @@
+<link href="forumdata/cache/style_{STYLEID}_seditor.css?{VERHASH}" rel="stylesheet" type="text/css" />
+<div>
+	<!--{if in_array('bold', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_bold}" class="tb_bold" onclick="seditor_insertunit('$seditor[0]', '[b]', '[/b]')">B</a>
+	<!--{/if}-->
+	<!--{if in_array('color', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_forecolor}" class="tb_color" id="{$seditor[0]}forecolor" onclick="showMenu(this.id, true, 0, 2)">Color</a>
+		<!--{eval $coloroptions = array('Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen','SeaGreen', 'MediumTurquoise','RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White')}-->
+		<div class="popupmenu_popup tb_color" id="{$seditor[0]}forecolor_menu" style="display: none">
+		<!--{loop $coloroptions $key $colorname}-->
+			<input type="button" style="background-color: $colorname" onclick="seditor_insertunit('$seditor[0]', '[color=$colorname]', '[/color]')" /><!--{if ($key + 1) % 8 == 0}--><br /><!--{/if}-->
+		<!--{/loop}-->
+		</div>
+	<!--{/if}-->
+	<!--{if in_array('img', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_image}" class="tb_img" onclick="seditor_insertunit('$seditor[0]', '[img]', '[/img]')">Image</a>
+	<!--{/if}-->
+	<!--{if in_array('link', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_url}" class="tb_link" onclick="seditor_insertunit('$seditor[0]', '[url]', '[/url]')">Link</a>
+	<!--{/if}-->
+	<!--{if in_array('quote', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_quote}" class="tb_quote" onclick="seditor_insertunit('$seditor[0]', '[quote]', '[/quote]')">Quote</a>
+	<!--{/if}-->
+	<!--{if in_array('code', $seditor[1])}-->
+		<a href="javascript:;" title="{lang e_code}" class="tb_code" onclick="seditor_insertunit('$seditor[0]', '[code]', '[/code]')">Code</a>
+	<!--{/if}-->
+	<!--{if in_array('smilies', $seditor[1])}-->
+		<a href="javascript:;" class="tb_smilies" id="{$seditor[0]}smilies" onclick="showMenu(this.id, true, 0, 2)">Smilies</a>
+		<script type="text/javascript">smilies_show('{$seditor[0]}smiliesdiv', $smcols, 0, '$seditor[0]');</script>
+	<!--{/if}-->
+</div>

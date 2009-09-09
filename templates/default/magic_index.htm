@@ -1,0 +1,113 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang magics_index}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<h1>{lang magics_index}</h1>
+			<!--{if !$magicstatus && $adminid == 1}-->
+				<div class="channelinfo">{lang magics_tips}</div>
+			<!--{/if}-->
+			<div id="list_magics_mine_c" class="c_header">
+				<h3 onclick="toggle_collapse('list_magics_mine', 1, 1);">{lang magics_user}</h3>
+				<div class="c_header_action">
+					<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_magics_mine', 1, 1);">[ {lang open} ]</p>
+				</div>
+			</div>
+			<div id="list_magics_mine" class="mymagic">
+				<!--{if $magicsdiscount || $maxmagicsweight}-->
+					<!--{if $magicsdiscount}-->
+						<p>{lang magics_discount}: $magicsdiscount {lang discount}</p>
+					<!--{/if}-->
+					<!--{if $maxmagicsweight}-->
+						<p>{lang magics_capacity}: $totalweight/$maxmagicsweight&nbsp;&nbsp;&nbsp;<a href="magic.php?action=log&operation=uselog" class="lightlink">{lang magics_view_logs}</a></p>
+					<!--{/if}-->
+				<!--{/if}-->
+				<ul class="inlinelist s_clear">
+					<!--{if $mymagiclist}-->
+							<!--{eval $i=0;}-->
+							<!--{loop $mymagiclist $key $mymagic}-->
+								<li>
+									<div class="magicimg"><img src="images/magics/$mymagic[pic]" alt="$mymagic[name]" /></div>
+									<div class="magicdetail">
+										<h5>$mymagic[name]</h5>
+										<p>$mymagic[description]</p>
+										<p>{lang magics_num}: $mymagic[num]&nbsp;&nbsp;&nbsp;{lang magics_user_totalnum}: $mymagic[weight]</p>
+										<p>
+											<a href="magic.php?action=index&operation=use&magicid=$mymagic[magicid]" onclick="floatwin('open_magics', this.href, 250, 215);return false;"><strong>{lang magics_operation_use}</strong></a>&nbsp;|&nbsp;
+											<!--{if $allowmagics > 1}-->
+												<a href="magic.php?action=index&operation=give&magicid=$mymagic[magicid]" onclick="floatwin('open_magics', this.href, 250, 165);return false;">{lang magics_operation_present}</a>&nbsp;|&nbsp;
+											<!--{/if}-->
+											<a href="magic.php?action=index&operation=drop&magicid=$mymagic[magicid]" onclick="floatwin('open_magics', this.href, 250, 165);return false;">{lang magics_operation_drop}</a>&nbsp;|&nbsp;
+											<!--{if $magicmarket && $allowmagics > 1}-->
+												<a href="magic.php?action=index&operation=sell&magicid=$mymagic[magicid]" onclick="floatwin('open_magics', this.href, 250, 165);return false;">{lang magics_operation_sell}</a>&nbsp;
+											<!--{/if}-->
+										</p>
+									</div>
+								</li>
+								<!--{if $i%2}--><li class="clear"></li><!--{/if}-->
+								<!--{eval $i++;}-->
+							<!--{/loop}-->
+							<!--{if !empty($mymultipage)}--><li class="clear"><div class="pages_btns">$mymultipage</div></li><!--{/if}-->
+					<!--{else}-->
+						<li class="clear">{lang data_nonexistence}</li>
+					<!--{/if}-->
+				</ul>
+			</div>
+
+			<div class="datalist">
+				<div id="list_magics_shop_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_magics_shop', 1, 1);">{lang magics_shop}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_magics_shop', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_magics_shop">
+					<table summary="{lang magics_shop}" cellspacing="0" cellpadding="0" class="datatable">
+						<!--{if $magiclist}-->
+							<tr class="colplural">
+								<th></th>
+								<th></th>
+								<th>{lang magics_price} ($extcredits[$creditstransextra[3]][title])</th>
+								<th>
+									<select onchange="window.location=this.value">
+										<option value="magic.php?action=index"<!--{if empty($typeid)}--> selected="selected"<!--{/if}-->>{lang types}</option>
+										<option value="magic.php?action=index&typeid=1"<!--{if $typeid==1}--> selected="selected"<!--{/if}-->>{lang magics_type_1}</option>
+										<option value="magic.php?action=index&typeid=2"<!--{if $typeid==2}--> selected="selected"<!--{/if}-->>{lang magics_type_2}</option>
+										<option value="magic.php?action=index&typeid=3"<!--{if $typeid==3}--> selected="selected"<!--{/if}-->>{lang magics_type_3}</option>
+									</select>
+								</th>
+								<th>{lang magics_shop_num}</th>
+								<th>{lang magics_weight}</th>
+								<th>{lang magics_shop_salevolume}</th>
+								<th></th>
+							</tr>
+							<!--{loop $magiclist $key $magic}-->
+								<tr class="{echo swapclass('colplural')}">
+									<td width="9%"><h4>$magic[name]</h4></td>
+									<td>$magic[description]</td>
+									<td width="12%"><strong>$magic[price]</strong></td>
+									<td width="6%">$magic[type]</td>
+									<td width="6%">$magic[num]</td>
+									<td width="6%">$magic[weight]</td>
+									<td width="6%"><!--{if $magic[salevolume]}-->$magic[salevolume]<!--{else}-->0<!--{/if}--></td>
+									<td width="8%"><a href="magic.php?action=index&operation=buy&magicid=$magic[magicid]" onclick="floatwin('open_magics', this.href, 250, 365);return false;">{lang magics_operation_buy}</a></td>
+								</tr>
+							<!--{/loop}-->
+						<!--{else}-->
+							<tr><td>{lang magics_shop_nonexistence}</td></tr>
+						<!--{/if}-->
+					</table>
+					<!--{if !empty($multipage)}--><div class="pages_btns s_clear">$multipage</div><!--{/if}-->
+				</div>
+
+				<div class="c_header">
+					<h3 class="noarrow"><a href="magic.php?action=market">{lang magics_market}</a></h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+{subtemplate footer}

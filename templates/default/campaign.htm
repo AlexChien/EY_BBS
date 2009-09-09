@@ -1,0 +1,50 @@
+<!--{if $action == 'list' && $catlist && $forumlist}-->
+	<!--{loop $catlist $catid $cat}-->
+	document.write('<div class="mainbox list">'+
+	'	<h3><a href="javascript:;">');
+		<!--{if $cat[logo]}-->document.write('<img src="$cat[logo]" style="float: left; height: 30px; margin-right: 10px" alt="" border="0" />');<!--{/if}-->
+		document.write('$cat[name]</a></h3>'+
+	'	<table cellspacing="0" cellpadding="0">');
+			<!--{loop $forumlist[$catid] $forum}--><!--{eval $cid = $forum[cid];}-->
+	document.write('			<tbody>'+
+	'				<tr>'+
+	'					<th class="new">'+
+	'						<a href="campaign.php?action=view&cid=$cid">');
+		<!--{if $forum[logo]}-->document.write('<img src="$forum[logo]" style="margin-right: 10px" align="left" alt="" border="0" />');<!--{/if}-->
+		document.write('</a>'+
+	'						<h2><a href="campaign.php?action=view&cid=$cid">$forum[name]</a></h2>');
+							<!--{if $forum[description]}-->document.write('<p>$forum[description]</p>');<!--{/if}-->
+	document.write('					</th>'+
+	'					<td class="forumnums">{if $forum[threads]}<em>$forum[threads]</em>{else}--{/if} / {if $forum[posts]}$forum[posts]{else}--{/if}</td>'+
+	'					<td class="forumlast">{if $forum[lastpost]}<p><a href="campaign.php?action=view&cid=$cid&tid=$forum[lp][tid]">{echo cutstr($forum[lp][subject], 40)}</a></p><cite>{lang forum_lastpost_by} <a href="campaign.php?action=view&cid=$cid&tid=$forum[lp][tid]">$forum['lp']['author']</a> - $forum[lp][dateline]</cite>{else}--{/if}</td>'+
+	'				</tr>'+
+	'			</tbody>');
+			<!--{/loop}-->
+	document.write('	</table>'+
+	'</div>');
+	<!--{/loop}-->
+<!--{elseif $action == 'view'}-->
+	{subtemplate header}
+	
+	<center><iframe id="iframe" width="100%" align="center" height="1024" frameborder="0" scrolling="no" src="$iframeurl"></iframe><br /><br /></center>
+	
+	<script type="text/javascript">
+		function resetheight() {
+			var ih = getcookie('ih4_$cid');
+			if(ih && $('iframe').style.height != ih) {
+				if(is_ie) {
+					$('iframe').style.height = ih;
+				} else {
+					$('iframe').height = ih;
+				}
+			}
+		}
+		setInterval(resetheight, 500);
+	</script>
+
+	<!--{if $update}-->
+		<script type="text/javascript" src="api/advcache.php?type=4&amp;cid=$cid"></script>
+	<!--{/if}-->
+
+	{subtemplate footer}
+<!--{/if}-->

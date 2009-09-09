@@ -1,0 +1,42 @@
+{template header}
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+
+<div class="float" style="height: 410px">
+<div class="floatbox">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang pay_view}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<div class="floatwrap">
+	<table class="list" cellspacing="0" cellpadding="0">
+		<thead>
+			<tr>
+				<td>{lang username}</td>
+				<td>{lang time}</td>
+				<td>{$extcredits[$creditstransextra[1]][title]}</td>
+			</tr>
+		</thead>
+		<!--{if $loglist}-->
+			<!--{loop $loglist $log}-->
+				<tr>
+					<td><a href="space.php?uid=$log[uid]">$log[username]</a></td>
+					<td>$log[dateline]</td>
+					<td>$log[amount] {$extcredits[$creditstransextra[1]][unit]}</td>
+				</tr>
+			<!--{/loop}-->
+		<!--{else}-->
+			<tr><td colspan="3">{lang pay_nobuyers}</td></tr>
+		<!--{/if}-->
+	</table>
+	</div>
+</div>
+</div>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

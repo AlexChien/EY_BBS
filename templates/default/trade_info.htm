@@ -1,0 +1,123 @@
+{template header}
+<!--{if empty($inajax)}-->
+<style type="text/css">
+.main { overflow: hidden; }
+.content { margin: 5px; min-height: 400px; }
+	* html .content { height: 400px; overflow: auto; }
+.regform #secanswer_menu { left: -190px; top: 113px; }
+.regform #seccodeverify_menu { left: -109px; top: 133px; }
+</style>
+
+<script type="text/javascript" src="include/js/viewthread.js?{VERHASH}"></script>
+
+<div id="nav">
+	<!--{if $forumjump == 1}--><a href="$indexname">$bbname</a><!--{else}--><a href="$indexname">$bbname</a><!--{/if}-->$navigation
+</div>
+
+<div id="wrap" class="wrap s_clear"><div class="main"><div class="content">
+<!--{/if}-->
+
+<div class="viewthread tradeinfo s_clear">
+	<div class="tradethumb">
+	<!--{if $trade['thumb']}-->
+		<a href="javascript:;"><img src="$trade[thumb]" onclick="zoom(this, '$trade[attachurl]')" onload="thumbImg(this, 1)" _width="240" _height="240" alt="$trade[subject]" /></a>
+	<!--{else}-->
+		<img src="{IMGDIR}/trade_nophoto.gif" alt="$trade[subject]" />
+	<!--{/if}-->
+	</div>
+
+	<div class="tradeattribute">
+		<!--{if !empty($inajax)}--><span class="infoview"><a href="javascript:;" onclick="$('tradeinfo$trade[pid]').style.display = 'none';display('trade$trade[pid]');">{lang close}</a></span><!--{/if}-->
+		<h4>$trade[subject]</h4>
+		<dl>
+		<dt>{lang trade_type_viewthread}:</dt>
+		<dd>
+			<!--{if $trade['quality'] == 1}-->{lang trade_new}<!--{/if}-->
+			<!--{if $trade['quality'] == 2}-->{lang trade_old}<!--{/if}-->
+			<!--{if $trade['itemtype'] == 1}-->{lang trade_type_buy}
+			<!--{elseif $trade['itemtype'] == 2}-->{lang trade_type_service}
+			<!--{elseif $trade['itemtype'] == 3}-->{lang trade_type_auction}
+			<!--{elseif $trade['itemtype'] == 4}-->{lang trade_type_donate}
+			<!--{elseif $trade['itemtype'] == 5}-->{lang trade_type_compensate}
+			<!--{elseif $trade['itemtype'] == 6}-->{lang trade_type_bonus}<!--{/if}-->
+		</dd>
+		<dt>{lang trade_transport}:</dt>
+		<dd>
+			<!--{if $trade['transport'] == 1}-->{lang post_trade_transport_seller}<!--{/if}-->
+			<!--{if $trade['transport'] == 2 || $trade['transport'] == 4}-->
+				<!--{if $trade['transport'] == 4}-->{lang post_trade_transport_physical}<!--{/if}-->
+				<!--{if !empty($trade['ordinaryfee']) || !empty($trade['expressfee']) || !empty($trade['emsfee'])}-->
+					<!--{if !empty($trade['ordinaryfee'])}-->{lang post_trade_transport_mail} $trade[ordinaryfee] {lang payment_unit}<!--{/if}-->
+					<!--{if !empty($trade['expressfee'])}--> {lang post_trade_transport_express} $trade[expressfee] {lang payment_unit}<!--{/if}-->
+					<!--{if !empty($trade['emsfee'])}--> EMS $trade[emsfee] {lang payment_unit}<!--{/if}-->
+				<!--{elseif $trade['transport'] == 2}-->
+					{lang post_trade_transport_none}
+				<!--{/if}-->
+			<!--{/if}-->
+			<!--{if $trade['transport'] == 3}-->{lang post_trade_transport_virtual}<!--{/if}-->
+		</dd>
+		<dt>{lang trade_remaindays}:</dt>
+		<dd>
+		<!--{if $trade[closed]}-->
+			<em>{lang trade_timeout}</em>
+		<!--{elseif $trade[expiration] > 0}-->
+			{$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}
+		<!--{elseif $trade[expiration] == -1}-->
+			<em>{lang trade_timeout}</em>
+		<!--{else}-->
+			&nbsp;
+		<!--{/if}-->
+		</dd>
+		<dt>{lang post_trade_number}:</dt><dd>$trade[amount]</dd>
+		<!--{if $trade[locus]}--><dt>{lang trade_locus}:</dt><dd>$trade[locus]</dd><!--{/if}-->
+		<dt>{lang post_trade_buynumber}:</dt><dd>$trade[totalitems]</dd>
+		<!--{if $trade['costprice'] > 0}--><dt>{lang trade_costprice}:</dt><dd><del>$trade[costprice] {lang payment_unit}</del></dd><!--{/if}-->
+		<dt>{lang trade_price}:</dt>
+		<dd><strong class="price">$trade[price]</strong>&nbsp;{lang payment_unit}</dd>
+	</dl>
+	<!--{if $post['authorid'] != $discuz_uid && empty($thread['closed']) && empty($trade['closed'])}-->
+		<!--{if $trade[amount]}--><button onclick="window.open('trade.php?tid=$post[tid]&pid=$post[pid]','','')">{lang trade_buy}</button> &nbsp;<!--{/if}-->
+		<!--{if $discuz_uid}--><button onclick="floatwin('open_sendpm', 'pm.php?action=new&uid=$post[authorid]&operation=trade&pid=$post[pid]', 600, 410)">{lang trade_bargain}</button><!--{/if}-->
+	<!--{/if}-->
+	<!--{if $trade['account']}-->
+		<em>({lang post_trade_supportalipay})</em>
+	<!--{/if}-->
+	</div>
+
+	<div class="postmessage">
+
+		<!--{if $typetemplate}-->
+			$typetemplate
+		<!--{elseif $optionlist}-->
+			<div class="box typeoption">
+				<h4>$tradetypes[$tradetypeid]</h4>
+				<table summary="{lang threadtype_option}" cellpadding="0" cellspacing="0" class="formtable datatable">
+				<!--{loop $optionlist $option}-->
+					<tr class="{echo swapclass('colplural')}">
+						<th>$option[title]</th>
+						<td><!--{if $option['value']}-->$option[value]<!--{else}-->-<!--{/if}--></td>
+					</tr>
+				<!--{/loop}-->
+				</table>
+			</div>
+		<!--{/if}-->
+
+		$post[message]
+		<!--{if $post['attachment']}-->
+			<div class="notice postattach">{lang attachment}: <em>{lang attach_nopermission}</em></div>
+		<!--{elseif $hideattach[$post[pid]] && $post['attachments']}-->
+			<div class="notice postattach">{lang attachment}: <em>{lang attachment_reply_show}</em></div>
+		<!--{elseif $post['attachlist']}-->
+			<div class="box postattachlist">
+				<h4>{lang attachment}</h4>
+				$post[attachlist]
+			</div>
+		<!--{/if}-->
+	</div>
+</td></tr>
+</td></tr></table></div>
+
+<!--{if empty($inajax)}-->
+	</div></div></div>
+<!--{/if}-->
+{template footer}

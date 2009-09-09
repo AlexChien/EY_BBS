@@ -1,0 +1,876 @@
+{template header}
+
+<!--{block actiontitle}--><!--{if $action == 'newthread'}--><!--{if $special == 0}-->{lang post_newthread}<!--{elseif $special == 1}-->{lang post_newthreadpoll}<!--{elseif $special == 2}-->{lang post_newthreadtrade}<!--{elseif $special == 3}-->{lang post_newthreadreward}<!--{elseif $special == 4}-->{lang post_newthreadactivity}<!--{elseif $special == 5}-->{lang post_newthreaddebate}<!--{elseif $special == 6}-->{lang post_newthreadvideo}<!--{/if}--><!--{elseif $action == 'reply' && !empty($addtrade)}-->{lang trade_add_post}<!--{elseif $action == 'reply'}-->{lang join_thread}<!--{elseif $action == 'edit'}-->{lang edit_thread}<!--{/if}--><!--{/block}-->
+<!--{if empty($infloat)}-->
+	{eval $navigation .= '&raquo; '.$actiontitle;}
+	{subtemplate header_nofloat}
+<!--{/if}-->
+<script type="text/javascript" reload="1">
+var infloat = {if !empty($infloat)}1{else}0{/if};
+var InFloat_Editor = 'floatlayout_$action';
+var editoraction = '$action';
+</script>
+
+{eval $adveditor = $isfirstpost && $special || $special == 2 && ($action == 'newthread' || $action == 'reply' && !empty($addtrade) || $action == 'edit' && $thread['special'] == 2);}
+{eval $advmore = !$showthreadsorts && !$special || $action == 'reply' && empty($addtrade) || $action == 'edit' && !$isfirstpost && ($thread['special'] == 2 && !$special || $thread['special'] != 2);}
+<div class="float" id="floatlayout_$action" style="{if !empty($infloat)}width: 600px; height: 410px;{/if}">
+	<form method="post" id="postform"
+		{if $action == 'newthread'}action="post.php?{if !empty($infloat)}infloat=yes{/if}&action={if $special != 2}newthread{else}newtrade{/if}&fid=$fid&extra=$extra&topicsubmit=yes"
+		{elseif $action == 'reply'}action="post.php?{if !empty($infloat)}infloat=yes{/if}&action=reply&fid=$fid&tid=$tid&extra=$extra&replysubmit=yes"
+		{elseif $action == 'edit'}action="post.php?{if !empty($infloat)}infloat=yes{/if}&action=edit&extra=$extra&editsubmit=yes&mod=$mod"
+		{/if}
+		$enctype onsubmit="return validate(this)">
+	<input type="hidden" name="formhash" id="formhash" value="{FORMHASH}" />
+	<!--{if !empty($modthreadkey)}--><input type="hidden" name="modthreadkey" id="modthreadkey" value="$modthreadkey" /><!--{/if}-->
+	<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+	<input type="hidden" name="wysiwyg" id="{$editorid}_mode" value="$editormode" />
+	<!--{if $action == 'edit'}-->
+		<input type="hidden" name="fid" id="fid" value="$fid" />
+		<input type="hidden" name="tid" value="$tid" />
+		<input type="hidden" name="pid" value="$pid" />
+	<!--{/if}-->
+	<!--{if $special}-->
+		<input type="hidden" name="special" value="$special" />
+	<!--{/if}-->
+	<!--{if $isfirstpost}-->
+		<input type="hidden" name="iconid" id="iconid" value="$thread[iconid]" />
+	<!--{/if}-->
+	<input type="hidden" name="updateswfattach" value="0" />
+	<div style="clear:both;<!--{if !empty($infloat)}--> width:2500px<!--{/if}-->">
+	<!--{if !empty($infloat)}--><div class="floatbox floatbox1" id="extcreditbox1"></div><!--{/if}-->
+	<div class="floatbox floatbox1"{if !$showthreadsorts && !$adveditor} id="editorbox"{/if}>
+		<h3 class="float_ctrl">
+			<em id="returnmessage">
+				$actiontitle
+				<!--{if $showthreadsorts}--> $forum[threadsorts][types][$sortid]<!--{/if}-->
+			</em>
+			<!--{if $action == 'newthread' && $modnewthreads}--><em class="needverify">{lang approve}</em><!--{/if}-->
+			<!--{if $action == 'reply' && $modnewreplies}--><em class="needverify">{lang approve}</em><!--{/if}-->
+			<span>
+				<a href="javascript:;" id="creditlink" onclick="pagescrolls('credit1')" title="{lang credits_policy}">{lang credits_policy}</a>
+				<!--{if !empty($infloat)}-->
+					<a href="javascript:;" class="float_newwindow" onclick="editorwindowopen('post.php?$posturl')" title="{lang new_window}">{lang new_window}</a>
+					<!--{if !$special && !$showthreadsorts}-->
+						<a href="javascript:;" class="float_max" onclick="resizeEditorwin()" title="{lang maximize}" id="resizeEditorwin">{lang maximize}</a>
+					<!--{/if}-->
+					<a href="javascript:;" class="float_close" onclick="closeEditorwin()" title="{lang close}">{lang close}</a>
+				<!--{/if}-->
+			</span>
+		</h3>
+		<div class="postbox" id="postbox">
+			<div class="float_postinfo s_clear"<!--{if $action == 'reply'}--> style="overflow:hidden"<!--{/if}-->>
+				<!--{if !$special && $isfirstpost}-->
+					<em id="icon" class="dropmenu" onmouseover="InFloat='floatlayout_$action';showMenu(this.id)"><img id="icon_img" src="images/icons/{if $action == 'edit' && $thread[iconid]}{$_DCACHE['icons'][$thread[iconid]]}{else}icon1.gif{/if}" /></em>
+					<ul id="icon_menu" class="popupmenu_popup" style="display:none">
+					<!--{loop $_DCACHE['icons'] $id $icon}-->
+						<li><a href="javascript:;"><img onclick="switchicon($id, this)" src="images/icons/$icon" alt="" /></a></li>
+					<!--{/loop}-->
+					</ul>
+				<!--{/if}-->
+				<!--{if !$isfirstpost && $thread[special] == 5 && empty($firststand) && $action != 'edit'}-->
+				<div class="float_typeid short_select">
+					<select id="stand" name="stand">
+						<option value="0">{lang debate_neutral}</option>
+						<option value="1">{lang debate_square}</option>
+						<option value="2">{lang debate_opponent}</option>
+					</select>
+				</div>
+				<!--{/if}-->
+				<!--{if $action == 'reply' && !empty($addtrade) || $action == 'edit' && $thread['special'] == 2 && !$postinfo['first']}-->
+					<input name="subject" type="hidden" value="" />
+				<!--{else}-->
+					<!--{if $action != 'reply'}-->
+						<span><input name="subject" id="subject" class="txt" value="$postinfo[subject]" tabindex="1" /></span>
+					<!--{else}-->
+						<span id="subjecthide">RE: $thread[subject] [<a href="javascript:;" onclick="display('subjecthide');display('subjectbox');$('subject').value='RE: {echo htmlspecialchars(str_replace('\'', '\\\'', $thread[subject]))}'">{lang modify}</a>]</span>
+						<span id="subjectbox" style="display:none"><input name="subject" id="subject" class="txt" value="" tabindex="1" /></span>
+					<!--{/if}-->
+				<!--{/if}-->
+				<!--{if $action == 'edit' && ($isfirstpost && $thread['replies'] < 1 || !$isfirstpost && ($isorigauthor || $forum['ismoderator']))}-->
+					<div class="right"><input type="checkbox" name="delete" id="delete" value="1" title="{lang post_delpost}{if $thread[special] == 3}{lang reward_price_back}{/if}"><label for="delete">{lang delete_check}</label></div>
+				<!--{/if}-->
+				<div class="left">
+					<!--{if !$special && ($threadsorts = $forum[threadsorts]) && ($action == 'newthread' || $action == 'edit' && $isfirstpost && !$thread['sortid'])}-->
+					<div class="float_typeid">
+						<select name="sortid" id="sortid" change="switchsort()">
+						<!--{if !$sortid}--><option value="0">{lang threadtype_option}</option><!--{/if}-->
+						<!--{loop $threadsorts[types] $tsortid $name}-->
+							<!--{if !empty($modelid) && $threadsorts[modelid][$tsortid] == $modelid || empty($modelid)}-->
+								<option value="$tsortid"{if $sortid == $tsortid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+							<!--{/if}-->
+						<!--{/loop}-->
+						</select>
+					</div>
+					<!--{/if}-->
+					<!--{if $action == 'edit' && $isfirstpost && $sortid}-->
+						<input type="hidden" name="sortid" value="$sortid" />
+					<!--{/if}-->
+					<!--{if $isfirstpost && $forum[threadtypes][types]}-->
+					<div class="float_typeid">
+						<select name="typeid" id="typeid">
+						<option value="0">{lang types}</option>
+						<!--{loop $forum[threadtypes][types] $typeid $name}-->
+							<option value="$typeid"{if $thread['typeid'] == $typeid} selected="selected"{/if}>{echo strip_tags($name);}</option>
+						<!--{/loop}-->
+						</select>
+					</div>
+					<!--{/if}-->
+				</div>
+			</div>
+			<!--{if $showthreadsorts}-->
+				<div class="classifieds"{if empty($infloat)} style="overflow-y:visible;height:auto;"{/if}>
+					<table cellpadding="0" cellspacing="0" class="formtable">
+						<tbody id="threadsorts"><span id="threadsortswait"></span></tbody>
+					</table>
+				</div>
+				</div></div></div>
+
+				<div style="clear:both;<!--{if !empty($infloat)}--> width:2500px<!--{/if}-->">
+				<!--{if !empty($infloat)}--><div class="floatbox floatbox1" id="extcreditbox3"></div><!--{/if}-->
+				<div class="floatbox floatbox1" id="editorbox">
+				<!--{if !empty($infloat)}-->
+					<h3 class="float_ctrl">
+						<em><button id="creditlink" type="button" onclick="pagescrolls('return');return false">{lang return}</button></em>
+						<span>
+							<a href="javascript:;" onclick="pagescrolls('credit3')" title="{lang credits_policy}">{lang credits_policy}</a>
+							<!--{if !empty($infloat)}-->
+								<a href="javascript:;" class="float_max" onclick="editorwindowopen('post.php?$posturl')" title="{lang new_window}">{lang new_window}</a>
+								<a href="javascript:;" class="float_max" onclick="resizeEditorwin()" title="{lang maximize}" id="resizeEditorwin">{lang maximize}</a>
+								<a href="javascript:;" class="float_close" onclick="closeEditorwin()" title="{lang close}">{lang close}</a>
+							<!--{/if}-->
+						</span>
+					</h3>
+				<!--{/if}-->
+				<div class="postbox">
+			<!--{elseif $adveditor}-->
+				<!--{if $special == 1}-->{template post_poll}
+				<!--{elseif $special == 2}-->{template post_trade}
+				<!--{elseif $special == 3}-->{template post_reward}
+				<!--{elseif $special == 4}-->{template post_activity}
+				<!--{elseif $special == 5}-->{template post_debate}
+				<!--{elseif $special == 6}-->{template post_video}
+				<!--{/if}-->
+				</div>
+
+				<div style="clear:both;<!--{if !empty($infloat)}--> width:2500px<!--{/if}-->">
+				<!--{if !empty($infloat)}--><div class="floatbox floatbox1" id="extcreditbox3"></div><!--{/if}-->
+				<div class="floatbox floatbox1" id="editorbox">
+				<!--{if !empty($infloat)}-->
+					<h3 class="float_ctrl">
+						<em><button id="creditlink" type="button" onclick="pagescrolls('return');return false">{lang return}</button></em>
+						<span>
+							<a href="javascript:;" onclick="pagescrolls('credit3')" title="{lang credits_policy}">{lang credits_policy}</a>
+							<!--{if !empty($infloat)}-->
+								<a href="javascript:;" class="float_max" onclick="editorwindowopen('post.php?$posturl')" title="{lang new_window}">{lang new_window}</a>
+								<a href="javascript:;" class="float_max" onclick="resizeEditorwin()" title="{lang maximize}" id="resizeEditorwin">{lang maximize}</a>
+								<a href="javascript:;" class="float_close" onclick="closeEditorwin()" title="{lang close}">{lang close}</a>
+							<!--{/if}-->
+						</span>
+					</h3>
+				<!--{/if}-->
+				<div class="postbox">
+			<!--{/if}-->
+			<div id="{$editorid}_controls" class="editorrow">
+				<div class="editor">
+					<a id="{$editorid}_switcher" class="plugeditor editormode"><input type="checkbox" name="checkbox" value="0" {if !$editormode}checked="checked"{/if} onclick="switchEditor(this.checked?0:1)" />{lang code}</a>
+					<div class="editorbtn">
+						<!--{loop $_DCACHE['bbcodes_display'] $tag $bbcode}-->
+							<!--{if $bbcode[type] == '1'}-->
+								<!--{if $bbcode[icon] == 'popup_simple'}-->
+									<a id="{$editorid}_cmd_bold" title="{lang e_bold}">$bbcode[tag]</a>
+									<a id="{$editorid}_popup_simple" title="$bbcode[explanation]">$bbcode[tag]</a>
+								<!--{elseif !($tag == 'media' && !$forum['allowmediacode']) && !($tag == 'hide' && !$allowhidecode)}-->
+									<a id="{$editorid}_{$bbcode[icon]}" title="$bbcode[explanation]">$bbcode[tag]</a>
+								<!--{/if}-->
+							<!--{elseif $bbcode[type] == '0' && $forum['allowbbcode'] && $allowcusbbcode}-->
+								<a id="{$editorid}_cmd_custom{$bbcode[params]}_$tag" class="customedit" title="$bbcode[explanation]"><img src="images/common/$bbcode[icon]" title="$bbcode[explanation]" alt="$tag" /></a>
+							<!--{/if}-->
+						<!--{/loop}-->
+					</div>
+				</div>
+				<div class="editortoolbar">
+					<div class="popupmenu_popup fontstyle_menu" id="{$editorid}_popup_simple_menu" style="display: none">
+					<ul unselectable="on">
+						<li><a id="{$editorid}_cmd_italic" title="{lang e_italic}">{lang e_italic}</a></li>
+						<li><a id="{$editorid}_cmd_underline" title="{lang e_underline}">{lang e_underline}</a></li>
+					</ul>
+					</div>
+
+					<!--{eval $fontoptions = array({lang e_fontoptions})}-->
+					<div class="popupmenu_popup fontname_menu" id="{$editorid}_popup_fontname_menu" style="display: none">
+					<ul unselectable="on">
+					<!--{loop $fontoptions $fontname}-->
+							<li onclick="discuzcode('fontname', '$fontname')" style="font-family: $fontname" unselectable="on">$fontname</li>
+					<!--{/loop}-->
+					</ul>
+					</div>
+
+					<!--{eval $sizeoptions = array(1, 2, 3, 4, 5, 6, 7)}-->
+					<div class="popupmenu_popup fontsize_menu" id="{$editorid}_popup_fontsize_menu" style="display: none">
+					<ul unselectable="on">
+					<!--{loop $sizeoptions $size}-->
+							<li onclick="discuzcode('fontsize', $size)" unselectable="on"><font size="$size" unselectable="on">$size</font></li>
+					<!--{/loop}-->
+					</ul>
+					</div>
+
+					<!--{eval $coloroptions = array('Black', 'Sienna', 'DarkOliveGreen', 'DarkGreen', 'DarkSlateBlue', 'Navy', 'Indigo', 'DarkSlateGray', 'DarkRed', 'DarkOrange', 'Olive', 'Green', 'Teal', 'Blue', 'SlateGray', 'DimGray', 'Red', 'SandyBrown', 'YellowGreen','SeaGreen', 'MediumTurquoise','RoyalBlue', 'Purple', 'Gray', 'Magenta', 'Orange', 'Yellow', 'Lime', 'Cyan', 'DeepSkyBlue', 'DarkOrchid', 'Silver', 'Pink', 'Wheat', 'LemonChiffon', 'PaleGreen', 'PaleTurquoise', 'LightBlue', 'Plum', 'White')}-->
+					<div class="popupmenu_popup" id="{$editorid}_popup_forecolor_menu" style="display: none">
+					<table cellpadding="0" cellspacing="0" border="0" unselectable="on" style="width: auto;"><tr>
+					<!--{loop $coloroptions $key $colorname}-->
+						<td class="editor_colornormal" onclick="discuzcode('forecolor', '$colorname')" unselectable="on"><div style="background-color: $colorname" unselectable="on"></div></td><!--{if ($key + 1) % 8 == 0}--></tr><tr><!--{/if}-->
+					<!--{/loop}-->
+					</tr></table></div>
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_justify_menu" style="display: none">
+					<ul unselectable="on">
+						<li><a id="{$editorid}_cmd_justifyleft" title="{lang e_left}">{lang e_left}</a></li>
+						<li><a id="{$editorid}_cmd_justifycenter" title="{lang e_center}">{lang e_center}</a></li>
+						<li><a id="{$editorid}_cmd_justifyright" title="{lang e_right}">{lang e_right}</a></li>
+					</ul>
+					</div>
+
+					<!--{if $_DCACHE['bbcodes_display']['smilies']}-->
+						<div class="smilies" id="{$editorid}_popup_smilies_menu" style="display: none">
+							<div class="smilieslist">
+							<div id="smiliesdiv"></div>
+							<script type="text/javascript" reload="1">
+							smilies_show('smiliesdiv', $smcols, 1);
+							function smilies_onload_smiliesdiv() {
+								loadselect('smiliesdiv_seltype', 0, 'floatlayout_$action');
+							}
+							</script>
+							</div>
+						</div>
+					<!--{/if}-->
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_dent_menu" style="display: none">
+					<ul unselectable="on">
+						<li><a id="{$editorid}_cmd_indent" title="{lang e_indent}">{lang e_indent}</a></li>
+						<li><a id="{$editorid}_cmd_outdent" title="{lang e_outdent}">{lang e_outdent}</a></li>
+					</ul>
+					</div>
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_float_menu" style="display: none">
+					<ul unselectable="on">
+						<li><a id="{$editorid}_cmd_floatleft" title="{lang e_floatleft}">{lang e_floatleft}</a></li>
+						<li><a id="{$editorid}_cmd_floatright" title="{lang e_floatright}">{lang e_floatright}</a></li>
+					</ul>
+					</div>
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_list_menu" style="display: none">
+					<ul unselectable="on">
+						<li><a id="{$editorid}_cmd_insertorderedlist" title="{lang e_orderedlist}">{lang e_orderedlist}</a></li>
+						<li><a id="{$editorid}_cmd_insertunorderedlist" title="{lang e_unorderedlist}">{lang e_unorderedlist}</a></li>
+					</ul>
+					</div>
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_hide_menu" style="display: none">
+					<ul unselectable="on">
+						<!--{if $allowhidecode}--><li><a id="{$editorid}_popup_hide" title="{lang e_hide}">{lang e_hide}</a></li><!--{/if}-->
+						<li><a id="{$editorid}_cmd_table" title="{lang e_table}">{lang e_table}</a></li>
+						<li><a id="{$editorid}_cmd_free" title="{lang e_free}">{lang e_free}</a></li>
+					</ul>
+					</div>
+
+					<div class="popupmenu_popup" id="{$editorid}_popup_tools_menu" style="display: none">
+					<ul unselectable="on">
+						<a id="{$editorid}_cmd_removeformat" title="{lang e_removeformat}">{lang e_removeformat}</a>
+						<a id="{$editorid}_cmd_unlink" title="{lang e_unlink}">{lang e_unlink}</a>
+						<a id="{$editorid}_cmd_undo" title="{lang e_undo}">{lang e_undo}</a>
+						<a id="{$editorid}_cmd_redo" title="{lang e_redo}">{lang e_redo}</a>
+						<a id="{$editorid}_cmd_checklength" title="{lang post_check_length}">{lang post_check_length}</a>
+						<a id="{$editorid}_cmd_clearcontent" title="{lang post_topicreset}">{lang post_topicreset}</a>
+						<br />
+						<a id="{$editorid}_cmd_autosave" title="{lang post_autosave}">{lang post_autosave}<em id="autsavet">({lang post_autosave_stop})</em></a>
+						<a id="{$editorid}_cmd_saveData" title="{lang post_savedata}">{lang post_savedata}</a>
+						<a id="{$editorid}_cmd_loadData" title="{lang post_autosave_restore}">{lang post_autosave_restore}</a>
+					</ul>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="newediter">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%" style="table-layout:fixed">
+					<tr><td><textarea class="autosave{if ($action != 'edit' || !$attachments) && (!$swfupload || !$swfattachs)} max{/if}" name="message" id="{$editorid}_textarea" tabindex="1"{if empty($infloat)} class="txt" style="height:300px"{/if}>{if $action == 'edit'}$postinfo[message]{else}$message{/if}</textarea></td></tr>
+				</table>
+			</div>
+		</div><div class="popupmenu_popup" id="imgpreview_menu" style="position:absolute;width:180px;height:150px;padding:0px;display: none;"></div>
+
+		<div class="post_tablelist postbox" id="attachlist"{if ($action != 'edit' || !$attachments) && (!$swfupload || !$swfattachs)} style="display: none"{/if}>
+			<!--{if $allowpostattach}-->
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tr>
+						<td class="attachnum"></td>
+						<td class="attachctrl"></td>
+						<td class="attachname">{lang filename}</td>
+						<!--{if $allowsetattachperm}--><td class="attachview">{lang readperm}</td><!--{/if}-->
+						<!--{if $maxprice}--><td class="attachpr"><!--{if $extcredits[$creditstransextra[1]][img]}-->{$extcredits[$creditstransextra[1]][img]} <!--{/if}-->{$extcredits[$creditstransextra[1]][title]}</td><!--{/if}-->
+						<td class="attachdel"></td>
+					</tr>
+				</table>
+				<div id="uploadlist" class="upfilelist"{if empty($infloat)} style="height:auto"{/if}>
+				<!--{if $action == 'edit'}-->
+					{template post_attachlist}
+				<!--{/if}-->
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tbody id="attachbodyhidden" style="display:none"><tr>
+						<td class="attachnum"><span id="localno[]"><img src="images/attachicons/common_new.gif" /></span></td>
+						<td class="attachctrl"><span id="cpadd[]"></span></td>
+						<td class="attachname">
+							<span id="deschidden[]" style="display:none">
+								<a href="javascript:;" onclick='parentNode.innerHTML="<input type=\"text\" name=\"attachdesc[]\" size=\"25\" class=\"txt\" />"'>{lang description}</a>
+								<span id="localfile[]"></span>
+								<input type="text" name="attachdesc[]" style="display:none" />
+							</span>
+							<input type="hidden" name="localid[]" />
+						</td>
+						<!--{if $allowsetattachperm}--><td class="attachview"><input type="text" name="attachperm[]" value="0"size="1" class="txt" /></td><!--{/if}-->
+						<!--{if $maxprice}--><td class="attachpr"><input type="text" name="attachprice[]" value="0" size="1" class="txt" /></td><!--{/if}-->
+						<td class="attachdel"><span id="cpdel[]"></span></td>
+					</tr></tbody>
+				</table>
+				<!--{if $swfupload}-->
+					<div id="swfattachlist">
+					<!--{if $swfattachs}-->
+						<table cellpadding="0" cellspacing="0" border="0" width="100%">
+						<tr><td class="attachnum"></td><td>{lang attachment_uploaded} &nbsp;
+						<a href="javascript:;" onclick="swfattachlistupdate()">{lang use}</a> &nbsp; <a href="javascript:;" onclick="display('swfattachlist')">{lang ignore}</a>
+						</td></tr>
+						</table>
+					<!--{/if}-->
+					</div>
+				<!--{/if}-->
+				<table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%"><tbody id="attachbody"></tbody></table>
+				</div>
+			<!--{/if}-->
+		</div>
+		<div id="img_hidden" alt="1" style="position:absolute;top:-100000px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='image');width:{$thumbwidth}px;height:{$thumbheight}px"></div>
+		</div>
+
+		<!--{if $swfupload}-->
+			<div id="swfuploadbox" class="floatbox floatbox1 floatboxswf" style="display: none">
+				<h3 class="float_ctrl">
+					<em{if empty($infloat)} style="display:none"{/if}><button type="button" onclick="pagescrolls('swfreturn');return false">{lang return}</button></em>
+					<!--{if empty($infloat)}--><em>{lang batch_upload}</em><!--{/if}-->
+					<span id="swfclosebtn" style="display:none">
+						<a href="javascript:;" class="float_close" onclick="swfuploadwin()" title="{lang close}">{lang close}</a>
+					</span>
+				</h3>
+				<div id="swfbox" style="display: none">
+					<script type="text/javascript" reload="1">
+					$('swfbox').innerHTML = AC_FL_RunContent(
+						'width', '570', 'height', '318',
+						'src', 'images/common/upload.swf?site={$boardurl}misc.php',
+						'quality', 'high',
+						'id', 'swfupload',
+						'menu', 'false',
+						'allowScriptAccess', 'always'
+					);
+					</script>
+				</div>
+			</div>
+		<!--{/if}-->
+	</div>
+	<div style="clear:both;<!--{if !empty($infloat)}--> width:2500px<!--{/if}-->">
+	<!--{if !empty($infloat)}--><div class="floatbox floatbox1" id="extcreditbox2"></div><!--{/if}-->
+	<div class="floatbox floatbox1">
+		<h3 class="float_ctrl"{if empty($infloat)} style="display:none"{/if}>
+			<em><button type="button" onclick="pagescrolls('editorreturn');return false">{lang return}</button></em>
+			<span>
+				<a href="javascript:;" onclick="pagescrolls('credit2')" title="{lang credits_policy}">{lang credits_policy}</a>
+				<!--{if !empty($infloat)}-->
+					<a href="javascript:;" class="float_close" onclick="closeEditorwin()" title="{lang close}">{lang close}</a>
+				<!--{/if}-->
+			</span>
+		</h3>
+		<div class="postbox">
+			<!--{if $action == 'newthread' || $action == 'edit' && $isfirstpost}-->
+				<!--{if $tagstatus}-->
+					<div class="posttags">
+						<p><strong>{lang post_tag}:</strong> {lang tag_comment}</p>
+						<p><input type="text" name="tags" id="tags" class="txt" value="$threadtags" tabindex="1" /><button name="addtags" type="button" onclick="relatekw();return false">+{lang searchtags}</button> <span id="tagselect"></span></p>
+					</div>
+				<!--{/if}-->
+				<div class="columntype">
+					<!--{if $allowsetreadperm}-->
+						<p><strong>{lang readperm}:</strong></p>
+						<p><input type="text" name="readperm" value="$thread[readperm]" class="txt" tabindex="1" /> {lang post_zero_is_nopermission}</p>
+					<!--{/if}-->
+					<!--{if $maxprice && !$special}-->
+						<p><strong>{lang price}</strong>({$extcredits[$creditstransextra[1]][title]}):</p>
+						<p><input type="text" name="price" value="$thread[pricedisplay]" class="txt" tabindex="1" /> {$extcredits[$creditstransextra[1]][unit]} {lang post_price_comment}&nbsp;<!--{if $maxincperthread}-->{lang post_price_income_comment}<!--{/if}--><!--{if $maxchargespan}-->{lang post_price_charge_comment}<!--{/if}-->
+						{lang post_price_free_comment}</p>
+					<!--{/if}-->
+				</div>
+			<!--{/if}-->
+			<div class="columntype">
+				<h4>{lang post_option}:</h4>
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td class="firstlist">
+							<!--{if ($forum['allowhtml'] || ($action == 'edit' && ($org['htmlon'] & 1))) && $allowhtml}-->
+								<p><input type="checkbox" name="htmlon" id="htmlon" value="1" $htmloncheck /><label for="htmlon">{lang post_html}</label></p>
+							<!--{else}-->
+								<p><input type="checkbox" name="htmlon" id="htmlon" value="0" $htmloncheck disabled="disabled" /><label for="htmlon">{lang post_html}</label></p>
+							<!--{/if}-->
+							<p><input type="checkbox" id="allowimgcode" disabled{if $forum['allowimgcode']} checked="checked"{/if} /><label for="allowimgcode">{lang post_imgcode}</label></p>
+						</td>
+						<td>
+							<p><input type="checkbox" name="parseurloff" id="parseurloff" value="1" $urloffcheck tabindex="1" /><label for="parseurloff">{lang disable} {lang post_parseurl}</label></p>
+							<p><input type="checkbox" name="smileyoff" id="smileyoff" value="1" $smileyoffcheck tabindex="1" /><label for="smileyoff">{lang disable} {faq smilies}</label></p>
+							<p><input type="checkbox" name="bbcodeoff" id="bbcodeoff" value="1" $codeoffcheck tabindex="1" /><label for="bbcodeoff">{lang disable} {faq discuzcode}</label></p>
+							<!--{if $tagstatus && ($action == 'newthread' || $action == 'edit' && $isfirstpost)}-->
+								<p><input type="checkbox" name="tagoff" id="tagoff" {if !empty($tagoffcheck)}checked="checked"{/if} tabindex="1" /><label for="tagoff">{lang disable} {lang tag_parse}</label></p>
+							<!--{/if}-->
+						</td>
+						<td>
+							<p><input type="checkbox" name="usesig" id="usesig" value="1" {if !$maxsigsize}disabled {else}$usesigcheck {/if}tabindex="1" /><label for="usesig">{lang post_show_sig}</label></p>
+							<!--{if $action != 'edit'}-->
+								<!--{if $allowanonymous}--><p><input type="checkbox" name="isanonymous" id="isanonymous" value="1" tabindex="1" /><label for="isanonymous">{lang post_anonymous}</label></p><!--{/if}-->
+							<!--{else}-->
+								<!--{if $allowanonymous || (!$allowanonymous && $orig['anonymous'])}--><p><input type="checkbox" name="isanonymous" value="1" {if $orig['anonymous']}checked="checked"{/if} tabindex="1" /><label for="isanonymous">{lang post_anonymous}</label></p><!--{/if}-->
+							<!--{/if}-->
+							<!--{if $action != 'edit'}--><p><input type="checkbox" name="emailnotify" id="emailnotify" $notifycheck tabindex="1" /><label for="emailnotify">{lang post_email_notify}</label></p><!--{/if}-->
+						</td>
+						<td>
+						<!--{if $action == 'newthread' && $forum['ismoderator'] && ($allowdirectpost || !$forum['modnewposts'])}-->
+							<!--{if $action == 'newthread' && $forum['ismoderator'] && ($allowdirectpost || !$forum['modnewposts'])}-->
+								<p><input type="checkbox" name="sticktopic" id="sticktopic" value="1" $stickcheck tabindex="1" /><label for="sticktopic">{lang post_stick_thread}</label></p>
+								<p><input type="checkbox" name="addtodigest" id="addtodigest" value="1" $digestcheck tabindex="1" /><label for="addtodigest">{lang post_digest_thread}</label></p>
+							<!--{/if}-->
+						<!--{elseif $action == 'edit' && $auditstatuson}-->
+							<p><input type="checkbox" name="audit" id="audit" value="1"><label for="audit">{lang auditstatuson}</label></p>
+						<!--{/if}-->
+						<!--{if $uchome['addfeed'] && $ucappopen['UCHOME'] && $forum['allowfeed']}-->
+							<p><input type="checkbox" name="addfeed" id="addfeed" value="1" $addfeedcheck><label for="addfeed"> {lang addfeed}</label></p>
+						<!--{/if}-->
+						</td>
+					</tr>
+				</table><br />
+			</div>
+			<div class="moreconf" id="moreconf">
+				<div class="custominfoarea" id="custominfoarea" style="{if $special && $action != 'reply'}display: none;{/if}">
+					<!--{if $action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]}-->
+					<a href="javascript:;" onclick="display('custominfo_post')" onblur="$('custominfo_post').style.display = 'none'"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a>
+					<div id="custominfo_post" class="sitenote">
+						<div class="cornerlayger">
+						<!--{if $action == 'newthread'}-->
+							{echo $sitemessage[newthread][array_rand($sitemessage[newthread])]}
+						<!--{elseif $action == 'reply'}-->
+							{echo $sitemessage[reply][array_rand($sitemessage[reply])]}
+						<!--{/if}-->
+						</div>
+						<div class="minicorner"></div>
+					</div>
+					<!--{/if}-->
+				</div>
+				<button type="submit" id="postsubmit" value="true" name="{if $action == 'newthread'}topicsubmit{elseif $action == 'reply'}replysubmit{elseif $action == 'edit'}editsubmit{/if}" tabindex="1">
+				<!--{if $action == 'newthread'}-->
+					<!--{if $special == 0}-->{lang post_newthread}
+					<!--{elseif $special == 1}-->{lang post_newthreadpoll}
+					<!--{elseif $special == 2}-->{lang post_newthreadtrade}
+					<!--{elseif $special == 3}-->{lang post_newthreadreward}
+					<!--{elseif $special == 4}-->{lang post_newthreadactivity}
+					<!--{elseif $special == 5}-->{lang post_newthreaddebate}
+					<!--{elseif $special == 6}-->{lang post_newthreadvideo}
+					<!--{/if}-->
+				<!--{elseif $action == 'reply' && !empty($addtrade)}-->{lang trade_add_post}
+				<!--{elseif $action == 'reply'}-->{lang join_thread}
+				<!--{elseif $action == 'edit'}-->{lang edit_thread}
+				<!--{/if}-->
+				</button>
+				<span id="more_1"{if $advmore} style="display: none"{/if}>
+				<!--{if !empty($infloat) && ($showthreadsorts || $special)}-->
+					<a href="javascript:;" onclick="pagescrolls('editor')">{lang post_add_detail}<!--{if $special == 1}-->{lang thread_poll}<!--{elseif $special == 2}-->{lang thread_trade}<!--{elseif $special == 3}-->{lang thread_reward}<!--{elseif $special == 4}-->{lang thread_activity}<!--{elseif $special == 5}-->{lang thread_debate}<!--{elseif $special == 6}-->{lang thread_video}<!--{/if}-->{lang description}</a>
+				<!--{/if}-->
+				</span>
+				<span id="more_2"{if !$advmore && !empty($infloat)} style="display: none"{/if}>
+				<!--{if $allowpostattach}-->
+					<span class="sim_upfile" onmouseover="$('attachinfo').style.display='';" onmouseout="$('attachinfo').style.display='none';">
+						<span id="attachbtnhidden" style="display:none"><span><input type="file" name="attach[]" size="1" /></span></span>
+						<span id="attachbtn"></span>
+						<a href="javascript:;" onclick="return false;">{lang attachment_add}</a>
+						<!--{if $swfupload}-->
+							<a href="javascript:;" onclick="swfuploadwin()">{lang batch_upload}</a>
+						<!--{/if}-->
+						<div id="attachinfo" class="sitenote{if $action == 'newthread' || ($action == 'edit' && $isfirstpost)}{if $special} upfile_special{else} upfile{/if}{/if}" style="display:none;">
+							<div class="cornerlayger">
+								{lang attachment_size}: <strong><!--{if $maxattachsize}-->{lang lower_than} $maxattachsize_mb <!--{else}-->{lang size_no_limit}<!--{/if}--></strong>&nbsp;
+								<!--{if $attachextensions}-->{lang attachment_allow_exts}: <strong>$attachextensions</strong>&nbsp;<!--{/if}-->
+								<!--{if $maxprice}-->{lang price}: <strong>{lang post_price_comment}{$extcredits[$creditstransextra[1]][title]}<!--{if $maxincperthread}-->{lang post_price_income_comment}<!--{/if}--><!--{if $maxchargespan}-->{lang post_price_charge_comment}<!--{/if}--><!--{/if}--></strong>
+							</div>
+							<div class="minicorner"></div>
+						</div>
+					</span>
+					<a href="javascript:;" onclick="attachlist()">{lang attachment_list}</a>
+				<!--{/if}-->
+				<!--{if !empty($infloat)}--><a href="javascript:;" id="morelink" onclick="pagescrolls('more')">{lang post_option_more}</a><!--{/if}-->
+				</span>
+				<!--{if $secqaacheck || $seccodecheck}--><span style="position:relative">{eval $seccheckfloat = 'floatlayout_'.$action;}{subtemplate seccheck}</span><!--{/if}-->
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+
+<!--{if !empty($infloat)}-->
+<div id="extcreditbox" style="display: none">
+	<h3 class="float_ctrl">
+		<em><button type="button" onclick="pagescrolls('creditreturn');return false">{lang return}</button></em>
+		<span>
+			<a href="faq.php?action=credits&fid=$fid" target="_blank">{lang credits_policy_view}</a>
+		</span>
+	</h3>
+	<div class="postbox">
+		<div class="post_tablelist extcreditbox">
+			<table cellpadding="0" cellspacing="0" summary="post_attachbody" border="0" width="100%">
+				<thead>
+					<tr>
+						<td class="extname"></td>
+						<!--{loop $extcredits $id $credit}-->
+							<td class="extcredits">$credit[title]</td>
+						<!--{/loop}-->
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+				<!--{loop $policyarray $operation $policy}-->
+					<tr>
+						<td class="extname">
+						<!--{if $operation == 'post'}-->
+							{lang credits_policy_post}
+						<!--{elseif $operation == 'reply'}-->
+							{lang credits_policy_reply}
+						<!--{elseif $operation == 'digest'}-->
+							{lang credits_policy_digest}
+						<!--{elseif $operation == 'postattach'}-->
+							{lang credits_policy_postattach}
+						<!--{elseif $operation == 'getattach'}-->
+							{lang credits_policy_getattach}
+						<!--{/if}-->
+						</td>
+						<!--{loop $extcredits $id $credit}-->
+							<td class="extcredits">
+							<!--{if $creditsarray[$operation][$id]}-->
+								{$creditsarray[$operation][$id]}
+							<!--{else}-->
+								-
+							<!--{/if}-->
+							</td>
+						<!--{/loop}-->
+						<td></td>
+					</tr>
+				<!--{/loop}-->
+				</tbody>
+			</table>
+			{lang credits_policy_formula}: $creditsformulaexp
+		</div>
+	</div>
+</div>
+<!--{/if}-->
+
+<!--{if $forum['allowmediacode']}-->
+	<div class="popupmenu_popup" id="{$editorid}_popup_media_menu" style="width: 280px;display: none" unselectable="on">
+	<input type="hidden" id="{$editorid}_mediatype" value="ra">
+	<table cellpadding="4" cellspacing="0" border="0">
+	<tr class="popupmenu_option">
+		<td nowrap>
+			{lang e_media_url}:<br />
+			<input id="{$editorid}_mediaurl" style="width: 98%" value="" onkeyup="setmediatype('$editorid')" />
+		</td>
+	</tr>
+	<tr class="popupmenu_option">
+		<td nowrap>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_ra" onclick="$('{$editorid}_mediatype').value = 'ra'" checked="checked">RA</label>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_wma" onclick="$('{$editorid}_mediatype').value = 'wma'">WMA</label>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_mp3" onclick="$('{$editorid}_mediatype').value = 'mp3'">MP3</label>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_rm" onclick="$('{$editorid}_mediatype').value = 'rm'">RM/RMVB</label>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_wmv" onclick="$('{$editorid}_mediatype').value = 'wmv'">WMV</label>
+			<label style="float: left; width: 32%"><input type="radio" name="{$editorid}_mediatyperadio" id="{$editorid}_mediatyperadio_mov" onclick="$('{$editorid}_mediatype').value = 'mov'">MOV</label>
+		</td>
+	</tr>
+	<tr class="popupmenu_option">
+		<td nowrap>
+			<label style="float: left; width: 32%">{lang width}: <input id="{$editorid}_mediawidth" size="5" value="400" /></label>
+			<label style="float: left; width: 32%">{lang height}: <input id="{$editorid}_mediaheight" size="5" value="300" /></label>
+		</td>
+	</tr>
+
+	<tr class="popupmenu_option">
+		<td align="center" colspan="2"><input type="button" value="{lang submit}" onclick="setmediacode('$editorid')"> &nbsp; <input type="button" onclick="hideMenu()" value="{lang cancel}" /></td>
+	</tr>
+	</table>
+	</div>
+<!--{/if}-->
+
+<!--{if $_DCACHE['bbcodes_display']['img']}-->
+	<div class="popupmenu_popup" id="{$editorid}_cmd_insertimage_menu" style="display: none" unselectable="on">
+		<ul class="imguptype">
+			<li><a href="javascript:;" hidefocus="true" class="current" id="insertimage_www"{if $ucappopen['UCHOME']} onclick="switchImage('www');"{/if}>{lang e_img_www}</a></li>
+			<!--{if $ucappopen['UCHOME']}--><li><a href="javascript:;" hidefocus="true" id="insertimage_album" onclick="switchImage('album');">{lang e_img_album}</a></li><!--{/if}-->
+		</ul>
+		<div class="popupmenu_option" unselectable="on" id="insertimage_www_div">
+			{lang e_img_inserturl}:<br /><input id="{$editorid}_cmd_insertimage_param_url" style="width: 300px;" value="" class="txt" type="text" onkeydown="editorMenuEvent_onkeydown(this);" />
+			<br /><center><input id="{$editorid}_cmd_insertimage_submit" value="{lang submit}" type="button" onclick="insertimagesubmit()" /> &nbsp; <input onclick="hideMenu();" value="{lang cancel}" type="button" /></center>
+		</div>
+		<!--{if $ucappopen['UCHOME']}-->
+			<div class="popupmenu_option" unselectable="on" id="insertimage_album_div" style="display: none;">
+				<div id="uch_photoes"></div><p id="uch_createalbum" style="display: none; padding-left: 4px; magin-top: -1em;">{lang e_img_insertphoto}</p>
+			</div>
+			<script type="text/javascript" reload="1">
+				var showalbum, prealbum;
+				function switchImage(img) {
+					if(img == 'www') {
+						$('insertimage_www_div').style.display='';
+						$('insertimage_www').className = 'current';
+						$('insertimage_album_div').style.display='none';
+						$('insertimage_album').className = '';
+					} else if(img == 'album') {
+						$('insertimage_www').className = '';
+						$('insertimage_album').className = 'current';
+						if($('insertimage_album_menu')) {
+							showAlbums();
+						} else {
+							var div = document.createElement('DIV');
+							div.id = 'insertimage_album_menu';
+							div.className = 'popupmenu_popup';
+							div.style.display = 'none';
+							$('append_parent').appendChild(div);
+							ajaxget('api/uchome.php?action=getalbums', 'insertimage_album_menu', 'uch_photoes', null, 'none');
+							showalbum = setInterval(showAlbum, 10);
+						}
+					}
+				}
+				function showAlbum() {
+					if($('insertimage_album_menu').innerHTML != '') {
+						showAlbums();
+						clearInterval(showalbum);
+					}
+				}
+				function showAlbums() {
+					if($('insertimage_album_menu').innerHTML == 'NOALBUM') {
+						$('insertimage_www_div').style.display='none';
+						$('insertimage_album_div').style.display = '';
+						$('uch_photoes').style.display = '';
+						$('uch_photoes').innerHTML = '{lang e_img_createalbum}';
+					} else {
+						showMenu('insertimage_album', true, 0, 2, 250, 1);
+					}
+				}
+			</script>
+		<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+<script type="text/javascript" reload="1">
+var pagescroll = new pagescroll_class('floatlayout_$action', 600, 410);
+{if empty($infloat)}
+	$('floatlayout_$action').scrollLeft = 600;
+{/if}
+{if $isfirstpost && $forum['threadtypes']['types']}
+	loadselect('typeid', 0, 'floatlayout_$action');
+{/if}
+{if !$isfirstpost && $thread['special'] == 5 && empty($firststand) && $action != 'edit'}
+	loadselect('stand', 0, 'floatlayout_$action');
+{/if}
+{if !$special && $forum[threadsorts] && ($action == 'newthread' || $action == 'edit' && $isfirstpost && !$thread[sortid])}
+	loadselect('sortid', 0, 'floatlayout_$action');
+	function switchsort() {
+		if($('sortid').value) {
+			data = wysiwyg ? editdoc.body.innerHTML : textobj.value;
+			saveData(wysiwyg ? editdoc.body.innerHTML : textobj.value);
+			{if $isfirstpost && $sortid}
+				ajaxget('post.php?action=threadsorts&sortid=' + $('sortid').value + '&fid=$fid{if !empty($modelid)}&modelid=$modelid{/if}', 'threadsorts', 'threadsortswait')
+			{elseif !empty($infloat)}
+				window.open('post.php?action=$action&fid=$fid{if !empty($tid)}&tid=$tid{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra&sortid=' + $('sortid').value + (data != '' ? '&cedit=yes' : ''));
+			{else}
+				location.href = 'post.php?action=$action&fid=$fid{if !empty($tid)}&tid=$tid{/if}{if !empty($pid)}&pid=$pid{/if}{if !empty($modelid)}&modelid=$modelid{/if}&extra=$extra&sortid=' + $('sortid').value + (data != '' ? '&cedit=yes' : '');
+			{/if}
+			Editorwin = 0;
+		}
+	}
+{/if}
+{if $isfirstpost && $sortid}
+	ajaxget('post.php?action=threadsorts&sortid=$sortid&fid=$fid{if !empty($tid)}&tid=$tid{/if}&inajax=1', 'threadsorts', 'threadsortswait', 'threadsortswait');
+{/if}
+
+{if ($action == 'newthread' && $sitemessage[newthread] || $action == 'reply' && $sitemessage[reply]) && $sitemessage[time]}
+	setTimeout('display_opacity(\'custominfo_post\',100)', $sitemessage[time]);
+{/if}
+
+var postminchars = parseInt('$minpostsize');
+var postmaxchars = parseInt('$maxpostsize');
+var disablepostctrl = parseInt('$disablepostctrl');
+var seccodecheck = parseInt('$seccodecheck');
+var secqaacheck = parseInt('$secqaacheck');
+var typerequired = parseInt('$forum[threadtypes][required]');
+var special = parseInt('$special');
+var isfirstpost = {if $isfirstpost}1{else}0{/if};
+var allowposttrade = parseInt('$allowposttrade');
+var allowpostreward = parseInt('$allowpostreward');
+var allowpostactivity = parseInt('$allowpostactivity');
+var sortid = '$sortid';
+var special = parseInt('$special');
+
+var editorid = '$editorid';
+var textobj = $(editorid + '_textarea');
+var wysiwyg = (is_ie || is_moz || (is_opera >= 9)) && parseInt('$editormode') == 1 ? 1 : 0;
+var allowswitcheditor = parseInt('$allowswitcheditor');
+var allowhtml = parseInt('$allowhtml');
+var forumallowhtml = parseInt('$forum[allowhtml]');
+var allowsmilies = parseInt('$forum[allowsmilies]');
+var allowbbcode = parseInt('$forum[allowbbcode]');
+var allowimgcode = parseInt('$forum[allowimgcode]');
+var allowpostattach = parseInt('$allowpostattach');
+var editorcss = 'forumdata/cache/style_{STYLEID}_common.css?{VERHASH}';
+var TABLEBG = '{WRAPBG}';
+var uid = parseInt('$discuz_uid');
+var swfhash = '{echo md5($_DCACHE[settings][authkey].$discuz_uid);}';
+
+{if $allowpostattach}
+	var thumbwidth = parseInt($thumbwidth);
+	var thumbheight = parseInt($thumbheight);
+	var extensions = '$attachextensions';
+{/if}
+
+var fontoptions = new Array({lang e_fontoptions});
+var custombbcodes = new Array();
+{if $forum['allowbbcode'] && $allowcusbbcode}
+	{loop $_DCACHE['bbcodes_display'] $tag $bbcode}
+		{if $bbcode[type] == '0'}custombbcodes["$tag"] = {'prompt' : '$bbcode[prompt]'};{/if}
+	{/loop}
+{/if}
+
+function messagehandle_$action(key) {
+	if(!Editorwin) {
+		$('floatlayout_$action').scrollTop = 0;
+		{if !$showthreadsorts && !($adveditor)}
+			$('more_1').style.display='none';pagescroll.up(1, '$(\'more_2\').style.display=\'\';$(\'custominfoarea\').style.display=\'\'');
+		{else}
+			$('custominfoarea').style.display=$('more_2').style.display='none';pagescroll.up(1, '$(\'more_1\').style.display=\'\'');
+		{/if}
+	}
+}
+
+function messagehandle() {
+	messagehandle_$action();
+}
+
+function submithandle_$action(locationhref, message) {
+	{if $action == 'edit' || $action == 'reply'}
+		try {
+			var pid = locationhref.lastIndexOf('#pid');
+			if(pid != -1) {
+				pid = locationhref.substr(pid + 4);
+				{if $action == 'edit'}
+					if(pid) {
+						ajaxget('viewthread.php?tid=$tid&viewpid=' + pid, 'post_' + pid, 'ajaxwaitid');
+					} else {
+						ajaxget('viewthread.php?tid=$tid&viewpid=$pid', 'post_$pid', 'ajaxwaitid');
+					}
+					$('postform').editsubmit.disabled = false;
+				{elseif $action == 'reply' && !empty($addtrade)}
+					location.href = locationhref;
+				{elseif $action == 'reply'}
+					ajaxget('viewthread.php?tid=$tid&viewpid=' + pid, 'post_new', 'ajaxwaitid', '', null, 'appendreply()');
+					if(replyreload) {
+						var reloadpids = replyreload.split(',');
+						for(i = 1;i < reloadpids.length;i++) {
+							ajaxget('viewthread.php?tid=$tid&viewpid=' + reloadpids[i], 'post_' + reloadpids[i]);
+						}
+					}
+				{/if}
+			} else {
+				location.href = locationhref;
+			}
+		} catch(e) {
+			location.href = locationhref;
+		}
+	{elseif $action == 'newthread'}
+		var hastid = locationhref.lastIndexOf('tid=');
+		if(hastid == -1) {
+			dnotice(message, "location.href='" + locationhref + "'", 390, 130);
+		} else {
+			location.href = locationhref;
+		}
+	{/if}
+
+	floatwinreset = 1;
+	closeEditorwin();
+}
+
+{if !empty($cedit) && $cedit == 'yes'}
+function cedit() {
+	try {
+		loadData(1);
+	} catch(e) {
+		setTimeout('cedit()', 1000);
+	}
+}
+{/if}
+
+function openEditor() {
+	try {
+	{if $action == 'reply' && !$message}
+		if($('fastpostmessage') && $('fastpostmessage').value) {
+			textobj.value = $('fastpostmessage').value;
+			$('fastpostmessage').value = '';
+		}
+	{/if}
+	{if $action == 'edit' || $action == 'reply' && $repquote}
+		if(wysiwyg) {
+			initialized = false;
+			newEditor(1, bbcode2html(textobj.value));
+		} else {
+			newEditor(0);
+		}
+		setCaretAtEnd();
+	{else}
+		newEditor(wysiwyg);
+		if(editbox) {
+		{if ($action != 'edit' || !$attachments) && (!$swfupload || !$swfattachs)}
+			editbox.className = 'autosave max';
+		{else}
+			editbox.className = 'autosave';
+		{/if}
+		}
+	{/if}
+	} catch(e) {
+		setTimeout('openEditor()', 100);
+		return;
+	}
+	if(!$('floatlayout_$action').scrollLeft) {
+		$('floatlayout_$action').scrollLeft = 600;
+	}
+	{if $_DCACHE['bbcodes_display']['tools']}
+	if(!getcookie('disableautosave')) {
+		clearInterval(autosaveDatai);
+		autosaveData(1);
+	}
+	if(is_ie >= 5 || is_moz >= 2) {
+		window.onbeforeunload = function () {
+			try {
+				saveData(wysiwyg ? editdoc.body.innerHTML : textobj.value);
+			} catch(e) {}
+		};
+	}
+	{/if}
+	{if !empty($cedit) && $cedit == 'yes'}
+		cedit();
+	{/if}
+}
+
+</script>
+
+<script type="text/javascript" src="include/js/post.js?{VERHASH}" reload="1"></script>
+<!--{if $special}-->
+<script type="text/javascript" src="include/js/calendar.js?{VERHASH}" reload="1"></script>
+<!--{/if}-->
+<script type="text/javascript" src="include/js/bbcode.js?{VERHASH}" reload="1"></script>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

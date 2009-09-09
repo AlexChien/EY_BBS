@@ -1,0 +1,78 @@
+{template header}
+
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+
+<div class="float" id="floatlayout_topicadmin" style="height: 380px;">
+	<div class="floatboxnarrow">
+		<h3 class="float_ctrl">
+			<em id="return_$handlekey">{lang emailfriend}</em>
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+
+		<div class="postbox">
+			<table cellspacing="0" cellpadding="2">
+				<tr>
+					<td><h5>{lang emailfriend_im}</h5></td>
+				</tr>
+				<tr>
+					<td>
+						<!--{if !$discuz_uid}-->
+							<textarea class="txtarea" name="message" onclick="this.select();setcopy(this.value, '{lang post_copylink}');" style="margin-bottom: 5px; width: 202px; height: 70px;">{lang emailfriend_msg}</textarea>
+							<br />
+						<!--{/if}-->
+						<input onclick="setcopy('{lang emailfriend_msg}', '{lang post_copylink}')" type="button" value="{lang emailfriend_url_copy}" />
+					</td>
+				</tr>
+			</table>
+			<!--{if $discuz_uid}-->
+				<hr class="shadowline" />
+				<form id="emailfriendform" name="emailfriendform" method="post" action="misc.php?action=emailfriend&sendsubmit=yes&infloat=yes" onsubmit="ajaxpost('emailfriendform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;">
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="tid" value="$tid" />
+					<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+					<table cellspacing="0" cellpadding="2">
+						<tr>
+							<td><h5>{lang emailfriend_email}</h5></td>
+						</tr>
+						<tr>
+							<td>
+								{lang emailfriend_receiver_email}<br />
+								<input type="text" name="sendtoemail" size="25" class="txt" /><br />
+								{lang content}<br />
+								<textarea class="txtarea" name="message" style="margin-bottom: 5px; width: 202px; height: 70px;">{lang emailfriend_message}</textarea>
+								<br />
+								<input name="sendsubmit" type="submit" value="{lang send}" />
+							</td>
+						</tr>
+					</table>
+				</form>
+				<hr class="shadowline" />
+				<h5><a href="javascript:;" onclick="submithandle_$handlekey();floatwin('open_sendpm', 'pm.php?action=new&operation=emailfriend&tid=$tid', 600, 410);">{lang emailfriend_pm}</a></h5>
+			<!--{/if}-->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	floatwinreset = 1;
+	floatwin('close_$handlekey');
+}
+var lastsel = $('itemcp_im');
+function switchitemcp(id) {
+	if(lastsel) {
+		lastsel.className = '';
+	}
+	$(id).className = 'currentopt';
+	lastsel = $(id);
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

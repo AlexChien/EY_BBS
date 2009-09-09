@@ -1,0 +1,24 @@
+{subtemplate header}
+
+<div id="nav"><!--{if $forumjump && $jsmenu[1]}--><a href="$indexname" id="fjump" onmouseover="showMenu(this.id)" class="dropmenu">$bbname</a><!--{else}--><a href="$indexname">$bbname</a><!--{/if}--> $navigation</div>
+<center><iframe id="iframe" width="100%" align="center" height="1024" frameborder="0" scrolling="no" src="$iframeurl"></iframe><br /><br /></center>
+
+<script type="text/javascript">
+	function resetheight() {
+		var ih = getcookie('ih{$campaign[type]}_$campaign[id]');
+		if(ih && $('iframe').style.height != ih) {
+			if(is_ie) {
+				$('iframe').style.height = ih;
+			} else {
+				$('iframe').height = ih;
+			}
+		}
+	}
+	setInterval(resetheight, 500);
+</script>
+
+<!--{if $update}-->
+	<script type="text/javascript" src="api/advcache.php?type=$campaign[type]&amp;cid=$campaign[id]"></script>
+<!--{/if}-->
+
+{subtemplate footer}

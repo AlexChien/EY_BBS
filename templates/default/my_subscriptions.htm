@@ -1,0 +1,39 @@
+<!--{if $subslist}-->
+	<form method="post" action="my.php?item=subscriptions">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<table cellspacing="0" cellpadding="0" summary="{lang my_subscription_threads}" class="datatable">
+			<thead class="colplural">
+				<tr>
+					<td width="6%"></td>
+					<th>{lang subject}</th>
+					<td class="forum">{lang forum}</td>
+					<td class="nums">{lang replies}</td>
+					<td class="lastpost"><cite>{lang lastpost}</cite></td>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{loop $subslist $subs}-->
+					<tr>
+						<td><input class="checkbox" type="checkbox" name="delete[]" value="$subs[tid]" /></td>
+						<th><a href="viewthread.php?tid=$subs[tid]" target="_blank">$subs[subject]</a></th>
+						<td class="forum"><a href="forumdisplay.php?fid=$subs[fid]" target="_blank">$subs[name]</a></td>
+						<td class="nums">$subs[replies]</td>
+						<td class="lastpost">
+							<cite><!--{if $subs['lastposter']}--><a href="space.php?username=$subs[lastposterenc]" target="_blank">$subs[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+							<em><a href="redirect.php?tid=$subs[tid]&goto=lastpost#lastpost">$subs[lastpost]</a></em>
+						</td>
+					</tr>
+				<!--{/loop}-->
+				<tr>
+					<td><input type="checkbox" name="chkall" id="chkall" class="checkbox" onclick="checkall(this.form)" /> <label for="chkall">{lang delete_check}</label></td>
+					<th><button type="submit" class="submit" name="subsubmit" value="true">{lang submit}</button></th>
+					<td colspan="3"><!--{if !empty($multipage)}-->$multipage<!--{/if}--></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<tr><th><p class="nodata">{lang memcp_nosubs}</p></th></tr>
+	</table>
+<!--{/if}-->

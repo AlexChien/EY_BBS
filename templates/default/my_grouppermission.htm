@@ -1,0 +1,192 @@
+{subtemplate header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; {lang permission_group_search}</div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<div class="itemtitle s_clear">
+				<h1>$group[grouptitle]{lang permission_group}</h1>
+				<button class="submit right" onclick="history.go(-1);">{lang return}</button>
+			</div>
+			<div class="datalist">
+				<table cellspacing="0" cellpadding="0" class="datatable">
+					<tr class="colplural">
+						<td width="10%">{lang permission_member_level}</td>
+						<td>{eval showstars($group[stars]);}</td>
+						<td width="10%">{lang permission_menu_modoptions}</td>
+						<td><!--{if $group[radminid]==1 || $group[radminid]==2}-->{lang permission_modoptions_allfourm}<!--{elseif $group[radminid]==3 }-->{lang permission_modoptions_partforum}<!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+					</tr>
+				</table>
+				<!--{if $group['radminid']}-->
+					<div id="list_modoptions_c" class="c_header">
+						<h3 onclick="toggle_collapse('list_modoptions', 1, 1);">{lang permission_menu_modoptions}</h3>
+						<div class="c_header_action">
+							<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_modoptions', 1, 1);">[ {lang open} ]</p>
+						</div>
+					</div>
+					<table id="list_modoptions" cellspacing="0" cellpadding="0">
+						<tr class="colplural">
+							<th>{lang permission_modoptions_edit_post}</th>
+							<th>{lang permission_modoptions_edit_poll}</th>
+							<th>{lang permission_modoptions_edit_stick}</th>
+							<th>{lang permission_modoptions_audit_post}</th>
+							<th>{lang permission_modoptions_delete_post}</th>
+							<th>{lang permission_modoptions_delete_postlist}</th>
+							<th>{lang permission_modoptions_filter}</th>
+							<th>{lang permission_modoptions_show_ip}</th>
+						</tr>
+						<tr>
+							<td><!--{if $group['alloweditpost'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['alloweditpoll'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group[allowstickthread]==1 }-->{lang thread_stick} I<!--{elseif $group[allowstickthread]==2 }-->{lang thread_stick} II<!--{elseif $group[allowstickthread]==3 }-->{lang thread_stick} III<!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowmodpost'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowdelpost'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowmassprune'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowcensorword'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowviewip'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						</tr>
+						<tr class="colplural">
+							<th>{lang permission_modoptions_ban_ip}:</th>
+							<th>{lang permission_modoptions_edit_member}:</th>
+							<th>{lang permission_modoptions_ban_member}:</th>
+							<th>{lang permission_modoptions_audit_member}:</th>
+							<th>{lang permission_modoptions_add_announcements}:</th>
+							<th>{lang permission_modoptions_check_log}:</th>
+							<th colspan="2">{lang permission_modoptions_post_nopermission}:</th>
+						</tr>
+						<tr>
+							<td><!--{if $group['allowbanip'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowedituser'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowbanuser'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowmoduser'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostannounce'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowviewlog'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td colspan="2"><!--{if $group['disablepostctrl'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						</tr>
+					</table>
+				<!--{/if}-->
+				<div id="list_basic_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_basic', 1, 1);">{lang permission_menu_basic}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_basic', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<table id="list_basic" cellspacing="0" cellpadding="0">
+					<tr class="colplural">
+						<th>{lang permission_basic_fourm}</th>
+						<th>{lang permission_basic_read}</th>
+						<th>{lang permission_basic_memberinfo}</th>
+						<th>{lang permission_basic_invisible}</th>
+						<th>{lang permission_basic_search}</th>
+						<th>{lang permission_basic_nickname}</th>
+						<th>{lang permission_basic_status}</th>
+						<th>{lang permission_basic_pm_storage}</th>
+					</tr>
+					<tr>
+						<td><!--{if $group['allowvisit'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td>$group[readaccess]</td>
+						<td><!--{if $group['allowviewpro'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group['allowinvisible'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group['allowsearch'] == '0'}-->{lang permission_basic_disable_sarch}<!--{elseif $group['allowsearch'] == '1'}-->{lang permission_basic_search_title}<!--{else}-->{lang permission_basic_search_content}<!--{/if}--></td>
+						<td><!--{if $group['allownickname'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group['allowcstatus'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td>$group[maxpmnum]</td>
+					</tr>
+				</table>
+
+				<div id="list_post_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_post', 1, 1);">{lang permission_menu_post}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_post', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_post">
+					<table cellspacing="0" cellpadding="0" style="margin-bottom:0">
+						<tr class="colplural">
+							<th>{lang permission_post_new}</th>
+							<th>{lang permission_post_replay}</th>
+							<th>{lang permission_post_poll}</th>
+							<th>{lang permission_post_poll_join}</th>
+							<th>{lang permission_post_reward}</th>
+							<th>{lang permission_post_activity}</th>
+							<th>{lang permission_post_debate}</th>
+							<th>{lang permission_post_trade}</th>
+							<th>{lang permission_post_video}</th>
+						</tr>
+						<tr>
+							<td><!--{if $group['allowpost'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowreply'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostpoll'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowvote'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostreward'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostactivity'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostdebate'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowposttrade'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowpostvideo'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						</tr>
+					</table>
+					<table cellspacing="0" cellpadding="0">
+						<tr class="colplural">
+							<th>{lang permission_post_max_signature}</th>
+							<th>{lang permission_post_discuzcode}</th>
+							<th>{lang permission_post_img}</th>
+							<th>{lang permission_post_max_bio}</th>
+							<th>{lang permission_post_discuzcode_bio}</th>
+							<th>{lang permission_post_img_bio}</th>
+						</tr>
+						<tr>
+							<td>$group[maxsigsize] {lang bytes}</td>
+							<td><!--{if $group['allowsigbbcode'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowsigimgcode'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td>$group[maxbiosize] {lang bytes}</td>
+							<td><!--{if $group['allowbiobbcode'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+							<td><!--{if $group['allowbioimgcode'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						</tr>
+					</table>
+				</div>
+
+				<div id="list_attachment_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_attachment', 1, 1);">{lang permission_menu_attachment}</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_attachment', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_post">
+				<table id="list_attachment" cellspacing="0" cellpadding="0">
+					<tr class="colplural">
+						<th>{lang permission_attachment_down_show}</th>
+						<th>{lang permission_attachment_add}</th>
+						<th>{lang permission_attachment_set}</th>
+						<th>{lang permission_attachment_maxlen}</th>
+						<th>{lang permission_attachment_maxsize}</th>
+						<th>{lang permission_attachment_type}</th>
+					</tr>
+					<tr>
+						<td><!--{if $group['allowgetattach'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group['allowpostattach'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group['allowsetattachperm'] == 1}--><img src="{IMGDIR}/data_valid.gif" /><!--{else}--><img src="{IMGDIR}/data_invalid.gif" /><!--{/if}--></td>
+						<td><!--{if $group[maxattachsize]}-->$group[maxattachsize] KB<!--{else}-->{lang permission_attachment_nopermission}<!--{/if}--></td>
+						<td><!--{if $group[maxsizeperday]}-->$group[maxsizeperday] KB<!--{else}-->{lang permission_attachment_nopermission}<!--{/if}--></td>
+						<td>
+						<!--{if $group['allowpostattach'] == 1}-->
+							<!--{if $group['attachextensions']}-->
+								$group[attachextensions]
+							<!--{else}-->
+								{lang permission_attachment_nopermission}
+							<!--{/if}-->
+						<!--{else}-->
+							<img src="{IMGDIR}/data_invalid.gif" />
+						<!--{/if}-->
+						</td>
+					</tr>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="side">
+		{subtemplate personal_navbar}
+	</div>
+</div>
+
+
+{subtemplate footer}

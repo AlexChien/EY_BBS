@@ -1,0 +1,90 @@
+{subtemplate header}
+<div id="nav"><a id="fjump" href="$indexname"{if $forumjump && $jsmenu[1]} class="dropmenu" onmouseover="showMenu(this.id)"{/if}>$bbname</a> $navigation</div>
+
+<!--{if $admode && empty($insenz['hardadstatus']) && !empty($advlist['text'])}-->
+<div id="ad_text" class="ad_text" >
+	<table summary="Text Ad" cellpadding="0" cellspacing="0">$advlist[text]</table>
+</div>
+<!--{else}-->
+<div id="ad_text"></div>
+<!--{/if}-->
+
+<div id="wrap"{if $infosidestatus['allow'] < 2} class="wrap s_clear"{else} class="wrap with_side s_clear"{/if}>
+	<!--{if $infosidestatus[allow] == 2}-->
+		<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['{lang sidebar_collapsed_yes}', '{lang sidebar_collapsed_no}']);" class="$collapseimg[sidebar]"><!--{if $collapseimg[sidebar] == 'collapsed_yes'}-->{lang sidebar_collapsed_yes}<!--{else}-->{lang sidebar_collapsed_no}<!--{/if}--></a>
+	<!--{elseif $infosidestatus[allow] == 1}-->
+		<a id="sidebar_img" href="javascript:;" onclick="sidebar_collapse(['{lang sidebar_collapsed_yes}', '{lang sidebar_collapsed_no}']);" class="collapsed_yes">{lang sidebar_collapsed_yes}</a>
+	<!--{/if}-->
+	<div class="main">
+		<div class="content">
+			<div id="forumheader" class="s_clear">
+				<h1>$forum[name]</h1>
+				<div class="forumaction">
+					<a href="my.php?item=favorites&amp;fid=$fid" id="ajax_favorite" class="addfav" onclick="ajaxmenu(event, this.id)">{lang thread_favorite}</a>
+					<!--{if $adminid == 1 && $forum['recyclebin']}-->
+						<a href="admincp.php?action=recyclebin&amp;frames=yes" target="_blank" class="recyclebin">{lang forum_recyclebin}</a>
+					<!--{/if}-->
+				</div>
+				<!--{if $forum[description]}--><p class="channelinfo">{lang forum_description}: $forum[description]</p><!--{/if}-->
+				<p id="modedby">
+					{lang forum_modedby}: <!--{if $moderatedby}-->$moderatedby<!--{else}-->{lang forum_opening}<!--{/if}-->
+					<!--{if $forum['ismoderator']}-->
+					<!--{if $forum['modworks']}-->
+					 <strong>[<a href="modcp.php?fid=$fid" target="_blank">{lang mod_works_existence}</a>]</strong>
+					<!--{else}-->
+					 <strong>[<a href="modcp.php?fid=$fid" target="_blank">{lang modcp}</a>]</strong>
+					<!--{/if}-->
+					<!--{/if}-->
+				</p>
+			</div>
+
+			<!--{if $forum['recommendlist'] || $forum['rules']}-->
+				<div id="modarea">
+					<div class="list">
+						<span class="headactions"><img onclick="toggle_collapse('modarea_c');" alt="{lang spread}" title="{lang spread}" src="{IMGDIR}/$collapseimg[modarea_c].gif" id="modarea_c_img" class="toggle" /></span>
+						<h3>
+							<!--{if $forum['recommendlist']}--><a href="javascript:;" id="tab_1" class="current" {if $forum['rules']} onclick="switchtab(2, 1)"{/if}>{lang forum_recommend}</a><!--{/if}--><!--{if $forum['recommendlist'] &&  $forum['rules']}--><span class="pipe">|</span><!--{/if}--><!--{if $forum['rules']}--><a href="javascript:;" id="tab_2"{if !$forum['recommendlist']} class="current"{/if} {if $forum['recommendlist']} onclick="switchtab(2, 2)"{/if}>{lang forum_rules}</a><!--{/if}-->
+						</h3>
+					</div>
+					<div id="modarea_c" style="$collapse[modarea_c]">
+						<!--{if $forum['recommendlist']}-->
+							<div id="tabc_1" class="inlinelist titlelist s_clear">
+								<ul>
+								<!--{loop $forum['recommendlist'] $tid $thread}-->
+									<li class="wide"><a href="viewthread.php?tid=$tid" $thread['subjectstyles'] target="_blank">$thread[subject]</a><cite>-<a href="space.php?uid=$thread[authorid]" target="_blank">$thread[author]</a></cite></li>
+								<!--{/loop}-->
+								</ul>
+							</div>
+						<!--{/if}-->
+						<!--{if $forum['rules']}-->
+							<div id="tabc_2"{if $forum['recommendlist']} style="display:none"{/if} class="rule">$forum[rules]</div>
+						<!--{/if}-->
+					</div>
+				</div>
+			<!--{/if}-->
+
+			<!--{if $subexists}-->
+				<div id="subforum" class="mainbox list">{template forumdisplay_subforum}</div>
+			<!--{/if}-->
+			<div class="list"></div>
+		</div>
+	</div>
+
+	<!--{if $infosidestatus[allow] == 2}-->
+		<div id="sidebar" class="side" style="$collapse[sidebar]">
+			<!--{if $infosidestatus[0]}-->
+				<div id="infoside">
+				{eval request($infosidestatus, 1, 0);}
+				</div>
+			<!--{/if}-->
+		</div>
+	<!--{/if}-->
+</div>
+
+<!--{if $forumjump && $jsmenu[1]}-->
+	<div class="popupmenu_popup" id="fjump_menu" style="display: none">
+	$forummenu
+	</div>
+<!--{/if}-->
+
+{subtemplate footer}

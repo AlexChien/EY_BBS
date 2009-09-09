@@ -1,0 +1,50 @@
+<input type="hidden" name="vid" id="vid" value="">
+<input type="hidden" name="vlength" id="vlength" value="">
+<div class="specialpost s_clear">
+	<div class="specialinfo" style="width: 100%">
+		<dl>
+			<dt><label for="vsubject">{lang video_name}:</label></dt>
+			<dd>
+				<input id="vsubject" type="text" name="vsubject" class="splonginput txt" tabindex="1" />
+				$vtypeselect
+			<dt></dt>
+			<dd>
+				<input type="checkbox" id="vautoplay" name="vautoplay" tabindex="1" /><label for="vautoplay">{lang video_auto}</label>
+				<input type="checkbox" id="vshare" name="vshare" tabindex="1" /><label for="vshare">{lang video_share}</label>
+			</dd>
+			<dt><label for="videotags">{lang video_tag}:</label></dt>
+			<dd>
+				<input id="vtag" type="text" name="vtag" class="splonginput txt" tabindex="1" />
+			</dd>
+			<dt><label for="upfile">{lang video_select}:</label></dt>
+			<dd>
+			<!--{if $videoupload}-->
+			$videoupload
+			<!--{else}-->
+			{lang video_key_invalid}
+			<!--{/if}-->
+			</dd>
+		</dl>
+		<div id="uploadlist" class="upfilelist" style="height: 80px">
+		<!--{loop $videolist $key $video}-->
+			<input type="checkbox" name="deletevideo[]" value="$video[vid]">
+			<input name="displayorder[{$video[vid]}]" value="$video[displayorder]" size="1">
+			<input name="vtitle[{$video[vid]}]" value="$video[vtitle]" size="40"><br />
+		<!--{/loop}-->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function v_onComplete(vid, vlength) {
+	{if $action == 'newthread'}
+		$('vid').value = vid;
+		$('vlength').value = vlength;
+	{elseif $action == 'edit'}
+		document.getElementById('vid').value = vid;
+		document.getElementById('vlength').value = vlength;
+	{/if}
+}
+</script>
+<script type="text/javascript" src="include/js/video.js?{VERHASH}" reload="1"></script>
+</div></div>

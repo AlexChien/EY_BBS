@@ -1,0 +1,194 @@
+{template header}
+
+<!--{if !empty($message)}-->
+$ucsynlogin
+<script type="text/javascript" reload="1">
+{if $message == 2}
+	floatwin('close_login');
+	floatwin('open_register', '$location', 600, 400, '600,0');
+{elseif $message == 1}
+	display('loginfield_selectinput');
+	display('loginform');
+	pagescroll.right(2);
+	{if $groupid == 8}
+		$('messageleft').innerHTML = '<h1>{lang login_succeed} $usergroups $discuz_user</h1>{lang login_succeed_inactive_member}';
+		$('messageright').innerHTML = '<h1><a href="memcp.php">{lang user_center}</a></h1>';
+		setTimeout("window.location.href='memcp.php'", $mrefreshtime);
+	{else}
+		$('messageleft').innerHTML = '<h1>{lang login_succeed} $usergroups $discuz_user</h1>';
+		{if !empty($floatlogin)}
+			$('messageright').innerHTML = '<h1><a href="javascript:;" onclick="location.reload()">{lang login_refresh}</a></h1>';
+			setTimeout('location.reload()', $mrefreshtime);
+		{else}
+			$('messageright').innerHTML = '<h1><a href="{echo dreferer()}">{lang login_location}</a></h1>';
+			setTimeout("window.location.href='{echo dreferer()}'", $mrefreshtime);
+		{/if}
+	{/if}
+	{if $_DCACHE['settings']['frameon'] && $_DCOOKIE['frameon'] == 'yes'}
+		if(top != self) {
+			parent.leftmenu.location.reload();
+		}
+	{/if}
+{/if}
+floatwinreset = 1;
+</script>
+<!--{else}-->
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+<div class="float" id="floatlayout_login" style="width: 600px; height: 400px;">
+	<div style="width: 1800px">
+	<div class="floatbox floatbox1">
+		<h3 class="float_ctrl">
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_login')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+		<form method="post" name="login" id="loginform" class="gateform" onsubmit="{if $pwdsafety}pwmd5('password3');{/if}pwdclear = 1;ajaxpost('loginform', 'returnmessage', 'returnmessage', 'onerror');return false;" action="logging.php?action=login&loginsubmit=yes{if !empty($infloat)}&floatlogin=yes{/if}">
+			<h3 id="returnmessage">{lang login_member}</h3>
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="loginform nolabelform">
+				<div class="selectinput">
+					<select name="loginfield" style="float:left;width:50px;" id="loginfield">
+						<option value="username">{lang username}</option>
+						<option value="uid">{lang uid}</option>
+					</select>
+					<input type="text" name="username" autocomplete="off" size="36" class="txt" tabindex="1" value="$username" />
+				</div>
+				<p class="selectinput loginpsw">
+					<label for="password3">{lang login_password}</label>
+					<input type="password" id="password3" name="password" onfocus="clearpwd()" onkeypress="detectcapslock(event, this)" size="36" class="txt" tabindex="1" />
+				</p>
+				<!--{if $secqaacheck || $seccodecheck}-->
+					{eval $seccheckfloat = 'floatlayout_login';}
+					<div id="seccodelayer" style="position:relative">{subtemplate seccheck}</div>
+				<!--{/if}-->
+				<div class="selecttype">
+					<select id="questionid" name="questionid" change="if($('questionid').value > 0) {$('answer').style.display='';} else {$('answer').style.display='none';}">
+						<option value="0">{lang security_question}</option>
+						<option value="1">{lang security_question_1}</option>
+						<option value="2">{lang security_question_2}</option>
+						<option value="3">{lang security_question_3}</option>
+						<option value="4">{lang security_question_4}</option>
+						<option value="5">{lang security_question_5}</option>
+						<option value="6">{lang security_question_6}</option>
+						<option value="7">{lang security_question_7}</option>
+					</select>
+				</div>
+				<p><input type="text" name="answer" id="answer" style="display:none" autocomplete="off" size="36" class="txt" tabindex="1" /></p>
+			</div>
+			<div class="logininfo multinfo">
+				<!--{if $discuz_uid}-->
+					<h4>$discuz_userss, <a href="javascript:;" onclick="ajaxget('float_register.php?action=logout&formhash={FORMHASH}', 'returnmessage', 'returnmessage');doane(event);">{lang logout}</a></h4>
+					<p>{echo discuz_uc_avatar($discuz_uid, 'small');}</p>
+				<!--{else}-->
+					<h4>{lang login_guest}</h4>
+					<p>{lang lostpassword}, <a href="javascript:;" onclick="display('loginform');display('loginfield_selectinput');{if $secqaacheck || $seccodecheck}display('seccodelayer');{/if}pagescroll.right()" title="{lang getpassword}">{lang getpassword}</a></p>
+				<!--{/if}-->
+				<p>{lang login_fail}</p>
+			</div>
+			<p class="fsubmit">
+				<button class="submit" type="submit" name="loginsubmit" value="true" tabindex="1">{lang login}</button>
+				<input type="checkbox" class="checkbox" name="cookietime" id="cookietime" tabindex="1" value="2592000" $cookietimecheck /> <label for="cookietime">{lang login_permanent}</label>
+			</p>
+		</form>
+	</div>
+	<div class="floatbox floatbox1">
+		<h3 class="float_ctrl">
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_login')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+		<div class="gateform">
+			<h3 id="returnmessage3">{lang getpassword}</h3>
+			<div class="loginform">
+				<form method="post" id="lostpwform" onsubmit="ajaxpost('lostpwform', 'returnmessage3', 'returnmessage3', 'onerror');return false;" action="member.php?action=lostpasswd&lostpwsubmit=yes&infloat=yes">
+					<input type="hidden" name="formhash" value="{FORMHASH}" />
+					<input type="hidden" name="handlekey" value="lostpwform" />
+					<label><em>{lang username}:</em><input type="text" name="username" size="25" value=""  tabindex="1" class="txt" /></label>
+					<label><em>{lang email}:</em><input type="text" name="email" size="25" value=""  tabindex="1" class="txt" /></label>
+					<p class="fsubmit">
+						<em></em>
+						<button class="submit" type="submit" name="lostpwsubmit" value="true" tabindex="100">{lang submit}</button>
+					</p>
+				</form>
+			</div>
+			<div class="logininfo multinfo">
+				<h4>{lang login_guest}</h4>
+				<p><a href="javascript:;" onclick="pagescroll.left(1, 'display(\'loginfield_selectinput\');{if $secqaacheck || $seccodecheck}display(\'seccodelayer\');{/if}display(\'loginform\');');">{lang return_login}</a></p>
+			</div>
+		</div>
+		<!--{if $sitemessage[login]}-->
+			<div class="moreconf sitemsg">
+				<div class="custominfoarea">
+					<a href="javascript:;" onclick="display('custominfo_login')" onblur="$('custominfo_login').style.display = 'none'"><img src="{IMGDIR}/info.gif" alt="{lang faq}" /></a>
+					<div id="custominfo_login" class="sitenote">
+						<div class="cornerlayger">{echo $sitemessage[login][array_rand($sitemessage[login])]}</div>
+						<div class="minicorner"></div>
+					</div>
+				</div>
+			</div>
+		<!--{/if}-->
+	</div>
+	<div class="floatbox floatbox1">
+		<h3 class="float_ctrl">
+			<span>
+				<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_login')" title="{lang close}">{lang close}</a><!--{/if}-->
+			</span>
+		</h3>
+		<div class="validateinfo">
+			<div id="messageleft"></div>
+			<div id="messageright"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="include/js/md5.js?{VERHASH}" reload="1"></script>
+
+<script type="text/javascript" reload="1">
+var pwdclear = 0;
+var pagescroll = new pagescroll_class('floatlayout_login', 600, 400);
+loadselect('loginfield', 0, 'floatlayout_login', 1);
+loadselect('questionid', 0, 'floatlayout_login', 1);
+document.body.focus();
+$('loginform').username.focus();
+
+{if $sitemessage[login] && $sitemessage[time]}
+setTimeout('display_opacity(\'custominfo_login\',100)', $sitemessage[time]);
+{/if}
+
+{if $pwdsafety}
+var pwmd5log = new Array();
+function pwmd5() {
+	numargs = pwmd5.arguments.length;
+	for(var i = 0; i < numargs; i++) {
+		if(!pwmd5log[pwmd5.arguments[i]] || $(pwmd5.arguments[i]).value.length != 32) {
+			pwmd5log[pwmd5.arguments[i]] = $(pwmd5.arguments[i]).value = hex_md5($(pwmd5.arguments[i]).value);
+		}
+	}
+}
+{/if}
+
+function clearpwd() {
+	if(pwdclear) {
+		$('password3').value = '';
+	}
+	pwdclear = 0;
+}
+
+function messagehandle_lostpwform(key) {
+	if(key == 141) {
+		pagescroll.right();
+		$('messageleft').innerHTML = '<h1>{lang getpassword_msg}</h1>';
+		$('messageright').innerHTML = '<h1><a href="javascript:;" onclick="floatwin(\'close_login\')">{lang close}</a></h1>';
+	}
+}
+
+</script>
+<!--{/if}-->
+
+{eval updatesession();}
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

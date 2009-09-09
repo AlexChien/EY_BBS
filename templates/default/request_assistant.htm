@@ -1,0 +1,32 @@
+<!--{block writedata}-->
+<div class="sidebox s_clear">
+<!--{if $GLOBALS[discuz_uid]}-->
+	<div style="float:left; margin-right: 16px;">$avatar</div>
+	<a href="space.php?uid=$GLOBALS[discuz_uid]" target="_blank">$GLOBALS[discuz_userss]</a>
+	<br />
+	<span title="{lang onlinetime_total} $GLOBALS[oltime] {lang hour}"><!--{if !empty($GLOBALS[invisible])}-->{lang index_invisibles}<!--{else}-->{lang login_normal_mode}<!--{/if}--></span>
+	<br />
+	<ul id="mycredits_menu" class="popupmenu_popup headermenu_popup" style="width:137px;display:none">
+	<!--{loop $GLOBALS[extcredits] $id $credit}-->
+		<li>$credit[title]: $GLOBALS['extcredits'.$id] $credit[unit]</li>
+	<!--{/loop}-->
+	</ul>
+	<div style="clear: both">	
+		<div style="float:right; width:60%">
+		<span id="mycredits_hover" class="dropmenu" onmouseover="showMenu(this.id, 0, 0, 2, 250, 0, 'mycredits')">{lang credits}: $GLOBALS[_DSESSION]['credits']</span><br />
+		{lang posts}: $GLOBALS[_DSESSION][posts]<br />
+		{lang digestposts}: $GLOBALS[_DSESSION][digestposts]<br />
+		</div>
+		<div style="float:left; text-align:left; width:40%;">
+			<a id="mycredits" href="my.php?item=threads$fidadd" target="_blank">{lang my_posts}</a><br />
+			<a href="my.php?item=favorites&type=thread$fidadd" target="_blank">{lang my_favorite}</a><br />
+			<a href="my.php?item=subscriptions$fidadd" target="_blank">{lang my_subscriptions}</a><br />
+		</div>
+	</div>
+<!--{else}-->
+	<div style="float:left; text-align:left; width:40%;"><img src="{UC_API}/images/noavatar_small.gif"></div>
+	<a href="$GLOBALS[regname]" onclick="window.location.href='http://openid.enjoyoung.cn/account/new';">$GLOBALS[reglinkname]</a><br />
+	<a href="logging.php?action=login" onclick="floatwin('open_login', this.href, 600, 400);return false;">{lang login}</a>
+<!--{/if}-->
+</div>
+<!--{/block}-->

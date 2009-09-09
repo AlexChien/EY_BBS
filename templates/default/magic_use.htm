@@ -1,0 +1,50 @@
+{template header}
+
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+
+<div class="float">
+	<div class="floatboxnarrow">
+		<h3 class="float_ctrl">
+			<em>{lang magics_use}</em>
+			<span><a title="{lang close}" onclick="floatwin('close_magics')" class="float_close" href="javascript:;">{lang close}</a></span>
+		</h3>
+		<div class="postbox"><em id="return_magics"></em></div>
+		<form id="magicform" method="post" action="magic.php?action=index&infloat=yes" onsubmit="ajaxpost('magicform', 'return_magics', 'return_magics', 'onerror');return false;">
+			<div class="postbox">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<input type="hidden" name="handlekey" value="magics" />
+				<!--{if $magiclist}-->
+					<select name="magicid" onchange="floatwin('open_magics', 'magic.php?action=usemagic&infloat=yes&type=$typeid&pid=$pid&magicid='+this.options[this.selectedIndex].value, 250, 215)" class="chosemagic">
+						<option value="0">{lang magics_select}</option>
+						<!--{loop $magiclist $magic}-->
+							<option value="$magic[magicid]" $magicselect[$magic[magicid]]>$magic[name] - $magic[description]</option>
+						<!--{/loop}-->
+					</select>
+					<!--{if $magicid}-->
+						{eval showmagic();}
+						<input type="hidden" name="usesubmit" value="yes" />
+						<input type="hidden" name="operation" value="use" />
+						<input type="hidden" name="magicid" value="$magicid" />
+						<button class="submit fixedbtn" type="submit" name="usesubmit" id="usesubmit" value="true">{lang magics_operation_use}</button>
+					<!--{/if}-->
+				<!--{else}-->
+					{lang magics_item_nonexistence}
+				<!--{/if}-->
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" reload="1">
+	function messagehandle_magics(key) {
+		$('magicform').style.display = 'none';
+		$('return_magics').className = 'onright';
+	}
+</script>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

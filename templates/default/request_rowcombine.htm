@@ -1,0 +1,28 @@
+<!--{block writedata}-->
+<div class="side_type s_clear">
+<!--{if $settings['title']}-->	
+	<h3 class="requesttabs">{eval $sp = '';}
+		<span>
+		<!--{loop $combinetitles $i $combinetitle}-->$sp<a href="javascript:;" hidefocus="true" id="t{$idbase}_$i" onclick="combineswitch('$idbase', $combinecount, $i)">$combinetitle</a>{eval $sp = ' | ';}<!--{/loop}-->
+		</span>
+		$settings[title]
+	</h3>
+<!--{else}-->
+	<!--{loop $combinetitles $i $combinetitle}-->
+		<h4 id="t{$idbase}_$i" onclick="combineswitch('$idbase', $combinecount, $i)">$combinetitle</h4>
+	<!--{/loop}-->
+<!--{/if}-->
+</div>
+$combinedata
+<script type="text/javascript">
+function combineswitch(idbase, count, current) {
+	for(i = 0;i < count;i++) {
+		$(idbase + '_' + i).style.display = 'none';
+		$('t' + idbase + '_' + i).className = '';
+	}
+	$(idbase + '_' + current).style.display = '';
+	$('t' + idbase + '_' + current).className = 'ontype';
+}
+combineswitch('$idbase', $combinecount, 0);
+</script>
+<!--{/block}-->

@@ -1,0 +1,556 @@
+/*
+common.css Official Style for Discuz!(R)
+URL: http://www.discuz.net
+(C) 2001-2009 Comsenz Inc.
+*/
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Common Style ~~~~ */
+* { word-wrap: break-word; }
+body { {BGCODE}; text-align: center; }
+body, td, input, textarea, select, button { color: {TABLETEXT}; font: {FONTSIZE}/1.6em {FONT}; }
+input, select, button { vertical-align:middle; }
+body, ul, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset { margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { font-size: 1em; }
+ul li { list-style: none; }
+a { text-decoration: none; color: {LINK}; }
+	a:hover { text-decoration: underline; }
+	.lightlink, .lightlink a { color: {HIGHLIGHTLINK}; }
+	a img { border: none; }
+em, cite, strong, th { text-align: left; font-style: normal; }
+.emfont { color: {NOTICETEXT}; }
+table { empty-cells: show; border-collapse: collapse; }
+th { font-weight: 400; }
+.txt, .txtarea { padding: 2px; *padding:0 2px; height: 16px; *height:20px; border: 1px solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background: {INPUTBG}; }
+	.txtarea { height: auto; }
+.checkbox, .radio { margin: 0; width: 15px; }
+.pipe { margin: 0 5px; }
+.lighttxt, .lighttxt a, .pipe { color: {LIGHTTEXT}; }
+.smalltext { font-size: {SMFONTSIZE}; font-family: {SMFONT}; }
+.noborder, .noborder td { border: none !important; }
+.nobg { background: none !important; }
+.right { float: right; }
+.left { float: left; }
+
+.onerror, .onright { clear: both; padding: 2px 2px 2px 22px; background: url({IMGDIR}/check_error.gif) no-repeat 2px 2px; }
+.onright { background: url({IMGDIR}/check_right.gif) no-repeat 2px 2px; }
+.notice { clear: both; margin: 5px 0; padding: 3px 5px 3px 20px; background: url({IMGDIR}/notice.gif) no-repeat 2px 6px; }
+.nodata { margin: 99px auto; text-align: center; color: {LIGHTTEXT}; font-size: 16px; font-weight: 700; }
+
+#ajaxwaitid { display: none; position: absolute; z-index: 100; top: 0; right: 0; width: 100px; height: 1.6em; background: #D00; line-height: 1.6em; color: #FFF; overflow: hidden; }
+
+#checksecanswer img, #checksecanswer3 img, #checkseccodeverify img, #checkseccodeverify3 img, .warning img { vertical-align: middle; }
+.autosave { behavior: url(#default#userdata); }
+
+/*clearfix*/
+.s_clear:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.s_clear { zoom: 1; }
+
+/* Lines */
+hr { clear: both; margin: 1em 0; border: 0 solid {COMMONBORDER}; background: transparent; }
+.solidline { border-top: 1px solid {WRAPBG}; border-bottom-width: 1px; }
+.dashline { height: 0px; border-bottom-width: 1px; border-style: dashed; }
+.shadowline { *margin: 2px 0; border-width: 1px 0; border-top-color: #C8DCEC; border-bottom-color: #FFF; }
+	.side .shadowline { margin: 5px 0; *margin: 2px 0; }
+
+/*´Ë´¦ÎÞÐèÌæ»»Îª±äÁ¿*/
+.cornerlayger { padding: 6px 8px; border: 1px solid #09C; background: #EBF2F8; line-height: 1.6em; }
+.minicorner { margin-top: -1px; height: 6px; background: url({IMGDIR}/attachinfobg.gif) no-repeat 50% 0; }
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LAYOUT Ò³Ãæ½á¹¹ & Block Style ~~~~ */
+
+.wrap { text-align: left; margin: 0 auto; }
+	#wrap { padding-bottom: 10px; min-height: 450px; border: {WRAPBORDER} solid {WRAPBORDERCOLOR}; background-color: {WRAPBG}; clear: both; }
+		* html #wrap { height: 450px; }
+	.wrap, #nav { width: {WRAPWIDTH}; }
+#header { margin-bottom: 8px; min-width: {WRAPWIDTH}; width: 100%; border-bottom: {HEADERBORDER} solid {HEADERBORDERCOLOR}; {HEADERBGCODE}; }
+	#header .wrap { position: relative; padding: 24px 0 22px; }
+	#header h2 { float: left; }
+	#umenu { position: absolute; right: 0; top: 0; line-height: 20px; }
+		#umenu a { margin: 0 6px; }
+			#umenu cite { font-weight: 700; }
+				#umenu cite span a { margin: 0; font-weight: 400; }
+		#pm_ntc.new, #task_ntc.new { padding-left: 22px; background: url({IMGDIR}/notice_newpm.gif) no-repeat 0 50%; }
+			#task_ntc.new { padding-left: 15px; background-image: url({IMGDIR}/icon_task.gif); }
+			#pm_ntc_menu { margin-left: -27px; padding-top: 10px; width: 250px; background: transparent url({IMGDIR}/pm_ntc.gif) no-repeat 0 0; text-align: left; opacity: 0.98; }
+				#pm_ntc_view { padding-bottom: 10px; background: transparent url({IMGDIR}/pm_ntc.gif) no-repeat -250px 100%; }
+					#pm_ntc_menu ul { padding: 0 10px; border: solid #91C8E2; border-width: 0 2px; background: #FEFEFE; }
+						#pm_ntc_menu li { height: 29px; border-bottom: 1px solid #F4F4F4; line-height: 29px; }
+							#pm_ntc_menu a { display: block; width: 100%; color: {LIGHTTEXT}; overflow: hidden; text-overflow: ellipsis; -webkit-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap; }
+								#pm_ntc_menu a em { padding-right: 8px; color: #333; }
+								#pm_ntc_menu a:hover { text-decoration: none; color: {HIGHLIGHTLINK}; }
+			#uchome_ntc { padding: 1px 10px 3px 15px; *padding: 2px 10px 2px 15px; background: url({IMGDIR}/notify_bg_m.gif) no-repeat 0 50%; color: #FFF !important; }
+				#uchome_ntc a { margin: 0; }
+		#umenu, #umenu a, #umenu .pipe { color: {HEADERTEXT}; }
+#footer { padding: 1em 0; }
+	#rightinfo { float: left; }
+	#footlink { float: right; text-align: right; }
+	#footer, #footer a { color: {FOOTERTEXT}; }
+
+.content { padding: 20px 25px; }
+	.content h1 { margin-bottom: 10px; font-size: 16px; font-weight: 400; }
+	
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BLOCK µ¼º½¡¢·ÖÒ³¡¢¿ìËÙ·¢ÌûµÈ¸÷ÖÖ¹¦ÄÜ¿é ~~~~ */
+/*²Ëµ¥*/
+#menu { position: absolute; right: 0; bottom: 0; _bottom: -2px; height: 26px; }
+	#menu li { display: inline; float: left; margin-left: 5px; {MENUBGCODE}; }
+		#menu a { float: left; padding: 0 14px; height: 25px; border: solid {MENUBORDER}; border-width: 1px 1px 0; background: transparent none; line-height: 25px; color: {MENUTEXT}; text-decoration: none; overflow: hidden; }
+			#menu a.dropmenu { padding-right: 20px; background-image: url({IMGDIR}/arrow_down.gif); background-repeat: no-repeat; background-position: 95% 50%; }
+		#menu a:hover { border-color: {HEADERBORDERCOLOR}; background-color: {MENUHOVER}; color: {MENUHOVERTEXT}; }
+		#menu li.current a { height: 26px; border-color: {HEADERBORDERCOLOR}; background-color: {MENUHOVER}; color: {MENUHOVERTEXT}; }
+
+#nav { margin: -8px auto 0; background: url({IMGDIR}/icon_nav.gif) no-repeat 0 50%; text-align: left; text-indent: 25px; line-height: 3em; }
+	#nav, #nav a { color: {MENUHOVERTEXT}; }
+
+.mainbox table { width: 100%; }
+
+.foruminfo { margin-top: 5px; line-height: 30px; }
+	#ann dt { float: left; width: 5em; background: url({IMGDIR}/ann_icon.gif) no-repeat 0 50%; text-indent: 2em; font-weight: 700; }
+	#ann dd { margin-left: 30px; }
+		#ann li {  padding-left: 10px; white-space: nowrap; }
+			#ann em { margin-left: 5px; color: {MIDTEXT}; font-size: 0.83em; }
+	#annbody { height: 30px; overflow: hidden; padding-right: 16px; }
+	.forumcount { margin-left: 16px; }
+
+.blocktitle { margin-bottom: 0.5em; font-size: 16px; font-weight: 700; }
+
+.channelinfo { clear: both; margin: 5px 0; color: {MIDTEXT}; }
+	.channelinfo img { vertical-align: middle; }
+	.channelinfo .onerror { * background-position: 2px 0; }
+
+.pages_btns { padding: 5px 0 1em; line-height: 30px; }
+	.postbtn, .replybtn, #modopt, #modopttmp { float: left;  margin-right: 10px; color: {HIGHLIGHTLINK}; cursor: pointer; }
+		#modopt, #modopttmp, .threadlist tfoot a { background-color: {INPUTBG}; border: 1px solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; padding: 0 16px 0 6px; line-height: 20px; }
+			.threadlist tfoot a { margin-right: 5px; padding: 3px 16px 3px 3px; }
+			#modopt:hover, #modopttmp:hover, .threadlist tfoot a:hover { text-decoration: none; color: {HIGHLIGHTLINK}; }
+	.postbtn, .replybtn { width: 67px; height: 30px; background: url({IMGDIR}/newtopic.gif) no-repeat 0 0; font-size: 14px; font-weight: 700; line-height: 28px; *line-height: 32px; text-align: center; overflow: hidden; }
+		.replybtn { background-image: url({IMGDIR}/reply.gif); }
+		.postbtn a, .replybtn a { display: block; padding-left: 5px; color: #FFF; letter-spacing: 5px; }
+		.postbtn a:hover, .replybtn a:hover { text-decoration: none; }
+
+.pages, .pageback { float: right; padding: 2px 0; }
+	.pages a, .pages strong, .pageback a { float: left; padding: 0 6px; margin-right: 2px; height: 20px; border: 1px solid; line-height: 20px; overflow: hidden; }
+		.pages a, .pageback a { border-color: {COMMONBORDER}; background-color: {WRAPBG}; color: {HIGHLIGHTLINK}; }
+		.pages a:hover, .pageback a:hover { text-decoration: none; }
+		.pages strong { border-color: {HIGHLIGHTLINK}; background-color: {HIGHLIGHTLINK}; color: #FFF; font-weight: 700; }
+			.pages a.prev, .pages a.next { background-repeat: no-repeat; }
+		.pages a.prev { background-image: url({IMGDIR}/arrow_left.gif); background-position: 30% 50%; padding: 0; width: 22px; overflow: hidden; text-indent: -9999px; }
+		.pages a.next { padding-right: 16px; background-image: url({IMGDIR}/arrow_right.gif); background-position: 90% 50%; }
+	.pageback a { padding-left: 16px; background: {WRAPBG} url({IMGDIR}/arrow_left.gif) no-repeat 0 50%; }
+	.pages a:hover, .pageback a, .pages a.next { border-color: {HIGHLIGHTLINK}; }
+
+/* TAG ±êÇ©ÔÆ */
+.taglist { margin: 20px 10px; }
+	.taglist a { height: 30px; line-height: 30px; margin-right: 20px; word-break: keep-all;  }
+	#infoside .taglist a { margin-right: 10px; height: 22px; line-height: 22px; }
+		/*TAGÑÕÉ«ÎÞÐèÌæ»»Îª±äÁ¿*/
+		a.tagl1, a.tagl2 { font-size: 12px; color: #666 !important; }
+		a.tagl2 { color: #999 !important; }
+		a.tagl3 { font-size: 14px; color: #090 !important; }
+		a.tagl4 { font-size: 16px; color: #09C !important; }
+		a.tagl5 { font-size: 18px; color: #F60 !important; }
+/*×óÓÒ½á¹¹µÄ±í¸ñ£¨¶àÓÃÓÚ±íµ¥£©*/
+.formtable { width: 100%; }
+	.formtable th { padding: 5px 2px; width: 100px; }
+		.formtable th a { font-weight:400; color:{HIGHLIGHTLINK}; text-decoration:underline; }
+	.formtable td { padding: 5px 2px; }
+	.formtable .sep_space th { height: 40px; }
+	.formtable .txt { width: 270px; }
+	.formtable .txtarea { float: left; margin: -1px 8px 0 0; width: 270px; height: 60px; border-top-color: {INPUTBORDER}; }
+.float_typeid { float: left; margin-right: 6px; }
+	.float_typeid select { float: left; height: 20px; }
+	.float_typeid a { display: block; overflow: hidden; text-indent: 4px; padding-right: 17px; width: 77px; height: 20px; *padding-top: 2px; *height: 18px; text-decoration: none !important; color: {TABLETEXT} !important; border: 1px solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background: {INPUTBG} url({IMGDIR}/newarow.gif) no-repeat 100% 0; }
+		.float_typeid a:hover { text-decoration: none; border: 1px solid {HIGHLIGHTLINK}; background-position: 100% -20px; }
+		.float_postinfo .float_typeid a { line-height: 20px; *line-height: 18px; }
+	.float_typeid ul{ margin: -22px 0 0; border: 1px solid {HIGHLIGHTLINK}; background:{INPUTBG} url({IMGDIR}/newarow.gif) no-repeat 100% -20px; }
+		* html .float_typeid ul { margin-top: -23px; }
+		.float_typeid ul li { margin: 0 4px; color: {TABLETEXT}; cursor: pointer; }
+		.float_typeid ul li:hover { color: {HIGHLIGHTLINK}; }
+		.newselect .current { font-weight: 700; }
+	/* ctrl 'select' width */
+	.float_typeid select { width: 94px; }
+	.short_select a{ width: 43px; }
+	.short_select select { width: 60px; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LIST ÁÐ±í£º°æ¿éÁÐ±í¡¢Ìû×ÓÁÐ±í¡¢ÓÃ»§ÁÐ±íÒÔ¼°ÆäËûÐÎÊ½ÁÐ±í ~~~~ */
+
+.commonlist li { margin: 4px 0; }
+.inlinelist li { float: left; width: 33%; }
+	.inlinelist li.wide { width: 49.5%; }
+.titlelist li { margin: 3px 0; height: 1.6em; background: url({IMGDIR}/dot.gif) no-repeat 8px 9px;  overflow: hidden; }
+	.titlelist li a { padding-left: 1.5em; }
+		.titlelist li cite { padding: 0 0 0 5px; }
+		.titlelist li cite a { padding: 0 0 0 5px; color: {MIDTEXT}; }
+
+/*Êý¾Ý±í*/
+.datalist{ zoom: 1; }
+	.datalist table { margin-bottom: 30px; width: 100%; border: 1px solid {COMMONBORDER}; }
+		.datalist th, .datalist td { padding: 4px 5px; border: 1px solid {COMMONBORDER}; font-weight: 400; }
+			.datalist th img { vertical-align: top; }
+		.datalist table .stat_subject { border-right: none; }
+		.datalist table .stat_num { padding-right: 15px; text-align: right; border-left: none; }
+
+	.datalist .datatable { margin-bottom: 10px; }
+		.datalist .datatable, .datalist .datatable th, .datalist .datatable td { border-width: 1px 0; }
+
+	.filterform { margin-bottom: 15px; padding: 10px; border: 1px solid {SPECIALBORDER}; background-color: {SPECIALBG}; }
+		.filterform table, .filterform table th, .filterform table td { margin-bottom: 0; border: none; }
+/*½»Ìæ»»É«ÖÐµÄÉîÉ«±³¾°*/
+	.colplural, .colplural th, .colplural td { background-color: {INTERLEAVECOLOR}; }
+
+/* 48px Í·ÏñÁÐ±í£¬ÐèÅäºÏ s_clear */
+.avt_list li { float: left; margin-right: 9px; width: 64px; height: 54px; text-align: center; }
+	.side .avt_list li { margin: 0; width: 33.3% }
+	.postmessage .avt_list li { height: 70px; } 
+	.avt_uname li { height: 80px; }
+	.avt_list img { display: block; margin: 0 auto; }
+	.avt_list p { width: 96%; white-space: nowrap; overflow: hidden; }
+		.avt_list .cornerlayger p { white-space:normal; text-align: left; }
+	.avt_list .minicorner { background: url({IMGDIR}/attachinfobg.gif) no-repeat -30px 0; }
+.avt_title { margin: 8px; }
+
+/*ÆÀ·Ö´°¿Ú*/
+.rateopt { overflow: auto; margin-bottom: 10px; height: 100px; }
+	.ratelist { margin-bottom: 3px; }
+		.ratelist .dropdownbtn { margin-right: 5px; }
+		.ratelist .txt { width: 45px; }
+		.ratelist label { float: left; white-space: nowrap; overflow: hidden; width: 120px; }
+
+.list { border-top: 3px solid {COMMONBORDER}; }
+	.content .list h3 { padding-left: 6px; color: {MIDTEXT}; line-height: 35px; }
+	.list td, .list th { height: 50px; padding: 6px 0; border-top: 1px dashed {COMMONBORDER}; color: {MIDTEXT}; }
+		.list th { background: url({IMGDIR}/forum.gif) 5px 10px no-repeat; padding-left: 45px !important; }
+		.narrowlist th { vertical-align: top; }
+		.list th.new { background-image: url({IMGDIR}/forum_new.gif); }
+			.list th h2 em { font-weight: 400; }
+				.list th h2 em strong { color: {NOTICETEXT} }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FORUMDISPLAY Ò³ÃæÌØÓÐÔªËØ ~~~~ */
+
+/*forumdisplay.php header*/
+#forumheader { line-height: 24px; }
+#forumheader h1 { float: left; margin-right: 1em; font-weight: 700; }
+#forumheader .forumstats { float: left; margin-right: 1em; }
+	#forumheader .forumstats strong { color: {NOTICETEXT}; }
+.forumaction { float: left; }	
+	.forumaction a { padding-left: 20px; padding-right: 1em; background: url({IMGDIR}/icon_fav.gif) no-repeat 0 50%; }
+	.forumaction .feed { background-image: url({IMGDIR}/icon_feed.gif); }
+	.forumaction .digest { background-image: url({IMGDIR}/digest_3.gif); }
+	.forumaction .recyclebin { background-image: url({IMGDIR}/recyclebin.gif); }
+#forumheader #modedby { clear: both; }
+	#forumheader #modedby a { color: {HIGHLIGHTLINK}; }
+
+/*Ö÷Ìâ·ÖÀà*/
+.threadtype { padding: 8px 6px; border-top: 3px solid {COMMONBORDER}; line-height: 2em; }
+	.threadtype a, .threadtype strong { margin-right: 6px; padding-right: 6px; border-right: 1px solid {COMMONBORDER}; white-space: nowrap; }
+		.threadtype .popupmenu_popup a { margin-right: 0; padding-right: 0; border: none; }
+		.threadtype strong { font-weight: 700; color: {HIGHLIGHTLINK}; white-space: nowrap; }
+
+.folder { width: 25px; text-align: center; }
+td.icon { width: 28px; text-align: center; }
+	.icon .solved { filter: alpha(opacity=30); opacity: 0.3; }
+.subject label { float: right; }
+.threadlist th a:hover, .subject a:hover { color: {HIGHLIGHTLINK}; }
+
+.datatable .subject { padding: 7px 5px; }
+
+.threadpages { white-space: nowrap; }
+	.threadpages a { color: {TABLETEXT}; }
+.forum, .author, .lastpost { width: 100px; }
+	.lastpost, .lastpost cite, .lastpost em { text-align: right; }
+	.author cite, .lastpost cite { display: block; margin-bottom: -5px; width: 95px; height: 1.6em; overflow: hidden; }
+		thead .lastpost cite { margin-bottom: 0; }
+	.author em, .lastpost em, .lastpost em a { font-size: 9px; font-family: Arial, sans-serif; color: {LIGHTTEXT}; }
+	.lastpost cite, .lastpost em { display: block; margin-right: 5px; }
+.nums { width: 80px; color: {LIGHTTEXT}; text-align: right; }
+	thead .nums { color: {TABLETEXT}; }
+	.nums strong { padding-right: 2px; color: {HIGHLIGHTLINK}; font-weight: 400; }
+	.nums em { padding-left: 2px; color: {TABLETEXT}; }
+.forumnums { width: 90px; padding-right: 10px !important; color: {LIGHTTEXT}; text-align: center; }
+	.forumnums em { color: {HIGHLIGHTLINK}; }
+.forumlast { width: 225px; text-align: left; }
+.num { width: 120px; text-align: center; color: red; }
+
+.threadlist td { padding: 0 !important; }
+	.threadlist .colplural th, .threadlist .colplural td { padding: 3px 0 !important; background: {SPECIALBG}; }
+	.threadlist th em { margin-right: 4px; }
+	.threadlist th em, .threadlist th em a { color: {HIGHLIGHTLINK}; }
+	.threadlist th .new { color: {HIGHLIGHTLINK}; font-size: 9px; text-transform: uppercase; white-space: nowrap; }
+	.threadlist th .attach { vertical-align: middle; }
+		* html .threadlist th .attach { vertical-align: baseline; }
+ 	.threadlist th a { text-decoration: none; }
+
+.rule { margin: 0 8px; }
+#modarea, #subforum { margin: 1em 0; }
+	#modarea .list h3 { margin-bottom: 6px; border-bottom: 1px dashed {COMMONBORDER}; font-weight: 400; }
+		#modarea .list h3 .current { font-weight: 700; color: {HIGHLIGHTLINK}; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPMENU ¸÷ÖÖÏÂÀ­²Ëµ¥ ~~~~ */
+
+.dropmenu { padding-right: 15px; background: url({IMGDIR}/arrow_down.gif) 100% 50% no-repeat; cursor: pointer; }
+.popupmenu_popup { overflow: hidden; padding: 10px; text-align: left; line-height: 1.4em; border: 1px solid {DROPMENUBORDER}; {DROPMENUBGCODE}; }
+.headermenu_popup { width: 100px; }
+	.headermenu_popup li { width: 100px; line-height: 24px; border-bottom: 1px solid {COMMONBORDER}; }
+		.headermenu_popup .active { font-weight: 700; }
+.filter_popup { width: 5em; }
+	.filter_popup li { width: 60px; }
+.postmenu { width: 100px; }
+	#visitedforums_menu { width: 140px; }
+	.postmenu li, #visitedforums_menu li { float: left; background: url({IMGDIR}/folder_s.gif) no-repeat 3px 50%; }
+		.postmenu li.poll { background-image: url({IMGDIR}/pollsmall.gif); }
+		.postmenu li.trade { background-image: url({IMGDIR}/tradesmall.gif); }
+		.postmenu li.reward { background-image: url({IMGDIR}/rewardsmall.gif); }
+		.postmenu li.activity { background-image: url({IMGDIR}/activitysmall.gif); }
+		.postmenu li.debate { background-image: url({IMGDIR}/debatesmall.gif); }
+		.postmenu li.video { background-image: url({IMGDIR}/videosmall.gif); }
+		.postmenu a, #visitedforums_menu a { display: block; width: 75px; border-bottom: 1px solid {COMMONBORDER}; padding: 5px 0 5px 25px; }
+			.postmenu a:hover, #visitedforums_menu a:hover { text-decoration: none; color: {HIGHLIGHTLINK}; border-bottom-color: {SPECIALBORDER}; }
+		#visitedforums_menu li { background: none; }
+			#visitedforums_menu li a { padding: 5px 0; width: 140px; }
+#fjump_menu { padding: 10px 30px 10px 20px; }
+	#fjump_menu dl { padding: 5px 0; }
+		#fjump_menu dt a { font-weight: 700; color: {MIDTEXT}; }
+		#fjump_menu dd { padding-left: 1em; }
+			#fjump_menu li.sub { padding-left: 1em; }
+			#fjump_menu li.current a { font-weight: 700; }
+			#fjump_menu li a { font-weight: 400; color: {HIGHLIGHTLINK}; }
+.showselect_menu { margin-bottom: 0.8em; padding: 5px; text-align: left; border: 1px solid {DROPMENUBORDER}; background: {DROPMENUBGCOLOR}; }
+/*½âÎö TAG µ¯³ö²Ëµ¥*/
+.tagthread { width: 360px; }
+	.tagthread .close { float: right; }
+	.tagthread h4 { line-height: 26px; border-bottom: 1px solid {COMMONBORDER}; }
+	.tagthread ul { padding: 5px; }
+		.tagthread li { line-height: 1.8em; }
+	.tagthread li.more { padding-right: 10px; text-align: right; background: url({IMGDIR}/arrow_right.gif) no-repeat 100% 50%; }
+
+.headactions .popupmenu_popup a, .headactions .popupmenu_popup strong { color: {MIDTEXT}; background: none; white-space: nowrap; }
+	.headactions .popupmenu_popup { overflow: visible; }
+
+.moderators {  width: 115px; }
+
+#threadtypesmenu_menu ul li { height: 1.4em; _line-height: 1.4em; width: 100px; }
+.hasdropdownbtn {}
+	.hasdropdownbtn input { float: left; width: 129px; }
+	.hasdropdownbtn .spmediuminput { width: 115px; }
+	.dropdownbtn { float: left; overflow: hidden; text-indent: -9999px; width: 20px; height: 20px; border-width: 1px 1px 1px 0; border-style: solid; border-color: {INPUTBORDERDARKCOLOR} {INPUTBORDER} {INPUTBORDER} {INPUTBORDERDARKCOLOR}; background:{INPUTBG} url({IMGDIR}/newarow.gif) no-repeat 0 0; }
+		.dropdownbtn:hover { background-position: 0 -20px; }
+/*·ç¸ñÇÐ»»*/
+#style_switch { position: absolute; right: 0px; bottom: -25px; }
+	#style_switch li { float: left; padding-left: 5px; }
+	#style_switch a { float: left; width: 8px; height: 8px; border: 1px solid #DDD; background: #FFF; line-height: 100px; overflow: hidden; }
+		#style_switch a:hover, #style_switch .current a { border-color: #FFF; }
+			#style_switch .current a { margin-top: -1px; border-width: 2px; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Advertisments ~~~~ */
+#ad_headerbanner { float: right; margin: 5px 0 10px; }
+.ad_text { margin: 0 auto 5px; padding: 10px 0; width: {WRAPWIDTH}; background: {WRAPBG}; }
+.ad_text table { width: 100%; }
+	.ad_text td { padding: 3px 20px; text-align: left; }
+.ad_textlink1, .ad_textlink2 { margin: 10px 0; padding-left: 20px; background: url({IMGDIR}/icon_ad.gif) no-repeat 0 50%; }
+.ad_pip { clear: right; float: right; padding: 10px; background: {WRAPBG}; color: {LIGHTTEXT}; line-height: 130%; }
+	.ad_pip li { margin-bottom: 1em; }
+	.ad_pip a { color: {HIGHLIGHTLINK}; }
+.ad_topicrelated { clear: both; float: right; display: inline; margin: 0 10px 10px; padding: 10px 10px 10px 30px; border: 1px solid #78A73D; background: #CAEEC0; }
+.ad_column { text-align: center; }
+.ad_footerbanner { text-align: center; clear: both; margin: 5px; }
+
+/*HEADACTION*/
+.headactions { float: right; line-height: 1em; padding: 12px 0 0 0; }
+	.headactions img { vertical-align: middle; cursor: pointer; padding: 0 5px; }
+	.headactions a { margin-left: 4px; }
+		.mainbox .headactions { color: {LIGHTTEXT}; }
+			.mainbox .headactions strong { font-weight: 700;}
+
+.msgfix { overflow: hidden; }
+.showmessage { position: relative; margin: 5px; padding: 80px 260px; height: 290px; background: {SPECIALBG}; }
+	.showmessage h1 { height: 30px; line-height: 30px; font-size: 18px; color: {HIGHLIGHTLINK}; }
+	.showmessage p { line-height: 24px; font-size: 14px; }
+	.showmessage a { color: {HIGHLIGHTLINK}; text-decoration: underline; font-weight: 700; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ side ~~~~ */
+
+/*²à±ß¿ª¹Ø*/
+#sidebar_img { float: right; display: inline; margin: 0 6px; padding: 6px 25px 6px 6px; background: url({IMGDIR}/sidebar_toggle.gif) no-repeat 100% 5px; color: {HIGHLIGHTLINK}; position: relative; z-index:998; }
+	.collapsed_no:hover { background-position: 100% -35px !important; text-decoration: none; }
+	.collapsed_yes { background-position: 100% -75px !important; }
+		.collapsed_yes:hover { background-position: 100% -115px !important; text-decoration: none; }
+
+.side { width: 170px; }
+	.sideinner .txt { margin: 6px 0; }
+.with_side { {SIDEBGCODE}; }
+	.with_side .main { float: left; overflow: hidden; margin-left: -180px; width: 100%; }
+		.with_side .content { margin-left: 180px; width: auto; }
+	.with_side .side { float: right; padding-bottom: 20px; width: 180px; }
+		.with_side .side h2 { margin: 20px 25px 10px; color: {LIGHTTEXT}; font-size: 14px; }
+		.with_side .side a { color: {HIGHLIGHTLINK}; text-decoration: underline; }
+		.sideinner { padding: 0 25px; }
+			.sideinner .tabs { margin: 5px 0; }
+				.sideinner .tabs li { line-height: 2em; }
+		.numbg { float: right; text-align: center; width: 35px; height: 2em; background: url({IMGDIR}/numbg.gif) no-repeat 0 50%; color: #FFF; font-weight: 700; }
+.special { background: none; }
+	.special .main { float: right; }
+	.special .side { float: left; }
+.sidebox { margin: 5px 10px 10px; }
+	.sidebox h4 { margin-bottom: 4px; color: {HIGHLIGHTLINK}; }
+	.textinfolist li { margin-bottom: 2px; }
+		.side .textinfolist li a { text-decoration: none; color: {TABLETEXT}; }
+		.side .textinfolist li a:hover { text-decoration: underline; }
+
+.forumlinks, .forumimglink, .forumtxtlink { padding: 6px; border-top: 1px solid {COMMONBORDER}; }
+	.forumlinks ul li { float: left; width: 49%; height: 50px; line-height: 1.4em; }
+	.forumimglink a { margin-right: 8px; }
+	.forumimglink img { margin: 2px 0; }
+		.forumlogo { float: left; padding-top: 2px; width: 100px; }
+		.forumcontent { padding-right: 18px; height: 50px; }
+		.forumcontent p { overflow: hidden; height: 17px; color: {MIDTEXT}; }
+	.forumtxtlink li { float: left; margin-right: 5px; width: 8em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/*²à±ßËÑË÷¿ò*/
+#headsearch em { font-size: 20px; margin-right: 10px; color: {HIGHLIGHTLINK}; }
+#qihoosearch input, #gform input#q { margin: 6px 0; }
+
+#online h3 { font-weight: 400; }
+	#online h3 a, #online h3 em, #online h3 strong { font-weight: 700; }
+#onlinelist {}
+	#onlinelist dt, #onlinelist dd { padding: 1em; border-top: 1px solid {COMMONBORDER}; }
+	#onlinelist dd ul li { float: left; margin: 4px 0; width: 20%; height: 14px; line-height: 14px; }
+		#onlinelist dt img, #onlinelist dd img { vertical-align: middle; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FLOATER µÇÂ¼¡¢·¢Ìû¡¢ÆÀ·Ö¡¢µÀ¾ßµÈ¸¡¶¯²ãÑùÊ½ ~~~~ */
+
+/* ²Î¼û css_float.htm */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ title ~~~~ */
+.c_header { overflow: hidden; margin-bottom: 10px; }
+	* html .c_header { zoom: 1; }
+	.c_header h2, .c_header h3 { float: left; padding-right: 15px; background: {WRAPBG}; font-size: 14px; cursor: pointer;}
+	.c_header h3 { background: {WRAPBG} url({IMGDIR}/arrow_down_big.gif) no-repeat 100% 5px; color: {HIGHLIGHTLINK}; }
+	.searchfaq h3 { background: none;  cursor: auto; }
+		.c_header .noarrow { background: none; cursor: auto; }
+		.c_header h3 a { color: {HIGHLIGHTLINK}; }
+		.c_header h3 span { font-size: 12px; font-weight: 400; color: {MIDTEXT}; }
+		.c_header h2 em, .c_header h3 em { margin-left: 8px; font-size: 12px; color: {LIGHTTEXT}; font-weight: 400; }
+	.c_header_action { float: right; }
+	.c_header .c_header_ctrlbtn { display: none; }
+	.c_header .c_header_ext { display: block; }
+.closenode { background: url({IMGDIR}/dashline.gif) repeat-x 0 10px; }
+	.closenode h3 { background-image: url({IMGDIR}/arrow_right_big.gif); }
+	.closenode .c_header_ctrlbtn { display: block; background-color: {WRAPBG}; color: {MIDTEXT}; cursor: pointer; }
+	.closenode .c_header_ext { display: none; }
+.itemtitle { clear: both; overflow: hidden; margin-bottom: 10px; line-height: 23px; }
+	.itemtitle h1 { float: left; margin: 0 20px 0 0; }
+	.itemtitle ul { float: left; }
+		.itemtitle li { float: left; margin-right: 5px; }
+			.itemtitle li.pipe { margin-left: 0; }
+		.itemtitle ul a { display: block; overflow: hidden; height: 23px; cursor: pointer; }
+		* html .itemtitle ul a { float: left; }
+			.itemtitle ul a span { display: block; padding: 0 7px; *padding: 1px 7px 0; *line-height: 22px; }
+			.itemtitle ul a:hover { background: #F5F5F5 url({IMGDIR}/btn_block.gif) no-repeat 0 -46px; text-decoration: none; }
+				.itemtitle ul a:hover span { background: url({IMGDIR}/btn_block.gif) no-repeat 100% -69px; }
+		.itemtitle ul a.dropmenu { padding-right: 0; background-position: 0 -161px; }
+			.itemtitle ul a.dropmenu span { padding-right: 12px; background: url({IMGDIR}/btn_block.gif) no-repeat 100% -138px; }
+			.itemtitle ul a.dropmenu:hover { background-position: 0 -46px; }
+				.itemtitle ul a.dropmenu:hover span { background-position: 100% -115px; }
+		.itemtitle ul .current a, .itemtitle ul .current a:hover, .itemtitle ul .current a.dropmenu:hover { background: {HIGHLIGHTLINK} url({IMGDIR}/btn_block.gif) no-repeat 0 0; }
+			.itemtitle ul .current a span, .itemtitle ul .current a:hover span { background: url({IMGDIR}/btn_block.gif) no-repeat 100% -23px; color: #FFF; }
+			.itemtitle ul .current a.dropmenu span, .itemtitle ul .current a.dropmenu:hover span { background-position: 100% -92px; }
+	.titlemenu_popup { padding: 0; }
+		.titlemenu_popup a { display: block; padding: 3px 8px; }
+		* html .titlemenu_popup a { display: inline-block; }
+		.titlemenu_popup .current a { background: #F1F5FA; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ others ~~~~ */
+
+.seccode { margin-top: 5px; }
+	.seccodecontent { position: absolute; z-index: 11; top: 80px; left: 50px; width: 224px; height: 52px; border: 1px solid {DROPMENUBORDER}; {DROPMENUBGCODE}; }
+	* html .seccodecontent { top:81px; height: 56px; }
+	*+html .seccodecontent { top:81px; height: 54px; }
+
+/* popupcredit window */
+.popupcredit {}
+	.pc_l, .pc_c, .pc_inner, .pc_r { width: 29px; height: 56px; line-height: 56px; background: url({IMGDIR}/popupcredit_bg.gif) no-repeat 0 0; }
+	.pc_c { width: 200px; background-position: 0 -56px; background-repeat: repeat-x; }
+		.pc_inner { white-space: nowrap; text-align: center; width: auto; background-position: 50% -112px; }
+			.pc_inner span { margin-right: 15px; color: #FFEA97; font-size: 14px; font-weight: 700; }
+			* html .pc_inner span { display: inline-block; }
+				.pc_inner span em { color: #FFF; font-size:18px; font-weight: 400; }
+				.pc_inner span em.desc { color: #930; }
+			.pc_btn img { opacity: 0.5; }
+				.pc_btn:hover img { opacity: 1; }
+	.pc_r { background-position: -30px 0; }
+
+/* stats bar & task bar */
+.optionbar { float: left; overflow: hidden; margin: 3px 4px 0 -6px; background: {HIGHLIGHTLINK} url({IMGDIR}/header.gif) repeat-x; height: 14px; }
+.taskbar { position: relative; margin: 5px 0; width: 200px; height: 14px; border: 1px solid #5AAF4A; background: #FFF; }
+	.taskbar_text { position: absolute; top: -3px; right: 5px; z-index: 7; font-size: 10px; }
+	.taskbar .optionbar { float: none; position: absolute; margin: 0; background: #5AAF4A; }
+
+/* nojs */
+.nojs { position: absolute; left: 50%; }
+	.nojs .float { overflow: hidden; margin-left: -300px; }
+	.nojs .moreconf { left: -94.5%; width: 194.5%; }
+	#floatwinnojs { position: absolute; }
+* html .nojs { left: 25%; }
+	* html .nojs .float { margin-left: 0; }
+	* html .nojs .moreconf { left: 0; }
+
+/* request side */
+.side_poll li{ line-height: 1.8em; }
+.side_trade li { padding-bottom: 5px; }
+	.side_trade li strong { float: left; width: 80px; height: auto; text-align: center; }
+.side_type { height: 23px; border-bottom: 1px solid {MENUBORDER}; margin: 0 4px; }
+	.side_type h4 { float: left; cursor:pointer; margin: 0 0 -1px 4px; height: 22px; line-height: 22px; padding: 0 4px; border: 1px solid {MENUBORDER}; font-weight: 300; color: {LIGHTTEXT}; }
+	.side_type h4.ontype { margin-bottom: 1px; height: 23px; border-bottom: 1px {SPECIALBG}; background: {SPECIALBG}; font-weight: 700; color: {HIGHLIGHTLINK} }
+	.combine h4 { display: none; }
+	
+h3.requesttabs { height: 22px; line-height: 22px; padding: 4px 6px; color: {HIGHLIGHTLINK}; font-weight: 700; }
+	.requesttabs span { float: right; font-weight: 300; color: {LIGHTTEXT}; }
+	.with_side .side h3.requesttabs a { margin: 0 4px; font-weight: 300; color: {LIGHTTEXT}; text-decoration: none; }
+	.with_side .side h3.requesttabs a:hover { text-decoration: underline; }
+	.with_side .side h3.requesttabs a.ontype { font-weight: 700; color: {TABLETEXT} }
+	
+/* common style */
+.deloption { float: left; margin: 4px; width: 12px; height: 12px; background: url({IMGDIR}/close.gif) no-repeat 0 0; overflow: hidden; text-indent: -9999px; }
+	.deloption:hover { background-position: 0 -12px; }
+.color_menu { overflow: hidden; position: absolute; z-index: 9999; left: 96px; top: 109px; width: 63px; }
+	.color_menu a { display: block; overflow: hidden; margin: 0 !important; width: 20px !important; height: 20px !important; }
+.chosemagic { margin-bottom: 9px; width: 220px; }
+.topicadminhigh { height: 200px; }
+	.topicadminhigh .tah_body { margin: 5px 0 15px; }
+		.topicadminhigh .tah_body select { width: 217px; }
+.topicadminlow { height: 50px; }
+	.topicadminlow table { width: 100%; }
+	.topicadminlow td { padding: 0 5px; }
+	.topicadminlow .txt { width: 100px; }
+		.topicadminlow .wide .txt { width: 50px; }
+.topicadminlog {}
+	.topicadminlog h4 { font-weight: 400; }
+	.topicadminlog .dropdownbtn { border-left-width: 1px; }
+	.topicadminlog .txtarea { margin: 5px 0; width: 212px; height: 40px; }
+
+.smilieslist { text-align: center; padding: 10px; border: 1px solid {DROPMENUBORDER}; {DROPMENUBGCODE}; }
+	.smilieslist td { padding: 8px; border: none; cursor: pointer; }
+	.smilieslist_page { text-align: right; }
+		.pags_act { float: left; }
+			.pags_act a { display: inline !important; }
+	.smilieslist_page a { display: inline; margin: 0 4px; color: {HIGHLIGHTLINK}; text-decoration: underline; }
+	.smilieslist_table { position: absolute; left: -100px; top: 0; *top: -1px; width: 100px !important; height: 100px; border: 1px solid {COMMONBORDER}; background: {WRAPBG}; }
+	.smilieslist_preview { text-align: center; vertical-align: middle; }
+	
+	.smiliesgroup { height: 33px; *height:34px; overflow: hidden; width: expression(this.parentNode.offsetWidth); }
+	.smiliesgroup ul, .imguptype { margin: 6px 0; padding: 0 0 26px 8px; border-bottom: 1px solid {CONTENTSEPARATE}; }
+		.smiliesgroup li, .imguptype li { display: inline; }
+			.smiliesgroup li a, .imguptype li a { float: left; margin: 2px 6px 0 0; padding: 2px 10px; height: 24px; he\ight: 19px; border: 1px solid {CONTENTSEPARATE}; color: {HIGHLIGHTLINK}; }
+				.smiliesgroup li a:focus, .imguptype li a:focus { outline: none; } 
+				.smiliesgroup li a.current, .imguptype li a.current { border-bottom-color: {DROPMENUBGCOLOR}; font-weight: 700; color: {TABLETEXT}; }
+				
+
+input.openid {
+	background: url(../../plugins/openid/images/login-bg.gif) no-repeat; 
+	background-position: 0 50%; 
+	padding-left: 18px;
+	border:medium none;
+	float:left;
+	width:137px;
+}	
+input#answer { width:245px;}
+#loginfield_selectinput,#loginfield_selectmenu {width:85px;}
+.selecttype ul, .selecttype a {width:245px;}
+.selectinput ul, .selectinput a {width:85px;}

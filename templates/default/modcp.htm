@@ -1,0 +1,73 @@
+{template header}
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; <a href="modcp.php">{lang modcp}</a></div>
+<div id="wrap" class="wrap with_side s_clear">
+	<div class="main">
+		<div class="content">
+			<!--{if $script == 'noperm'}-->
+				<div class="mainbox">
+					<h3>{lang mod_option_error}</h3>
+					<table cellspacing="0" cellpadding="0">
+						<tr>
+							<td>{lang mod_error_invalid}</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+
+				<div class="notice">{lang mod_notice}</div>
+			<!--{elseif !empty($modtpl)}-->
+				{eval include(template($modtpl));}
+			<!--{/if}-->
+		</div>
+	</div>
+	<div class="side">
+		<h2>{lang modcp}</h2>
+		<div class="sideinner noborder">
+			<ul class="tabs">
+				<li><!--{if $notenum}--><span class="numbg">$notenum</span><!--{/if}--><a href="{$cpscript}">{lang mod_notice_title}</a></li>
+				<!--{if $modforums['fids']}-->
+				<li><!--{if $modnum}--><span class="numbg">$modnum</span><!--{/if}--><a href="{$cpscript}?action=moderate&op=threads">{lang forum_moderate}</a></li>
+				<li><!--{if $reportnum}--><span class="numbg">$reportnum</span><!--{/if}--><a href="{$cpscript}?action=report$forcefid">{lang mod_option_subject_report}</a></li>
+				<!--{/if}-->
+			</ul>
+		</div>
+
+		<hr class="shadowline" />
+
+		<!--{if $allowedituser || $allowbanuser || $allowbanip}-->
+			<div class="sideinner">
+				<ul class="tabs">
+					<!--{if $allowbanuser}--><li><a href="{$cpscript}?action=members&op=ban">{lang mod_option_member_ban}</a></li><!--{/if}-->
+					<!--{if $allowbanip}--><li><a href="{$cpscript}?action=members&op=ipban">{lang mod_option_member_ipban}</a></li><!--{/if}-->
+					<!--{if $modforums['fids']}--><li><a href="{$cpscript}?action=forumaccess{$forcefid}">{lang mod_option_member_access}</a></li><!--{/if}-->
+					<!--{if $allowedituser}--><li><a href="{$cpscript}?action=members&op=edit">{lang mod_option_member_edit}</a></li><!--{/if}-->
+				</ul>
+			</div>
+		<!--{/if}-->
+
+		<hr class="shadowline" />
+
+		<!--{if $modforums['fids']}-->
+			<div class="sideinner">
+				<ul class="tabs">
+					<li><a href="{$cpscript}?action=threads&op=threads{$forcefid}">{lang mod_option_subject}</a></li>
+					<li><a href="{$cpscript}?action=forums&op=recommend{$forcefid}">{lang mod_option_forum_recommend}</a></li>
+					<li><a href="{$cpscript}?action=forums&op=editforum{$forcefid}">{lang mod_option_forum_edit}</a></li>
+				</ul>
+			</div>
+		<!--{/if}-->
+
+		<hr class="shadowline" />
+
+		<div class="sideinner">
+			<ul class="tabs">
+				<!--{if $allowpostannounce}--><li><a href="{$cpscript}?action=announcements">{lang announcements}</a></li><!--{/if}-->
+				<li><a href="{$cpscript}?action=logs">{lang modcp_logs}</a></li>
+				<li><a href="{if $forcefid}forumdisplay.php?{$forcefid}{else}$indexname{/if}">{lang mod_option_return}</a></li>
+				<li><a href="{$cpscript}?action=logout">{lang mod_option_logout}</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{subtemplate footer}

@@ -1,0 +1,64 @@
+<div class="itemtitle s_clear">
+	<ul>
+		<li class="current"><a href="#" onclick="display('list_adminnote');" hidefocus="true"><span>{lang modcp_home_adminnote_add}</span></a></li>
+	</ul>
+</div>
+<form method="post" action="{$cpscript}?action=$action" id="list_adminnote" style="margin-bottom:30px; {if $notelist}display:none{else}display:block{/if}">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<input type="hidden" name="op" value="addnote" />
+	<table cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<td rowspan="2" width="75%"><textarea style="width: 95%; height: 120px;" name="newmessage" rows="5" class="txtarea"></textarea></td>
+			<td width="25%">
+				<ul>
+					<li>{lang modcp_home_adminnote_to}:</li>
+					<li><label><input type="checkbox" value="1" name="newaccess[1]" checked="checked" disabled="disabled" /> {lang admin}</label></li>
+					<li><label><input type="checkbox" value="1" name="newaccess[2]" checked="checked" /> {lang supermod}</label></li>
+					<li><label><input type="checkbox" value="1" name="newaccess[3]" checked="checked" /> {lang moderator}</label></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p>{lang expire}:
+					<input type="text" id="newexpiration" name="newexpiration" autocomplete="off" value="30" class="txt" tabindex="1" size="2" /> {lang days}
+				</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><button type="submit" class="submit" name="submit" value="true">{lang submit}</button></td>
+		</tr>
+	</table>
+</form>
+<div class="datalist">
+	<form method="post" action="{$cpscript}?action=$action" name="notelist" id="notelist">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+		<input type="hidden" name="op" value="delete" />
+		<!--{eval $i=1; $j=0;}-->
+		<!--{loop $notelist $note}-->
+			<div class="notelist<!--{if $j%2==0}--> notelistbg<!--{/if}-->">
+			<!--{eval $j++;}-->
+				<div id="list_note_{$i}_c" class="c_header">
+					<h3 onclick="toggle_collapse('list_note_$i', 1, 1);">
+						$note[checkbox]<span>&nbsp;&nbsp;$note[admin]&nbsp;&nbsp;$note[dateline]&nbsp;&nbsp;({lang expire}: $note[expiration] {lang days})</span>
+					</h3>
+					<div class="c_header_action">
+						<p class="c_header_ctrlbtn" onclick="toggle_collapse('list_note_$i', 1, 1);">[ {lang open} ]</p>
+					</div>
+				</div>
+				<div id="list_note_$i" class="notelistmsg">$note[message]</div>
+				<!--{eval $i++;}-->
+			</div>
+		<!--{/loop}-->
+		<!--{if $notelist}-->
+		<div class="notelistsubmit">
+			<input class="checkbox" type="checkbox" onclick="checkall($('notelist'), 'delete', 'ncheck')" name="ncheck">&nbsp;
+			<button type="submit" class="submit" name="submit" value="true">{lang modcp_home_adminnote_delete}</button>
+		</div>
+		<!--{else}-->
+			<div class="notelist notelistbg">
+				<div style="padding: 20px">{lang modcp_home_adminnote_nonexistence}</div>
+			</div>
+		<!--{/if}-->
+	</form>
+</div>

@@ -1,0 +1,36 @@
+<table cellspacing="0" cellpadding="0" summary="{lang my_replys}" class="datatable">
+	<thead class="colplural">
+		<tr>
+			<th>&nbsp;</th>
+			<td class="forum">{lang forum}</td>
+			<td class="nums">
+				<select onchange="window.location='my.php?item=posts&filter=' + this.value + '$fidadd';this.option.value">
+					<option value="">{lang status}</option>
+					<option value="recyclebin"<!--{if $filter == 'recyclebin'}--> selected="selected"<!--{/if}-->>{lang forum_recyclebin}</option>
+					<option value="aduit"<!--{if $filter == 'aduit'}--> selected="selected"<!--{/if}-->>{lang my_threads_aduit}</option>
+					<option value="close"<!--{if $filter == 'close'}--> selected="selected"<!--{/if}-->>{lang my_threads_close}</option>
+					<option value="common"<!--{if $filter == 'common'}--> selected="selected"<!--{/if}-->>{lang my_threads_common}</option>
+				</option>
+			</td>
+			<td class="lastpost"><cite>{lang lastpost}</cite></td>
+		</tr>
+	</thead>
+	<!--{if $postlist}-->
+		<tbody>
+			<!--{loop $postlist $key $post}-->
+				<tr>
+					<th><a href="redirect.php?goto=findpost&pid=$post[pid]&ptid=$post[tid]" target="_blank">$post[tsubject]</a></th>
+					<td class="forum"><a href="forumdisplay.php?fid=$post[fid]" target="_blank">$post[forumname]</a></td>
+					<td class="nums"><!--{if $post[invisible] == '-1'}-->{lang forum_recyclebin}<!--{elseif $post[invisible] == '-2'}-->{lang my_threads_aduit}<!--{elseif $post[closed] == '1'}-->{lang my_threads_close}<!--{else}-->{lang my_threads_common}<!--{/if}--></td>
+					<td class="lastpost">
+						<cite><!--{if $post['lastposter']}--><a href="space.php?username=$post[lastposterenc]" target="_blank">$post[lastposter]</a><!--{else}-->{lang anonymous}<!--{/if}--></cite>
+						<em><a href="redirect.php?tid=$post[tid]&goto=lastpost#lastpost">$post[lastpost]</a></em>
+					</td>
+				</tr>
+			<!--{/loop}-->
+		</tbody>
+	<!--{else}-->
+		<tr><th colspan="4"><p class="nodata">{lang data_nonexistence}</p></th></tr>
+	<!--{/if}-->
+</table>
+<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->

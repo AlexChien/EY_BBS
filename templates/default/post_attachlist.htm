@@ -1,0 +1,35 @@
+<!--{if $postinfo['attachment'] && $attachments}-->
+	<table summary="{lang attachments}" cellspacing="0" cellpadding="0" width="100%">
+		<!--{loop $attachments $attach}-->
+			<tbody id="attach_$attach[aid]">
+			<tr>
+				<td class="attachnum"><img src="images/attachicons/common.gif" /></td>
+				<td class="attachctrl">
+					<!--{if $attach['isimage']}-->
+						<a href="javascript:;" onclick="insertAttachimgTag('$attach[aid]')" title="{lang post_attachment_insert}">{lang post_attachment_insertlink}</a>
+					<!--{else}-->
+						<a href="javascript:;" onclick="insertAttachTag('$attach[aid]')" title="{lang post_attachment_insert}">{lang post_attachment_insertlink}</a>
+					<!--{/if}-->
+				</td>
+				<td class="attachname" title="$attach[filenametitle]{LF}{lang attachment_date}: $attach[dateline]{LF}{lang attachment_size}: $attach[filesize]{LF}{lang attach_download_count}: $attach[downloads]">
+					<a href="javascript:;" class="right" onclick="attachupdate('$attach[aid]', this)">{lang update}</a>
+					<div id="attach$attach[aid]">
+						<p>
+							<!--{if $attach[description]}--><input type="hidden" name="attachdescnew[{$attach[aid]}]" value="$attach[description]"  /><!--{/if}-->
+							<a href="javascript:;" onclick='parentNode.innerHTML="<input type=text name=attachdescnew[{$attach[aid]}] value=\"$attach[description]\" size=\"25\" class=\"txt\" />"'>{lang description}</a>
+							<span{if $attach['isimage']} onmouseover="showpreview(this, 'imgpreview_$attach[aid]')"{/if}>$attach[filetype] $attach[filename]</span>
+						</p>
+						<!--{if $attach['isimage']}-->
+							<div id="imgpreview_$attach[aid]" style="display:none"><img id="preview_$attach[aid]"{if !$attach['width'] || $attach['width'] > 180} width="180"{else} width="$attach[width]"{/if}{if $attach['thumb']} src="$attach[url]/$attach[attachment].thumb.jpg"{else} src="$attach[url]/$attach[attachment]"{/if} /></div>
+						<!--{/if}-->
+					</div>
+					<span id="attachupdate$attach[aid]"></span>
+				</td>
+				<!--{if $allowsetattachperm}--><td class="attachview"><input name="attachpermnew[{$attach[aid]}]" value="$attach[readperm]" size="1" class="txt" /></td><!--{/if}-->
+				<!--{if $maxprice}--><td class="attachpr"><input name="attachpricenew[{$attach[aid]}]" value="$attach[price]" size="1" class="txt" /></td><!--{/if}-->
+				<td class="attachdel"><input type="checkbox" name="deleteaid[]" id="delattach_$attach[aid]" value="$attach[aid]" style="display:none" /><a href="javascript:;" class="deloption" onclick="delEditAttach($attach[aid])">{lang post_attachment_deletelink}</a></td>
+			</tr>
+			</tbody>
+		<!--{/loop}-->
+	</table>
+<!--{/if}-->

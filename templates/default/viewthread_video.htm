@@ -1,0 +1,41 @@
+<script type="text/javascript" src="include/js/video.js?{VERHASH}"></script>
+<!--{if $videocount > 1}-->
+	<div class="tradectrl">
+		<em>{lang video_num}: $videocount</em>
+	<!--{if $forum['ismoderator'] || $thread[authorid] == $discuz_uid}-->
+		<a href="post.php?infloat=yes&action=edit&amp;fid=$fid&amp;tid=$tid&amp;pid=$post[pid]" onclick="floatwin('open_edit', this.href, 600, 410, '600,0');doane(event);return false;">{lang video_edit_add}</a>
+	<!--{/if}-->
+	</div>
+<!--{/if}-->
+
+
+<div class="videobox">
+	<!--{if $videocount >= 1}-->
+		<div class="box videolist">
+			<ul class="tradethumblist">
+			<!--{loop $videolist $video}-->
+				<li <!--{if $video[vid] == $vid}--> class="onplay"<!--{/if}-->>
+				<!--{if $vid == $video[vid]}-->
+					<div class="treadbox">
+					$videoshow
+					<div class="videoaddr">{lang video_playurl}<input type="text" id="playurl" value="{$boardurl}viewthread.php?tid=$tid<!--{if !$videosource}-->&amp;vid=$vid<!--{/if}-->" size="52" onclick="this.select();setcopy(this.value, '{lang playurl_copied}');">&nbsp;<a href="javascript:;" onclick="$('playurl').select('');setcopy($('playurl').value, '{lang playurl_copied}');">[{lang copy}]</a></div>
+					</div>
+				<!--{else}-->
+					<div class="treadbox">
+					<dl>
+						<dt class="thumblist"><a href="viewthread.php?tid=$tid&amp;vid=$video[vid]&amp;autoplay=1"><img src="$video[vthumb]" width="96" height="80"></a></dt>
+						<dd>
+							<em class="infoview"><a href="viewthread.php?tid=$tid&amp;vid=$video[vid]&amp;autoplay=1">{lang open}</a></em>
+							<h2 class="videoname">$video[vtitle]</h2>
+							<p>{lang video_time}: $video[vtime]</p>
+							<p>{lang video_views}: $video[vview]<!--{if $video[vid] == $vid}--><em>{lang video_play}</em><!--{/if}--></p>
+						</dd>
+					</dl>
+					</div>
+				<!--{/if}-->
+				</li>
+			<!--{/loop}-->
+			</ul>
+		</div>
+	<!--{/if}-->
+</div>

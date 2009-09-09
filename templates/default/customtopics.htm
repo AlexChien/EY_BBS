@@ -1,0 +1,52 @@
+{template header}
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+
+<div class="float">
+<div class="floatbox">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang qihoo_custom_topics}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+
+	<form id="customtopicsform" method="post" action="misc.php?action=customtopics&keywordsubmit=yes&infloat=yes" onsubmit="ajaxpost('customtopicsform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<div class="mainbox">
+	
+	<table class="list" cellspacing="0" cellpadding="5">
+	<thead>
+	<tr>
+	<td><input class="checkbox" type="checkbox" name="chkall" class="header" onclick="checkall(this.form, 'delete')" />{lang delete_check}</td>
+	<td>{lang qihoo_custom_topics}</td>
+	</tr>
+	</thead>
+	<tbody>
+	
+	<!--{loop $customkwlist $vals}-->
+		<tr>
+		<td width="8%"><input type="checkbox" name="delete[]" value="$vals[keyword]" /></td>
+		<td>$vals[url]</a></td>
+		</tr>
+	<!--{/loop}-->
+	
+	<tr>
+	<td width="8%">{lang add_new}</td>
+	<td><input type="text" name="newkeyword" value="" size="25" /></td>
+	</tr></tbody>
+	<tr class="btns">
+	<td></td>
+	<td><button type="submit" class="submit" name="keywordsubmit" value="true">{lang submit}</button>&nbsp;&nbsp;<button type="submit" name="close" value="true" onClick="window.close()">{lang close}</button></td>
+	
+	</table>
+	</form>
+	
+</div>
+</div>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

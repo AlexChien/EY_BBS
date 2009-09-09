@@ -1,0 +1,100 @@
+{template header}
+<!--{if empty($infloat)}-->
+	{subtemplate header_nofloat}
+<!--{/if}-->
+
+<script type="text/javascript" reload="1">
+	var max_obj = $tradestick;
+	var p = $stickcount;
+	function checkbox(obj) {
+		if(obj.checked) {
+			p++;
+			for (var i = 0; i < $('tradeform').elements.length; i++) {
+				var e = tradeform.elements[i];
+				if(p == max_obj) {
+					if(e.name.match('stick') && !e.checked) {
+						e.disabled = true;
+					}
+				}
+			}
+		} else {
+			p--;
+			for (var i = 0; i < $('tradeform').elements.length; i++) {
+				var e = tradeform.elements[i];
+				if(e.name.match('stick') && e.disabled) {
+					e.disabled = false;
+				}
+			}
+		}
+	}
+</script>
+
+<div class="float">
+<div class="floatbox floatbox1">
+	<h3 class="float_ctrl">
+		<em id="return_$handlekey">{lang trade_displayorder}</em>
+		<span>
+			<!--{if !empty($infloat)}--><a href="javascript:;" class="float_close" onclick="floatwin('close_$handlekey')" title="{lang close}">{lang close}</a><!--{/if}-->
+		</span>
+	</h3>
+	<form id="tradeform" method="post" action="misc.php?action=tradeorder&tid=$tid&tradesubmit=yes&infloat=yes" onsubmit="ajaxpost('tradeform', 'return_$handlekey', 'return_$handlekey', 'onerror');return false;">
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	<!--{if !empty($infloat)}--><input type="hidden" name="handlekey" value="$handlekey" /><!--{/if}-->
+	<div class="floatwrap">
+		<table class="list" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td>{lang trade_show_order}</td>
+					<td>{lang trade_update_stick}</td>
+					<td>{lang post_trade_name}</td>
+					<td>{lang post_trade_costprice}</td>
+					<td>{lang post_trade_price}</td>
+					<td>{lang trade_remaindays}</td>
+					<td></td>
+				</tr>
+			</thead>
+			<!--{loop $trades $trade}-->
+			<tr>
+				<td><input size="1" name="displayorder[{$trade[pid]}]" value="$trade[displayorderview]" class="txt" /></td>
+				<td><input class="checkbox" type="checkbox" onclick="checkbox(this)" name="stick[{$trade[pid]}]" value="yes" <!--{if $trade[displayorder] > 0}-->checked="checked"<!--{elseif $tradestick <= $stickcount}-->disabled="disabled"<!--{/if}--> /></td>
+				<td>$trade[subject]</td>
+				<td>
+					<!--{if $trade['costprice'] > 0}-->
+						<del>$trade[costprice]</del> {lang payment_unit}
+					<!--{/if}-->
+				</td>
+				<td>$trade[price] {lang payment_unit}</td>
+				<td>
+				<!--{if $trade[closed]}-->
+					{lang trade_timeout}
+				<!--{elseif $trade[expiration] > 0}-->
+					{$trade[expiration]}{lang days}{$trade[expirationhour]}{lang trade_hour}
+				<!--{elseif $trade[expiration] == -1}-->
+					{lang trade_timeout}
+				<!--{/if}-->
+				</td>
+				<td><a href="post.php?action=edit&amp;fid=$thread[fid]&amp;tid=$tid&amp;pid=$trade[pid]" target="_blank">{lang edit}</a></td>
+			</tr>
+			<!--{/loop}-->
+		</table>
+	</div>
+	<div class="moreconf">
+		<button tabindex="1" class="submit" type="submit" name="tradesubmit" value="true">{lang trade_update_order}</button>
+		&nbsp;&nbsp;{lang trade_update_stickmax} $tradestick
+	</div>
+	</form>
+</div>
+</div>
+
+<script type="text/javascript" reload="1">
+function submithandle_$handlekey(locationhref) {
+	ajaxget('viewthread.php?tid=$attach[tid]&viewpid=$attach[pid]', 'post_$attach[pid]');
+	floatwinreset = 1;
+	floatwin('close_$handlekey');
+}
+</script>
+
+<!--{if empty($infloat)}-->
+	{subtemplate footer_nofloat}
+<!--{/if}-->
+{template footer}

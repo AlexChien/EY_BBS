@@ -1,0 +1,24 @@
+<!--{if $videolist}-->
+	<div class="mymagic">
+		<ul class="inlinelist s_clear">
+			<!--{loop $videolist $key $video}-->
+				<li>
+					<div class="magicimg" style="width: 35%">
+						<a href="viewthread.php?tid=$video[tid]&amp;vid=$video[vid]" target="_blank"><img src="$video[vthumb]" alt="$video[vtitle]" width="124" height="94" /></a>
+					</div>
+					<div class="magicdetail" style="width: 60%;">
+						<h5><a href="viewthread.php?tid=$video[tid]&amp;vid=$video[vid]" target="_blank">$video[vtitle]</a></h5>
+						<p>{lang dateline}: $video[dateline]</p>
+						<p>{lang video_views}: $video[vview]</p>
+						<!--{if $video['vtime']}--><p>{lang video_time}: $video[vtime] {lang video_minute}</p><!--{/if}-->
+					</div>
+				</li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+	<!--{if !empty($multipage)}--><div class="pages_btns">$multipage</div><!--{/if}-->
+<!--{else}-->
+	<table cellspacing="0" cellpadding="0" class="datatable">
+		<tr><th colspan="5"><p class="nodata">{lang data_nonexistence}</p></th></tr>
+	</table>
+<!--{/if}-->

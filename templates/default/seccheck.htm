@@ -1,0 +1,129 @@
+<script type="text/javascript" reload="1">
+function updateseccode{$secchecktype}(op) {
+	if(isUndefined(op)) {
+		var x = new Ajax();
+		ajaxget('ajax.php?action=updateseccode&secchecktype=$secchecktype', 'seccodeverify{$secchecktype}_menu', 'seccodeverify{$secchecktype}_menu');
+	} else {
+		window.document.seccodeplayer.SetVariable("isPlay", "1");
+	}
+	$('seccodeverify{$secchecktype}').focus();
+}
+
+function updatesecqaa{$secchecktype}() {
+	var x = new Ajax();
+	ajaxget('ajax.php?action=updatesecqaa', 'secanswer{$secchecktype}_menu', 'secanswer{$secchecktype}_menu');
+}
+
+var secclick{$secchecktype} = new Array();
+var seccodefocus = 0;
+function opensecwin{$secchecktype}(id, type) {
+	if(!secclick{$secchecktype}[id]) {
+		$(id).value = '';
+		secclick{$secchecktype}[id] = 1;
+		if(type) {
+			$(id + '_menu').style.top = (parseInt($(id + '_menu').style.top) - parseInt($(id + '_menu').style.height)) + 'px';
+			updateseccode{$secchecktype}();
+		} else {
+			updatesecqaa{$secchecktype}();
+		}
+	}
+	{if empty($secchecktype)}
+		{if !empty($infloat)}
+			InFloat='$seccheckfloat';
+		{/if}
+		{if $seccheckfloat}
+			$(id + '_menu').style.position = 'absolute';
+			$(id + '_menu').style.top = (-parseInt($(id + '_menu').style.height)) + 'px';
+			{if $secqaacheck}
+				if(type) {
+					$(id + '_menu').style.left = $(id).offsetLeft + 'px';
+				} else {
+					$(id + '_menu').style.left = '0px';
+				}
+			{else}
+				$(id + '_menu').style.left = '0px';
+			{/if}
+		{/if}
+	{elseif $secchecktype == 1}
+		{if !empty($infloat)}
+			InFloat='floatlayout_register';
+		{/if}
+		showMenu(id, 0, 2, 3);
+	{elseif $secchecktype == 3}
+		showMenu(id, 0, 2, 3);
+	{/if}
+
+	$(id + '_menu').style.display = '';
+	$(id).focus();
+	$(id).unselectable = 'off';
+}
+</script>
+
+<!--{if $secqaacheck}-->
+	<input name="secanswer" id="secanswer{$secchecktype}" type="text" autocomplete="off" style="width:50px" value="{lang secqaa}" class="txt" onfocus="opensecwin{$secchecktype}(this.id, 0)" onclick="opensecwin{$secchecktype}(this.id, 0)" onblur="display(this.id + '_menu');checksecanswer{$secchecktype}();" tabindex="1">
+	<span id="checksecanswer{$secchecktype}"><img src="images/common/none.gif" width="16" height="16"></span>
+	<div id="secanswer{$secchecktype}_menu" class="seccodecontent" style="width:200px;height:80px;display:none"></div>
+<!--{/if}-->
+<!--{if $seccodecheck}-->
+	<input name="seccodeverify" id="seccodeverify{$secchecktype}" type="text" autocomplete="off" style="width:50px" value="{lang seccode}" class="txt" onfocus="opensecwin{$secchecktype}(this.id, 1)" onclick="opensecwin{$secchecktype}(this.id, 1)" onblur="if(!seccodefocus) {display(this.id + '_menu')}checkseccode{$secchecktype}();" tabindex="1">
+	<a href="javascript:;" onclick="updateseccode{$secchecktype}()">{lang seccode_change}</a>
+	<span id="checkseccodeverify{$secchecktype}"><img src="images/common/none.gif" width="16" height="16"></span>
+	<div id="seccodeverify{$secchecktype}_menu" class="seccodecontent" onmouseover="seccodefocus = 1" onmouseout="seccodefocus = 0" style="cursor: pointer;top: 256px;width:{$seccodedata[width]}px;height:{$seccodedata[height]}px;display:none"></div>
+<!--{/if}-->
+
+<script type="text/javascript" reload="1">
+var profile_seccode_invalid = '{lang register_profile_seccode_invalid}';
+var profile_secanswer_invalid = '{lang register_profile_secqaa_invalid}';
+var lastseccode = lastsecanswer = '';
+function checkseccode{$secchecktype}() {
+	var seccodeverify = $('seccodeverify{$secchecktype}').value;
+	if(seccodeverify == lastseccode) {
+		return;
+	} else {
+		lastseccode = seccodeverify;
+	}
+	var cs = $('checkseccodeverify{$secchecktype}');
+	{if $seccodedata['type'] != 1}
+		if(!(/[0-9A-Za-z]{4}/.test(seccodeverify))) {
+			warning{$secchecktype}(cs, profile_seccode_invalid);
+			return;
+		}
+	{else}
+		if(seccodeverify.length != 2) {
+			warning{$secchecktype}(cs, profile_seccode_invalid);
+			return;
+		}
+	{/if}
+	ajaxresponse{$secchecktype}('checkseccodeverify{$secchecktype}', 'action=checkseccode&seccodeverify=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(seccodeverify) : seccodeverify));
+}
+function checksecanswer{$secchecktype}() {
+        var secanswer = $('secanswer{$secchecktype}').value;
+	if(secanswer == lastsecanswer) {
+		return;
+	} else {
+		lastsecanswer = secanswer;
+	}
+	ajaxresponse{$secchecktype}('checksecanswer{$secchecktype}', 'action=checksecanswer&secanswer=' + (is_ie && document.charset == 'utf-8' ? encodeURIComponent(secanswer) : secanswer));
+}
+function ajaxresponse{$secchecktype}(objname, data) {
+	var x = new Ajax('XML', objname);
+	x.get('ajax.php?inajax=1&' + data, function(s){
+	        var obj = $(objname);
+	        if(s == 'succeed') {
+	        	obj.style.display = '';
+	                obj.innerHTML = '<img src="{IMGDIR}/check_right.gif" width="16" height="16" />';
+			obj.className = "warning";
+		} else {
+			warning(obj, s);
+		}
+	});
+}
+function warning(obj, msg) {
+	if((ton = obj.id.substr(5, obj.id.length)) != 'password2') {
+		$(ton).select();
+	}
+	obj.style.display = '';
+	obj.innerHTML = '<img src="{IMGDIR}/check_error.gif" width="16" height="16" />';
+	obj.className = "warning";
+}
+</script>

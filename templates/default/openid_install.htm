@@ -1,0 +1,22 @@
+{template header}
+
+<div id="nav"><a href="$indexname">$bbname</a> &raquo; $GLOBALS['language']['openid_install']</div>
+
+<form method="post" name="openid_install">
+<input type="hidden" name="formhash" value="{FORMHASH}" />
+<input type="hidden" name="referer" value="$referer" />
+<div class="mainbox formbox">
+	<span class="headactions">{faq login}</span>
+	<h1>$GLOBALS['language']['openid_install']</h1>
+	<table summary="$GLOBALS['language']['openid_install']" cellspacing="0" cellpadding="0">
+		<tr>
+			<td>$GLOBALS['language']['openid_tip']</td>
+		</tr>
+		<tr>
+			<td><button class="submit" type="submit" name="installsubmit" value="true" tabindex="100">{lang submit}</button></td>
+		</tr>
+	</table>
+</div>
+</form>
+
+{template footer}
