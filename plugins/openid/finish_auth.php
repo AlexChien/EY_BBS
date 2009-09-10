@@ -6,19 +6,135 @@
  */
 require_once "common.php";
 include_once language('openid');
+
+require_once './include/common.inc.php';
+require_once DISCUZ_ROOT.'./forumdata/cache/cache_profilefields.php';
+require_once DISCUZ_ROOT.'./uc_client/client.php';
+
 session_start();
 
+// 处理第一次登录论坛的openid
 function handleNewOpenid($openid, $sreg) {
 	global $_DPLUGIN;
 
 	$handle_type = $_DPLUGIN['openid4discuz']['vars']['new_openid_handle_type'];
 	if (empty($handle_type) || $handle_type == 1) {
-		register($openid, $sreg);
+		// register($openid, $sreg);// 插件提供的注册逻辑在enjoyoung的环境下有bug
+	 	regiter_user_to_ucenter($openid, $sreg);
+	} 
+	// else {
+	// 	gotoRegOrBind($openid, $sreg);
+	// }
+}
+
+// 重写的注册逻辑
+function regiter_user_to_ucenter($openid, $sreg){
+	
+	// 原插件的逻辑是先用openid的nickname注册再用email的@前字符注册，再用openid里的用户id注册
+	// $username = generateUsername(obtainNickname($openid_identifier, $sreg));
+	
+	// 现和uchome里修改的逻辑保持一致
+	$pieces=explode("http://openid.enjoyoung.cn/", $openid_identifier);//线上运营
+	// $pieces=explode("http://localhost/", $openid_identifier);//本地开发
+	if ($login = $pieces[1]) {
+		$username = $login;
 	} else {
-		gotoRegOrBind($openid, $sreg);
+		showmessage(
+			"暂不支持非星尚通信证的OpenID。"
+		);
+	}
+	
+	$email = $sreg['email'];
+	
+	$uid = uc_user_register($username, $password, $email);
+	if($uid <= 0) {
+		if($uid == -1) {
+			showmessage('profile_username_illegal');
+		} elseif($uid == -2) {
+			showmessage('profile_username_protect');
+		} elseif($uid == -3) {
+			// showmessage('profile_username_duplicate');
+			// 如果已经在ucenter存在先通过uchome注册的用户,则为他开通discuz帐户
+		
+			//同步获取用户源
+			if(!$passport = uc_user_info_by_login($username)) {
+				showmessage('profile_username_duplicate');
+			}
+			// echo var_dump($passport)."--passport<br/>";
+			$uid = $passport[0];
+			regiter_user_to_discuz($uid,$username,$email,$openid);
+			
+		} elseif($uid == -4) {
+			showmessage('profile_email_illegal');
+		} elseif($uid == -5) {
+			showmessage('profile_email_domain_illegal');
+		} elseif($uid == -6) {
+			showmessage('profile_email_duplicate');
+		} else {
+			showmessage('undefined_action', NULL, 'HALTED');
+		}
+	} else {
+		regiter_user_to_discuz($uid,$username,$email,$openid);
 	}
 }
 
+function regiter_user_to_discuz($uid,$username,$email,$openid){
+	global $tablepre, $db, $query, $timestamp;
+	
+	$openid_identifier = $openid
+	$plain_password = GetSID(24);
+	$password = md5($plain_password);		
+	$secques = "";
+	// 1：男，2：女，0：保密
+	$gendernew = 0;
+	$onlineip = get_ip();
+	$bday = "0000-00-00";
+	if ($sreg['dob']) {
+		$bday = $sreg['dob'];
+	}
+	$sigstatus = 0;
+	$tppnew = 0;
+	$pppnew = 0;
+	$styleidnew = 0;
+	$dateformatnew = 0;
+	$timeformatnew = 0;
+	$pmsoundnew = 1;
+	$showemailnew = 1;
+	$newsletter = 1;
+	$invisiblenew = 0;
+	$timeoffsetnew = 9999;
+	$nickname = "";
+	$site = "";
+	$icq = "";
+	$qq = "";
+	$yahoo = "";
+	$msn = "";
+	$taobao = "";
+	$alipay = "";
+	$locationnew = "";
+	$bio = "";
+	$sightml = "";
+	$cstatus = "";
+	$authstr = "";
+	$avatar = "";
+	$avatarwidth = 0;
+	$avatarheight = 0;
+
+	$db->query("INSERT INTO {$tablepre}members (uid, username, password, secques, gender, adminid, groupid, regip, regdate, lastvisit, lastactivity, posts, email, bday, sigstatus, tpp, ppp, styleid, dateformat, timeformat, pmsound, showemail, newsletter, invisible, timeoffset)
+		VALUES ('$uid', '$username', '$password', '$secques', '$gendernew', '0', '10', '$onlineip', '$timestamp', '$timestamp', '$timestamp', '0', '$email', '$bday', '$sigstatus', '$tppnew', '$pppnew', '$styleidnew', '$dateformatnew', '$timeformatnew', '$pmsoundnew', '$showemailnew', '$newsletter', '$invisiblenew', '$timeoffsetnew')");
+	$uid = $db->insert_id();
+
+	$db->query("INSERT INTO {$tablepre}memberfields (uid, nickname, site, icq, qq, yahoo, msn, taobao, alipay, location, bio, sightml, customstatus, authstr, avatar, avatarwidth, avatarheight)
+		VALUES ('$uid', '$nickname', '$site', '$icq', '$qq', '$yahoo', '$msn', '$taobao', '$alipay', '$locationnew', '$bio', '$sightml', '$cstatus', '$authstr', '$avatar', '$avatarwidth', '$avatarheight')");
+
+	bindOpenID($uid, $openid_identifier);
+
+	// Set login.
+	setLogin($uid);
+}
+
+///////////////////////////////////////////////////////////
+// 先有uid后绑定openid的情况，enjoyoung不存在这种情况
 function gotoRegOrBind($openid, $sreg) {
 	global $_COOKIE, $cookiepre, $sid;
 
@@ -37,6 +153,8 @@ function gotoRegOrBind($openid, $sreg) {
 	);
 }
 
+/////////////////////////////////////////////////////////////
+// 插件提供的注册逻辑，没有考虑到ucenter里有用户而bbs里没有的情况,注册顺序应该先是ucenter，再是本地
 function register($openid_identifier, $sreg) {
 	global $tablepre, $db, $query, $timestamp;
 
@@ -86,8 +204,7 @@ function register($openid_identifier, $sreg) {
 
 	$db->query("INSERT INTO {$tablepre}memberfields (uid, nickname, site, icq, qq, yahoo, msn, taobao, alipay, location, bio, sightml, customstatus, authstr, avatar, avatarwidth, avatarheight)
 		VALUES ('$uid', '$nickname', '$site', '$icq', '$qq', '$yahoo', '$msn', '$taobao', '$alipay', '$locationnew', '$bio', '$sightml', '$cstatus', '$authstr', '$avatar', '$avatarwidth', '$avatarheight')");
-	
-	// 	insert into uc_member table, otherwise add friend won't work
+		
 	$db->query("INSERT INTO {$tablepre}uc_members (uid, username, password, email, myid, myidkey, regip, regdate, lastloginip, lastlogintime, salt, secques)
 		VALUES ('$uid', '$username', '$password', '$email', '', '', '$onlineip', '$timestamp', '$onlineip', '$timestamp', '', '$secques')");
 
@@ -147,11 +264,12 @@ function runDiscuz($openid, $sreg) {
 		$lastvisit, $lastpost, $allowinvisible;
 	global $discuz_userss;
 
+	// 检查是否已有该此登录的openid对应uid
 	$query = $db->query("SELECT uid, openid_url FROM {$tablepre}openid WHERE openid_url='".$openid."'");
 	$member_openid = $db->fetch_array($query);
-	if (!$member_openid['uid']) {
+	if (!$member_openid['uid']) {//如果没有openid和uid的关联关系，注册新用户
 		handleNewOpenid($openid, $sreg);
-	} else {
+	} else {//有openid和uid的关联则直接登录
 		$uid = $member_openid['uid'];
 
 		// Set login
