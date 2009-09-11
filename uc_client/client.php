@@ -299,6 +299,12 @@ function uc_user_login($username, $password, $isuid = 0, $checkques = 0, $questi
 	return UC_CONNECT == 'mysql' ? $return : uc_unserialize($return);
 }
 
+//johnson添加，通过username获取用户信息
+function uc_user_info_by_login($userlogin){
+	$return = call_user_func(UC_API_FUNC, 'user', 'get_user', array('username'=>$userlogin));
+	return UC_CONNECT == 'mysql' ? $return : uc_unserialize($return);
+}
+
 function uc_user_synlogin($uid) {
 	$uid = intval($uid);
 	$return = uc_api_post('user', 'synlogin', array('uid'=>$uid));
