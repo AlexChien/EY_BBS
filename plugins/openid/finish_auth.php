@@ -6,8 +6,6 @@
  */
 require_once "common.php";
 include_once language('openid');
-
-require_once './include/common.inc.php';
 require_once DISCUZ_ROOT.'./forumdata/cache/cache_profilefields.php';
 require_once DISCUZ_ROOT.'./uc_client/client.php';
 
@@ -34,8 +32,8 @@ function regiter_user_to_ucenter($openid, $sreg){
 	// $username = generateUsername(obtainNickname($openid_identifier, $sreg));
 	
 	// 现和uchome里修改的逻辑保持一致
-	$pieces=explode("http://openid.enjoyoung.cn/", $openid_identifier);//线上运营
-	// $pieces=explode("http://localhost/", $openid_identifier);//本地开发
+	$pieces=explode("http://openid.enjoyoung.cn/", $openid);//线上运营
+	// $pieces=explode("http://localhost/", $openid);//本地开发
 	if ($login = $pieces[1]) {
 		$username = $login;
 	} else {
