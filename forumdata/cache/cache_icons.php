@@ -1,6 +1,6 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Created: Aug 27, 2009, 15:58
+//Created: Sep 28, 2009, 16:39
 //Identify: 37fbf8aded2f4325dc6665b38f6ac223
 
 $_DCACHE['icons'] = array (

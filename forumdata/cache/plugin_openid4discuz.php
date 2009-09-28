@@ -1,6 +1,6 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Created: Aug 27, 2009, 15:58
+//Created: Sep 28, 2009, 16:39
 //Identify: 9f5c29c56e12628fd18f1219c6b51efd
 
 $_DPLUGIN['openid4discuz'] = array (

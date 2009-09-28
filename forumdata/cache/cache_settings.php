@@ -1,7 +1,7 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Created: Sep 1, 2009, 12:04
-//Identify: 0068bcbd472f81f2ed37983cf384ac7d
+//Created: Sep 28, 2009, 17:06
+//Identify: fef3fc6a623f04b0859500f24bdc19c6
 
 $_DCACHE['settings'] = array (
   'accessemail' => '',
@@ -157,7 +157,7 @@ $_DCACHE['settings'] = array (
   'floodctrl' => '15',
   'forumjump' => '0',
   'forumlinkstatus' => '1',
-  'frameon' => '0',
+  'frameon' => '2',
   'framewidth' => '180',
   'ftp' => 
   array (
@@ -182,7 +182,11 @@ $_DCACHE['settings'] = array (
   'icp' => '',
   'imagelib' => '0',
   'indexname' => 'index.php',
-  'infosidestatus' => false,
+  'infosidestatus' => 
+  array (
+    'allow' => '1',
+    2 => '边栏方案_主题列表页默认',
+  ),
   'initcredits' => '0,0,0,0,0,0,0,0,0',
   'insenz' => 
   array (
@@ -346,9 +350,9 @@ $_DCACHE['settings'] = array (
   'statcode' => '',
   'statscachelife' => '180',
   'statstatus' => '',
-  'styleid' => '1',
-  'stylejump' => '1',
-  'subforumsindex' => '',
+  'styleid' => '7',
+  'stylejump' => '0',
+  'subforumsindex' => '0',
   'swfupload' => '1',
   'tagstatus' => '1',
   'taskon' => '0',
@@ -415,11 +419,21 @@ $_DCACHE['settings'] = array (
   'version' => '7.0.0',
   'totalmembers' => '1',
   'lastmember' => 'admin',
-  'cachethreadon' => 0,
-  'cronnextrun' => '1251734400',
+  'cachethreadon' => 1,
+  'cronnextrun' => '1254153600',
   'styles' => 
   array (
     1 => 'Ĭ',
+    2 => 'blue',
+    3 => 'brown',
+    4 => 'gray',
+    5 => 'green',
+    6 => 'greyish-green',
+    7 => 'orange',
+    8 => 'pink',
+    9 => 'purple',
+    10 => 'red',
+    11 => 'violet',
   ),
   'stylejumpstatus' => false,
   'globaladvs' => 
@@ -506,20 +520,12 @@ $_DCACHE['settings'] = array (
     array (
       'viewprourl' => 'http://discuz2.local',
     ),
-    2 => 
-    array (
-      'viewprourl' => 'http://uhome.local',
-    ),
-    'UC_API' => 
-    array (
-      'viewprourl' => 'hh',
-    ),
     3 => 
     array (
       'viewprourl' => 'http://eyhome.local',
     ),
   ),
-  'uchomeurl' => 'http://uhome.local',
+  'uchomeurl' => 'http://eyhome.local',
   'homeshow' => '0',
   'medalstatus' => 0,
   'dlang' => 

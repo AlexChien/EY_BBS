@@ -1,7 +1,7 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Created: Sep 1, 2009, 12:04
-//Identify: 082fd2a31355b9bc9292ec1ad82cedca
+//Created: Sep 28, 2009, 19:59
+//Identify: ab81efad29caa82af3b47ca926a49516
 
 $_DCACHE['advs'] = array (
 );
@@ -31,6 +31,7 @@ $_DCACHE['custominfo'] = array (
   'postno' => 
   array (
     0 => '<sup>#</sup>',
+    1 => '',
   ),
 );
 
@@ -49,8 +50,171 @@ $_DCACHE['forums'] = array (
   array (
     'fid' => '2',
     'type' => 'forum',
-    'name' => '默认版块',
+    'name' => 'ABC',
     'fup' => '1',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  5 => 
+  array (
+    'fid' => '5',
+    'type' => 'forum',
+    'name' => 'CDE',
+    'fup' => '1',
+    'viewperm' => '	1	2	3	',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  6 => 
+  array (
+    'fid' => '6',
+    'type' => 'forum',
+    'name' => 'FFF',
+    'fup' => '1',
+    'viewperm' => '	1	2	3	',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  3 => 
+  array (
+    'fid' => '3',
+    'type' => 'group',
+    'name' => '人气美食',
+    'fup' => '0',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+  ),
+  13 => 
+  array (
+    'fid' => '13',
+    'type' => 'forum',
+    'name' => '新版块名称7',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  12 => 
+  array (
+    'fid' => '12',
+    'type' => 'forum',
+    'name' => '新版块名称6',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  11 => 
+  array (
+    'fid' => '11',
+    'type' => 'forum',
+    'name' => '新版块名称5',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  10 => 
+  array (
+    'fid' => '10',
+    'type' => 'forum',
+    'name' => '新版块名称4',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  9 => 
+  array (
+    'fid' => '9',
+    'type' => 'forum',
+    'name' => '新版块名称3',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  8 => 
+  array (
+    'fid' => '8',
+    'type' => 'forum',
+    'name' => '新版块名称2',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  7 => 
+  array (
+    'fid' => '7',
+    'type' => 'forum',
+    'name' => '新版块名称1',
+    'fup' => '3',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  4 => 
+  array (
+    'fid' => '4',
+    'type' => 'group',
+    'name' => '新分区名称',
+    'fup' => '0',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+  ),
+  16 => 
+  array (
+    'fid' => '16',
+    'type' => 'forum',
+    'name' => '新版块名称',
+    'fup' => '4',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  15 => 
+  array (
+    'fid' => '15',
+    'type' => 'forum',
+    'name' => '新版块名称',
+    'fup' => '4',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  14 => 
+  array (
+    'fid' => '14',
+    'type' => 'forum',
+    'name' => '新版块名称',
+    'fup' => '4',
+    'viewperm' => '',
+    'orderby' => 'lastpost',
+    'ascdesc' => 'DESC',
+    'users' => NULL,
+  ),
+  17 => 
+  array (
+    'fid' => '17',
+    'type' => 'forum',
+    'name' => '新版块名称',
+    'fup' => '4',
     'viewperm' => '',
     'orderby' => 'lastpost',
     'ascdesc' => 'DESC',
@@ -103,8 +267,8 @@ $_DCACHE['smilies'] = array (
     32 => '/\\{\\:2_32\\:\\}/',
     64 => '/\\{\\:3_64\\:\\}/',
     41 => '/\\{\\:3_41\\:\\}/',
-    18 => '/\\:sleepy\\:/',
     50 => '/\\{\\:3_50\\:\\}/',
+    18 => '/\\:sleepy\\:/',
     27 => '/\\{\\:2_27\\:\\}/',
     59 => '/\\{\\:3_59\\:\\}/',
     36 => '/\\{\\:2_36\\:\\}/',
@@ -113,8 +277,8 @@ $_DCACHE['smilies'] = array (
     31 => '/\\{\\:2_31\\:\\}/',
     63 => '/\\{\\:3_63\\:\\}/',
     40 => '/\\{\\:2_40\\:\\}/',
-    17 => '/\\:shutup\\:/',
     49 => '/\\{\\:3_49\\:\\}/',
+    17 => '/\\:shutup\\:/',
     26 => '/\\{\\:2_26\\:\\}/',
     58 => '/\\{\\:3_58\\:\\}/',
     35 => '/\\{\\:2_35\\:\\}/',
@@ -170,8 +334,8 @@ $_DCACHE['smilies'] = array (
     32 => '08.gif',
     64 => '24.gif',
     41 => '01.gif',
-    18 => 'sleepy.gif',
     50 => '10.gif',
+    18 => 'sleepy.gif',
     27 => '03.gif',
     59 => '19.gif',
     36 => '12.gif',
@@ -180,8 +344,8 @@ $_DCACHE['smilies'] = array (
     31 => '07.gif',
     63 => '23.gif',
     40 => '16.gif',
-    17 => 'shutup.gif',
     49 => '09.gif',
+    17 => 'shutup.gif',
     26 => '02.gif',
     58 => '18.gif',
     35 => '11.gif',
@@ -237,8 +401,8 @@ $_DCACHE['smilies'] = array (
     32 => '2',
     64 => '3',
     41 => '3',
-    18 => '1',
     50 => '3',
+    18 => '1',
     27 => '2',
     59 => '3',
     36 => '2',
@@ -247,8 +411,8 @@ $_DCACHE['smilies'] = array (
     31 => '2',
     63 => '3',
     40 => '2',
-    17 => '1',
     49 => '3',
+    17 => '1',
     26 => '2',
     58 => '3',
     35 => '2',

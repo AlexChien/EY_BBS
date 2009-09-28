@@ -1,7 +1,7 @@
 <?php
 //Discuz! cache file, DO NOT modify me!
-//Created: Aug 27, 2009, 15:58
-//Identify: 4abdbba10aee8148876145f715c0087f
+//Created: Sep 28, 2009, 17:06
+//Identify: 78d003f69aaaa1b5345fa0f0e226a784
 
 $_DCACHE['custominfo'] = array (
   'customauthorinfo' => 
@@ -17,6 +17,7 @@ $_DCACHE['custominfo'] = array (
   'postno' => 
   array (
     0 => '<sup>#</sup>',
+    1 => '',
   ),
 );
 
