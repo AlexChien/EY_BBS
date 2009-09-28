@@ -97,6 +97,35 @@
 	<!--{/if}-->
 </div>
 
+<style type="text/css" media="screen">
+    .forum_block {
+        width:24%; float:left;; margin-right;20px; margin-bottom:10px; padding-bottom:5px; height:130px; overflow:hidden;
+        border-bottom:1px dotted #ccc; padding-bottom:10px;
+    }
+    .forums_container {
+        padding:10px; width:100%; overflow:hidden;
+    }
+    .forumnums{ width:auto; text-align:left; }
+    .forumlast{ width:auto; }
+    .forum_block div.icon {
+        padding-left:45px !important;
+        -moz-background-clip:border;
+        -moz-background-inline-policy:continuous;
+        -moz-background-origin:padding;
+        background:transparent url(../../images/default/forum.gif) no-repeat scroll 5px 10px;
+    }
+    .forum_block div.new {
+        padding-left:45px !important;
+        -moz-background-clip:border;
+        -moz-background-inline-policy:continuous;
+        -moz-background-origin:padding;
+        background:transparent url(../../images/default/forum_new.gif)  no-repeat scroll 5px 10px !important;
+    }
+    .forum_block div.new em strong {
+        color:#FF6600;
+    }
+</style>
+
 <!--{if !empty($insenz['vfstatus']) && $insenz['vfpos'] == 'first'}--><script type="text/javascript" src="campaign.php?action=list"></script><!--{/if}-->
 <!--{eval $rkey=array_rand($catlist);}-->
 
@@ -108,52 +137,51 @@
 				<img id="category_$cat[fid]_img" src="{IMGDIR}/$cat[collapseimg]" title="{lang spread}" alt="{lang spread}" onclick="toggle_collapse('category_$cat[fid]');" />
 			</span>
 			<h3><a href="$indexname?gid=$cat[fid]">$cat[name]</a></h3>
-			<table id="category_$cat[fid]" summary="category$cat[fid]" cellspacing="0" cellpadding="0" style="$collapse['category_'.$cat[fid]]">
+			<div id="category_$cat[fid]" class="forums_container" summary="category$cat[fid]" style="$collapse['category_'.$cat[fid]]">
 			<!--{if !$cat['forumcolumns']}-->
 				<!--{loop $cat[forums] $forumid}-->
 					<!--{eval $forum=$forumlist[$forumid];}-->
-					<tbody id="forum$forum[fid]">
-						<tr>
-							<th$forum[folder]>
+					<div id="forum$forum[fid]" class="forum_block">
+							<div$forum[folder] class="icon">
 								$forum[icon]
-								<div class="left">
 								<h2><a href="forumdisplay.php?fid=$forum[fid]" {if $forum[redirect]}target="_blank"{/if}>$forum[name]</a><!--{if $forum[todayposts] && !$forum['redirect']}--><em> ({lang index_today}: <strong>$forum[todayposts]</strong>)</em><!--{/if}--></h2>
 								<!--{if $forum[description]}--><p>$forum[description]</p><!--{/if}-->
-								<!--{if $forum['subforums']}--><p>{lang forum_subforums}: $forum['subforums']</p><!--{/if}-->
-								<!--{if $forum['moderators']}--><!--{if $moddisplay == 'flat'}--><p>{lang forum_moderators}: $forum[moderators]</p><!--{else}--><span class="dropmenu" id="mod$forum[fid]" onmouseover="showMenu(this.id)">{lang forum_moderators}</span><ul class="moderators popupmenu_popup" id="mod$forum[fid]_menu" style="display: none">$forum[moderators]</ul><!--{/if}--><!--{/if}-->
-								</div>
-							</th>
-							<td class="forumnums">
-								<!--{if $forum['redirect']}-->N/A<!--{else}--><em>$forum[threads]</em> / $forum[posts]<!--{/if}-->
-							</td>
-							<td class="forumlast">
-							<!--{if $forum['permission'] == 1}-->
-								{lang private_forum}
-							<!--{else}-->
-								<!--{if $forum['redirect']}-->
-									<a href="forumdisplay.php?fid=$forum[fid]">{lang url_link}</a>
-								<!--{elseif is_array($forum['lastpost'])}-->
-									<p><a href="redirect.php?tid=$forum[lastpost][tid]&amp;goto=lastpost#lastpost">{echo cutstr($forum[lastpost][subject], 30)}</a></p>
-									<cite><!--{if $forum['lastpost']['author']}-->$forum['lastpost']['author']<!--{else}-->{lang anonymous}<!--{/if}--> - $forum[lastpost][dateline]</cite>
-								<!--{else}-->
-									{lang never}
-								<!--{/if}-->
-							<!--{/if}-->
-							</td>
-						</tr>
-					</tbody>
+								<!--{if $forum['subforums']}--><p>{lang forum_subforums}：$forum['subforums']</p><!--{/if}-->
+								<!--{if $forum['moderators']}--><!--{if $moddisplay == 'flat'}--><p>{lang forum_moderators}：$forum[moderators]</p><!--{else}--><span class="dropmenu" id="mod$forum[fid]" onmouseover="showMenu(this.id)">{lang forum_moderators}</span><ul class="moderators popupmenu_popup" id="mod$forum[fid]_menu" style="display: none">$forum[moderators]</ul><!--{/if}--><!--{/if}-->
+
+                                <div class="forumnums">
+                                    <!--{if $forum['redirect']}-->N/A<!--{else}--><em>主题：$forum[threads]</em> / 帖数：$forum[posts]<!--{/if}-->
+                                </div>
+                                <div class="forumlast">
+                                    <!--{if $forum['permission'] == 1}-->
+                                    {lang private_forum}
+                                    <!--{else}-->
+                                    <!--{if $forum['redirect']}-->
+                                    <a href="forumdisplay.php?fid=$forum[fid]">{lang url_link}</a>
+                                    <!--{elseif is_array($forum['lastpost'])}-->
+                                    <p><a href="redirect.php?tid=$forum[lastpost][tid]&amp;goto=lastpost#lastpost">{echo cutstr($forum[lastpost][subject], 30)}</a></p>
+                                    <cite><!--{if $forum['lastpost']['author']}-->最后发帖：$forum['lastpost']['author']<!--{else}-->{lang anonymous}<!--{/if}--> - $forum[lastpost][dateline]</cite>
+                                    <!--{else}-->
+                                    {lang never}
+                                    <!--{/if}-->
+                                    <!--{/if}-->
+                                </div>
+							</div>
+						
+						
+					</div>
 				<!--{/loop}-->
 			<!--{else}-->
-				<tr class="narrowlist">
+				<div class="narrowlist">
 				<!--{loop $cat['forums'] $forumid}-->
 					<!--{eval $forum=$forumlist[$forumid];}-->
 					<!--{if $forum['orderid'] && ($forum['orderid'] % $cat['forumcolumns'] == 0)}-->
-						</tr></tbody>
+						</div></div>
 						<!--{if $forum['orderid'] < $cat['forumscount']}-->
-							<tbody><tr>
+							<div class="forum_block"><div>
 						<!--{/if}-->
 					<!--{/if}-->
-					<th width="$cat[forumcolwidth]"{$forum[folder]}>
+					<div style="$cat[forumcolwidth]" {$forum[folder]}>
 						<h2><a href="forumdisplay.php?fid=$forum[fid]" {if $forum[redirect]}target="_blank"{/if}>$forum[name]</a><!--{if $forum[todayposts]}--><em> ({lang index_today}: <strong>$forum[todayposts]</strong>)</em><!--{/if}--></h2>
 						<!--{if !$forum[redirect]}-->
 							<p>{lang forum_threads}: $forum[threads], {lang forum_posts}: $forum[posts]</p>
@@ -171,11 +199,11 @@
 						<!--{else}-->
 							<p>{lang url_link}</p>
 						<!--{/if}-->
-					</th>
+					</div>
 				<!--{/loop}-->
 				$cat['endrows']
 			<!--{/if}-->
-			</table>
+			</div>
 		</div>
 		<!--{if !empty($insenz['vfstatus']) && $insenz['vfpos'] == 'rand' && $key == $rkey}--><script type="text/javascript" src="campaign.php?action=list"></script><!--{/if}-->
 		<!--{if $admode && empty($insenz['hardadstatus']) && !empty($advlist['intercat']) && ($advlist['intercat'][$key] = array_merge(($advlist['intercat'][0] ? $advlist['intercat'][0] : array()), ($advlist['intercat'][$key] ? $advlist['intercat'][$key] : array())))}--><div class="ad_column" id="ad_intercat_$key"><!--{echo $advitems[$advlist['intercat'][$key][array_rand($advlist['intercat'][$key])]]}--></div><!--{else}--><div id="ad_intercat_$key"></div><!--{/if}-->
